@@ -1,1 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+    
+
+    
+    <select id="select" parameterType="memberVO" resultType="memberVO">
+        SELECT * FROM member WHERE member_id = #{member_id} AND pw = #{pw}
+    </select>
+    
+    <select id="count" parameterType="memberVO" resultType="int">
+        SELECT count(*) FROM member WHERE member_id = #{member_id} AND pw = #{pw}
+    </select>
+    
+    <insert id="insert" parameterType="memberVO">
+		insert into member
+		values (
+		#{member_id},
+		#{pw},
+		#{name},
+		#{tel},
+		#{email},
+		#{nickname},
+		#{type}
+		)
+	</insert>
+	
+	<!-- 아이디 중복 확인하기  -->
+	<select id="idConfirm" parameterType="memberVO" resultType="String">
+		SELECT member_id FROM member WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 닉네임 중복 확인하기 -->
+	<select id="nicknameConfirm" parameterType="memberVO" resultType="String">
+		SELECT nickname FROM member WHERE nickname = #{nickname}
+	</select>
+	
+	<!-- 이메일 중복 확인하기 -->
+	<select id="email" parameterType="memberVO" resultType="String">
+		SELECT email FROM member WHERE email = #{email}
+	</select>
+	
+	
+
+</mapper>
+
