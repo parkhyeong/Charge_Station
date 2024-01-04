@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 
 <script type="text/javascript">
-$(function() {
+/* $(function() {
 	$.ajax({
 		url : "charger_list",
 		dataType : "json",
@@ -28,9 +28,31 @@ $(function() {
 			
 		})//$.ajax
 			
-})//$
+})//$ */
 </head>
 <body>
-
+<table border="1" class="table table-hover">
+<thead>
+	<tr class="table-warning">
+		<td>번호</td>
+		<td>충전소명</td>
+		<td>충전기정보</td>
+	</tr>
+</thead>
+<tbody>
+/* db에서 받아오기. */
+<%-- <% for() {%>
+	<tr class="table-info">
+		<td><%= bag.getTitle() %></td>
+		<td>
+			<a href="bbs2.jsp?id=<%= bag.getId() %>">
+				<%= bag.getContent() %>
+			</a>
+		</td>
+		<td><%= bag.getWriter() %></td>
+	</tr>
+<%} %> --%>
+</tbody>
+</table>
 </body>
 </html>
