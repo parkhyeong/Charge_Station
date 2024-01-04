@@ -7,7 +7,7 @@
 <title>카카오 로그인</title>
 </head>
 <body>
-    <a href="javascript:kakaoLogin();"><img src="kakao_login_large_wide.png" style='height: 60px;'/></a>
+    <a href="javascript:kakaoLogin();"><img src="${pageContext.request.contextPath}/resource/imgkakao_login_large_wide.png" style='height: 60px;'/></a>
 
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
