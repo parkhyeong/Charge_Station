@@ -13,10 +13,6 @@ public class ChargersController {
 	
 	@RequestMapping("chargers/details")
 	public void details(ChargersVO chargersVo, Model model) {
-		ChargersVO stationInfo = chargersService.selectStation(chargersVo);
-		
-		System.out.println(stationInfo);
-		
-		model.addAttribute("stationInfo", stationInfo);
+		model.addAttribute("chargersVo", chargersVo);
 	}
 }
