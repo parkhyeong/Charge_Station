@@ -253,8 +253,8 @@ img {
       
       <form action="login" method="post" name="signin" class="form">
         <div class="input-control">
-          <label for="email" class="input-label" hidden>Email Address</label>
-          <input type="email"  id="email" class="input-field" name="member_id" placeholder="Email Address" required>
+          <label for="id" class="input-label" hidden>ID</label>
+          <input type="input"  id="member_id" class="input-field" name="member_id" placeholder="ID" required>
         </div>
         <div class="input-control">
           <label for="password" class="input-label" hidden>Password</label>
@@ -274,26 +274,12 @@ img {
         <span class="striped-line"></span>
       </div>
       <div class="method">
-        <div class="method-control">
-        
-          <a href="naver_login.jsp" class="method-action">
-            <i class="ion ion-logo-google"></i>
-            <span>네이버로로그인</span>
-            
-          </a>
-        </div>
-        <div class="method-control">
-          <a href="#" class="method-action">
-            <i class="ion ion-logo-facebook"></i>
-            <span>Sign in with Facebook</span>
-          </a>
-        </div>
-        <div class="method-control">
-          <a href="#" class="method-action">
-            <i class="ion ion-logo-apple"></i>
-            <span>Sign in with Apple</span>
-          </a>
-        </div>
+        <%@ include file="naver_login.jsp" %><br>
+
+		<%@ include file="kakao_login.jsp" %><br>
+
+        <%@ include file="google_login.jsp" %><br>
+
       </div>
     </section>
   </div>
