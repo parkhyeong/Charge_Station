@@ -68,8 +68,4 @@ public class MemberController {
 		memberservice.nicknameConfirm(nickname, response); 
 	}
 	
-	@RequestMapping("member/test")
-	public void test(){
-		System.out.println("test");
-	}
 }

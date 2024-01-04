@@ -16,7 +16,7 @@ public class SocialController {
 	@Autowired
 	SocialService Socialservice;
 	
-	//네이버 등록
+	//소셜 등록
 	@RequestMapping(value = "member/socialinsert", method = RequestMethod.POST)
 	public String insert(MemberVO memberVO, HttpSession session)  {
 		try {
@@ -28,7 +28,9 @@ public class SocialController {
 			};
 			
 			session.setAttribute("member_id", memberVO.getMember_id());
-			System.out.println("네이버 세션저장 + 네이버 로그인 성공");
+			session.setAttribute("type", memberVO.getType());
+			System.out.println(memberVO.getType()+ "세션저장 "+ memberVO.getType()+ "로그인 성공");
+			System.out.println(memberVO.getName()+ "님 환영합니다.!! ");
 			return "redirect:home.jsp";
 		} catch (Exception e) {
 			System.out.println("sql 실패");

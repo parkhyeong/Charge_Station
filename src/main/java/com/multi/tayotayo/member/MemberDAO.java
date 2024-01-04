@@ -16,10 +16,6 @@ public class MemberDAO {
 	
 	//로그인
 	public int count(MemberVO memberVO) {
-		System.out.println("MemberDAO : count()");
-
-		System.out.println("count end");
-
 		return my.selectOne("member.count", memberVO);
 	}
 	
