@@ -30,6 +30,30 @@
                                 <li><a class="dropdown-item" href="#">Something else here</a></li>
                             </ul>
                         </li>
+                        
+                        <li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">즐겨찾기</a></li>
+
+			<%
+				if (session.getAttribute("member_id") == null) {
+			%>
+			<li class="nav-item"><a class="nav-link" href="member/login.jsp">로그인</a>
+			</li>
+			<li class="nav-item"><a class="nav-link" href="member/create_account.jsp">회원가입</a>
+			</li>
+
+
+
+			<%
+				} else {
+			%>
+			<!-- 로그인 했을때 네비게이션 바 -->
+			<li class="nav-item"><a class="nav-link"
+				href="logout">로그아웃</a></li>
+			<%
+				}
+			%>
                     </ul>
                 </div>
             </div>
@@ -43,3 +67,5 @@
         <script src="/tayotayo/resources/js/scripts.js"></script>
     </body>
 </html>
+
+

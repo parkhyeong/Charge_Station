@@ -1,5 +1,39 @@
 package com.multi.tayotayo.member;
 
-public class SocialController {
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class SocialController {
+	@Autowired
+	MemberService memberservice;
+	
+	@Autowired
+	SocialService Socialservice;
+	
+	//네이버 등록
+	@RequestMapping(value = "member/socialinsert", method = RequestMethod.POST)
+	public String insert(MemberVO memberVO, HttpSession session)  {
+		try {
+			System.out.println(memberVO);
+			
+			//아이디 중복검사 true면 insert
+			if (Socialservice.socialidConfirm(memberVO)) {
+				memberservice.insert(memberVO);
+			};
+			
+			session.setAttribute("member_id", memberVO.getMember_id());
+			System.out.println("네이버 세션저장 + 네이버 로그인 성공");
+			return "redirect:home.jsp";
+		} catch (Exception e) {
+			System.out.println("sql 실패");
+			return "redirect:index.jsp";
+		}
+
+	}
 }
