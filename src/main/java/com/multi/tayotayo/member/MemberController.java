@@ -28,7 +28,7 @@ public class MemberController {
 			return "login_fail_alert";
 		} else {
 			session.setAttribute("member_id", memberVO.getMember_id());
-			return "redirect:home.jsp";
+			return "redirect:/mainpage/MainPage.jsp";
 		}
 
 	}
@@ -37,7 +37,7 @@ public class MemberController {
 	@RequestMapping("member/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:home.jsp";
+		return "redirect:/mainpage/MainPage.jsp";
 	}
 
 	// 회원가입
@@ -47,7 +47,7 @@ public class MemberController {
 		try {
 			System.out.println(memberVO);
 			memberservice.insert(memberVO);
-			return "redirect:home.jsp";
+			return "redirect:/mainpage/MainPage.jsp";
 		} catch (Exception e) {
 			System.out.println("sql 실패");
 			return "redirect:index.jsp";

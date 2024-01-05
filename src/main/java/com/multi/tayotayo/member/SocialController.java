@@ -1,6 +1,5 @@
 package com.multi.tayotayo.member;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,10 @@ public class SocialController {
 			session.setAttribute("type", memberVO.getType());
 			System.out.println(memberVO.getType()+ "세션저장 "+ memberVO.getType()+ "로그인 성공");
 			System.out.println(memberVO.getName()+ "님 환영합니다.!! ");
-			return "redirect:home.jsp";
+			return "redirect:/mainpage/MainPage.jsp";
 		} catch (Exception e) {
 			System.out.println("sql 실패");
-			return "redirect:index.jsp";
+			return "redirect:/member.login.jsp";
 		}
 
 	}

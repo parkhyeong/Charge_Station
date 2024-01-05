@@ -70,7 +70,9 @@
     
     document.body.appendChild(form);
     form.submit();
-
+    
+    opener.parent.fn_reload();
+    window.close();
   }
 </script>
 </body>

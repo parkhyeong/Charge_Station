@@ -67,13 +67,14 @@ button {
   text-decoration: none;
 }
 
+
 img {
   display: block;
-  width: 100%;
-  height: auto;
-  -o-object-fit: cover;
-     object-fit: cover;
+  width: 370px;
+  height: 60px;
+
 }
+
 
 .container {
   display: flex;
