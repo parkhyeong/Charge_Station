@@ -15,7 +15,7 @@
 		urlParams = new URLSearchParams(queryString)
 	    stationID = urlParams.get('es_statId')
 	    
-	    $('#chargersInfo').append('<tr><td colspan="6">로딩중</td></tr>')
+	    $('#chargersInfo').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
 		
 		$.ajax({
 			url: 'https://apis.data.go.kr/B552584/EvCharger/getChargerInfo',
@@ -78,13 +78,18 @@
 				} else {
 					$('#limit').append(statInfo.limitDetail)
 				}
+				
+				
 				loc = '정보 없음'
 				if(statInfo.location != null && statInfo.location != 'null') {
 					loc = statInfo.location
+				} else {
+					$('#locBtn').prop("disabled", true)
+					$('#locBtn').html('사진 없음')
 				}
 				$('#location').append(loc)
 				
-				
+				var actives = 0;				
 				$('#chargersInfo').empty()
 				
 				for(let i = 0; i < statList.length; i++) {
@@ -95,6 +100,7 @@
 						stat = '<span style="color:gray">◆</span>통신이상'
 					} else if(statList[i].stat == 2) {
 						stat = '<span style="color:green">●</span>충전대기'
+						actives++
 					} else if(statList[i].stat == 3) {
 						stat = '<span style="color:orange">●</span>충전중'
 					} else if(statList[i].stat == 4) {
@@ -114,6 +120,7 @@
 					$('#chargersInfo').append(infoScript)
 				}
 				
+				$('#active').append(actives + '대 / ' + statList.length + '대')
 				
 				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -222,7 +229,7 @@
 		<div class="container mt-5">
 			<h2>충전기 상태정보</h2>
 			<h6 id="active">충전 가능한 충전기 갯수 : </h6>
-			<h6 id="location">충전기 위치 : </h6>
+			<h6>충전기 위치 : <span id="location"></span> <button id="locBtn" type="button" class="btn btn-outline-success btn-sm">사진으로 보기</button></h6>
 			<table class="table table-striped">
 				<thead>
 						<tr>
@@ -238,10 +245,13 @@
 					
 				</tbody>
 			</table>
+			<button type="button" class="btn btn-outline-danger" onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">선불결제</button>
 		</div>
 		<div class="container mt-5">
 			<h2>리뷰목록</h2>
-			<button>최근순</button> <button>좋아요순</button>
+			<h6>전체 별점</h6>
+			<h6>최근 1달 별점</h6>
+			<button type="button" class="btn btn-outline-success">최근순</button> <button type="button" class="btn btn-outline-info">좋아요순</button>
 			<table class="table table-striped">
 				<thead>
 						<tr>
