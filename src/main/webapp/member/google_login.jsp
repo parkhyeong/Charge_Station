@@ -38,10 +38,12 @@
 				form.setAttribute('action', 'socialinsert'); // 전송할 url 지정
 
 				let social = document.createElement('input'); //<input>
+				social.setAttribute('type', 'hidden');
 				social.setAttribute('name', 'id');
 				social.setAttribute('value', responsePayload.sub);
 
 				let social2 = document.createElement('input');
+				social2.setAttribute('type', 'hidden');
 				social2.setAttribute('name', 'type');
 				social2.setAttribute('value', 'google');
 

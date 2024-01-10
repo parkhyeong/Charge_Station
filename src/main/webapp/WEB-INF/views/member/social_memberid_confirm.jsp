@@ -234,6 +234,15 @@ img {
 }
 
 </style>
+<script type="text/javascript">
+function fn_oncilck(){
+	opener.parent.fn_reload(); 
+    setTimeout(function () {
+	window.close();
+    }, 300);
+}
+
+</script>
 
 </head>
 <body>
@@ -244,7 +253,7 @@ img {
         <h1 class="text text-large">타요타요 계정연동<br> 로그인</h1>
       </div>
       
-      <form action="socialinsert" method="post" name="signin" class="form">
+      <form action="social_memberid_update" method="post" name="signin" class="form">
         <div class="input-control">
           <label for="id" class="input-label" hidden>ID</label>
           <input type="text"  id="member_id" class="input-field" name="member_id" placeholder="ID" required>
@@ -257,13 +266,14 @@ img {
           <a href="#" class="text text-links">ID/PW 찾기</a>
           <a href="create_account.jsp" class="text text-links">회원가입</a>
           
-           <input type="hidden"  id="social_id" class="input-field" name="id" >
-           <input type="hidden"  id="social_type" class="input-field" name="type" value="naver">
-          
-          <input type="submit" name="submit" class="input-submit" value="계정연동">
+           <input type="hidden"  id="social_id" name="id" value="${social.id}">
+           <input type="hidden"  id="social_type" name="type" value="${social.type}">
+         
+          <input type="submit" class="input-submit" value="계정연동" onclick="fn_oncilck()">
         </div>
-        
       </form>
+      
     </section>
   </div>
 </main>
+</body>

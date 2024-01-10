@@ -23,12 +23,13 @@
 		naver_id_login.setButton("green", 3, 50);
 		naver_id_login
 				.setDomain("http://localhost:9999/tayotayo/member/naver_login.jsp");
-		//naver_id_login.setState(state);
-		naver_id_login.setPopup();
+		naver_id_login.setState(state);
+		//naver_id_login.setPopup();
 		naver_id_login.init_naver_id_login();
 		
 		function fn_reload(){
-			location.href = "/tayotayo/mainpage/MainPage.jsp";	
+				location.href = "/tayotayo/mainpage/MainPage.jsp";
 		}
 	</script>
+</body>
 </html>

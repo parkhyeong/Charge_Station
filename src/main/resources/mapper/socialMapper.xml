@@ -9,7 +9,7 @@
 	</select>
 
 	<insert id="insert" parameterType="socialVO">
-		insert into social(id, type) values (#{id}, #{type});
+		insert into social values (#{id}, #{type},#{member_id});
 	</insert>
 
 	<select id="member_id_select" parameterType="socialVO"
