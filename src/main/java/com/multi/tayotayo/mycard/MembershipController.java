@@ -82,6 +82,7 @@ public class MembershipController {
 			return null;
 		}
 	}
+
 	// 멤버쉽 카드 충전
 	@RequestMapping("updateCardNewBalance")
 	@ResponseBody
@@ -95,4 +96,37 @@ public class MembershipController {
 			return "error";
 		}
 	}
+
+	// 멤버십 카드 리스트 조회 (이용내역 조회용)
+	@RequestMapping("getMembershipCardListForBillSearch")
+	@ResponseBody
+	public List<MembershipVO> getMembershipCardListForBillSearch(HttpSession session) {
+		try {
+			String c_memberid = (String) session.getAttribute("c_memberid");
+
+			List<MembershipVO> membershipCardList = membershipService.getMembershipCardListForBillSearch(c_memberid);
+			return membershipCardList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+	
+	@PostMapping("updateCardSubtract")
+	@ResponseBody
+	public String updateCardSubtract(@RequestParam("cardNum") String cardNum,
+	                                  @RequestParam("chargeAmount") int chargeAmount) {
+	    try {
+	        // 사용자로부터 받은 카드 번호와 충전소 결제 금액을 이용하여 잔액 업데이트
+	        membershipService.updateCardSubtract(cardNum, chargeAmount);
+
+	        // 여기서는 충전소 결제 금액을 차감했지만, 필요에 따라 다른 로직 수행 가능
+
+	        return "success";
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "error";
+	    }
+	}
+
 }
