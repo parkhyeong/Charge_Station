@@ -34,6 +34,8 @@
 				success: function(json) {
 					statList = json.items.item
 					
+					$('#result').empty()
+					
 					for(let i = 0; i < statList.length; i++) {
 						if(i % 10 == 0) {
 							$('#result').append('<tr>')
@@ -56,7 +58,7 @@
 		$('#b2').click(function() {
 			statId = $('#input2').val()
 			
-			location.href = '/tayotayo/chargers/details?es_statId=' + statId
+			location.href = '${pageContext.request.contextPath}/chargers/details?es_statId=' + statId
 			
 		})
 	})
@@ -65,7 +67,7 @@
 </head>
 <body>
 
-	<jsp:include page="/header.jsp"></jsp:include>
+	<%-- <jsp:include page="/header.jsp"></jsp:include> --%>
 
 	<div>
 		<div class="container mt-5">
