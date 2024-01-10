@@ -16,7 +16,8 @@
 	<div id="naver_id_login"></div>
 	<!-- //네이버 로그인 버튼 노출 영역 -->
 	<script type="text/javascript">
-		var naver_id_login = new naver_id_login("OrBv0eSYId4RE2chxvPo",
+		var naver_id_login = new 
+		naver_id_login("OrBv0eSYId4RE2chxvPo",
 				"http://localhost:9999/tayotayo/member/naver_callback.jsp");
 		var state = naver_id_login.getUniqState();
 		naver_id_login.setButton("green", 3, 50);

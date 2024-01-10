@@ -39,15 +39,6 @@ body {
     height: 100%;
 }
 
-#content {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%);
-    width: 460px;
-}
-
-
-
 
 /* 입력폼 */
 
@@ -195,6 +186,21 @@ select {
     font-weight: 400;
     font-family: Dotum,'돋움',Helvetica,sans-serif;
 }
+
+section {
+	max-width: 800px;
+	margin: 20px auto;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 460px;
+
+}
+
 </style>
 </head>
 <body>
@@ -204,12 +210,12 @@ select {
             <label  style="font-size:30px">회원가입</label>
         </div>
 
-
+	
         <!-- wrapper -->
         <div id="wrapper">
 
-            <!-- content-->
-            <div id="content">
+            <!-- section -->
+            <section>
 				<form action="insert" method="post" accept-charset="utf-8">
                 <!-- ID -->
                 <div>
@@ -217,7 +223,7 @@ select {
                         <label for="id">아이디</label>
                     </h3>
                     <span class="box int_id">
-                        <input type="text" id="id" class="int" maxlength="20" name="member_id">
+                        <input type="text" id="id" class="int" maxlength="20" name="member_id" required>
                         <span class="step_url">@tayotayo.com</span>
                     </span>
                     <span class="error_next_box"></span>
@@ -227,7 +233,7 @@ select {
                 <div>
                     <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
                     <span class="box int_pass">
-                        <input type="password" id="pswd1" class="int" maxlength="20" name="pw">
+                        <input type="password" id="pswd1" class="int" maxlength="20" name="pw" required>
                         <span id="alertTxt">사용불가</span>
                         <img src="${pageContext.request.contextPath}/resources/img/m_icon_pass.png" id="pswd1_img1" class="pswdImg">
                     </span>
@@ -238,7 +244,7 @@ select {
                 <div>
                     <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
                     <span class="box int_pass_check">
-                        <input type="password" id="pswd2" class="int" maxlength="20">
+                        <input type="password" id="pswd2" class="int" maxlength="20" required>
                         <img src="${pageContext.request.contextPath}/resources/img/m_icon_check_disable.png" id="pswd2_img1" class="pswdImg">
                     </span>
                     <span class="error_next_box"></span>
@@ -248,7 +254,7 @@ select {
                 <div>
                     <h3 class="join_title"><label for="name">이름</label></h3>
                     <span class="box int_name">
-                        <input type="text" id="name" class="int" maxlength="20" name="name">
+                        <input type="text" id="name" class="int" maxlength="20" name="name" required>
                     </span>
                     <span class="error_next_box"></span>
                 </div>
@@ -257,7 +263,7 @@ select {
                 <div>
                     <h3 class="join_title"><label for="name">닉네임</label></h3>
                     <span class="box int_name">
-                        <input type="text" id="nickname" class="int" maxlength="20" name="nickname">
+                        <input type="text" id="nickname" class="int" maxlength="20" name="nickname" required>
                     </span>
                     <span class="error_next_box"></span>
                 </div>
@@ -266,16 +272,16 @@ select {
                 <div>
                     <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
                     <span class="box int_mobile">
-                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력" name="tel">
+                        <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력" name="tel" required>
                     </span>
                     <span class="error_next_box"></span>    
                 </div>
 
                 <!-- EMAIL -->
                 <div>
-                    <h3 class="join_title"><label for="email">본인확인 이메일</h3>
+                    <h3 class="join_title"><label for="email">본인확인 이메일</label></h3>
                     <span class="box int_email">
-                        <input type="text" id="email" class="int" maxlength="100" placeholder="필수입력" name="email">
+                        <input type="text" id="email" class="int" maxlength="100" placeholder="필수입력" name="email" required>
                     </span>
                     <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
                 </div>
@@ -291,10 +297,11 @@ select {
 
                 
 				</form>
-            </div> 
-            <!-- content-->
+   </section> 
+            <!-- section -->
 
         </div> 
+     
         <!-- wrapper -->
     <script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
     </body>

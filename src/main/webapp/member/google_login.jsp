@@ -31,27 +31,22 @@
 				console.log('Family Name: ' + responsePayload.family_name);
 				console.log("Image URL: " + responsePayload.picture);
 				console.log("Email: " + responsePayload.email);
-				console.log("Email: " + responsePayload.mobile);
+				console.log("전화번호: " + responsePayload.mobile);
 
 				const form = document.createElement('form'); // form 태그 생성
 				form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
 				form.setAttribute('action', 'socialinsert'); // 전송할 url 지정
 
 				let social = document.createElement('input'); //<input>
-				social.setAttribute('name', 'email')
-				social.setAttribute('value', responsePayload.email)
+				social.setAttribute('name', 'id');
+				social.setAttribute('value', responsePayload.sub);
 
 				let social2 = document.createElement('input');
-				social2.setAttribute('name', 'member_id');
-				social2.setAttribute('value', responsePayload.sub);
-
-				let social3 = document.createElement('input');
-				social3.setAttribute('name', 'type');
-				social3.setAttribute('value', 'google');
+				social2.setAttribute('name', 'type');
+				social2.setAttribute('value', 'google');
 
 				form.appendChild(social);
 				form.appendChild(social2);
-				form.appendChild(social3);
 
 				document.body.appendChild(form);
 				form.submit();
