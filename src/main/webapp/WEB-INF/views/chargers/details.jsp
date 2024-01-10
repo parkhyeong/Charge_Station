@@ -14,13 +14,15 @@
 		queryString = window.location.search.substring(1)
 		urlParams = new URLSearchParams(queryString)
 	    stationID = urlParams.get('es_statId')
+	    
+	    $('#chargersInfo').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
 		
 		$.ajax({
 			url: 'https://apis.data.go.kr/B552584/EvCharger/getChargerInfo',
 			data: {
 				serviceKey: 'zutr+3KJ/EBSrJ4x/HLtr37BE2/zH0Uivb1tFG7Skl4UPhI5rUSUznwKHaMk317tK9mwP/89PRB4WJG36p+cZg==',
 				pageNo: '1',
-				numOfRows: '10',
+				numOfRows: '150',
 				period: '5',
 				zcode: '11',
 				statId: stationID,
@@ -76,36 +78,49 @@
 				} else {
 					$('#limit').append(statInfo.limitDetail)
 				}
-				$('#location').append(statInfo.location)
 				
+				
+				loc = '정보 없음'
+				if(statInfo.location != null && statInfo.location != 'null') {
+					loc = statInfo.location
+				} else {
+					$('#locBtn').prop("disabled", true)
+					$('#locBtn').html('사진 없음')
+				}
+				$('#location').append(loc)
+				
+				var actives = 0;				
+				$('#chargersInfo').empty()
 				
 				for(let i = 0; i < statList.length; i++) {
-					$('#chargersInfo').append('<tr>')
-					$('#chargersInfo').append('<td>' + statList[i].chgerId + '</td>')
+					infoScript = '<tr><td>' + statList[i].chgerId + '</td>'
 					
 					stat = null
 					if(statList[i].stat == 1) {	// 충전기상태(1: 통신이상, 2: 충전대기, 3: 충전중, 4: 운영중지, 5: 점검중, 9: 상태미확인)
-						stat = '통신이상'
+						stat = '<span style="color:gray">◆</span>통신이상'
 					} else if(statList[i].stat == 2) {
-						stat = '충전대기'
+						stat = '<span style="color:green">●</span>충전대기'
+						actives++
 					} else if(statList[i].stat == 3) {
-						stat = '충전중'
+						stat = '<span style="color:orange">●</span>충전중'
 					} else if(statList[i].stat == 4) {
-						stat = '운영중지'
+						stat = '<span style="color:gray">■</span>운영중지'
 					} else if(statList[i].stat == 5) {
-						stat = '점검중'
+						stat = '<span style="color:gray">▲</span>점검중'
 					} else if(statList[i].stat == 9) {
-						stat = '상태미확인'
+						stat = '<span style="color:gray">▼</span>상태미확인'
 					}
 					
-					$('#chargersInfo').append('<td>' + stat + '</td>')
-					$('#chargersInfo').append('<td>' + dateFormat(statList[i].statUpdDt) + '</td>')
-					$('#chargersInfo').append('<td>' + dateFormat(statList[i].lastTsdt) + '</td>')
-					$('#chargersInfo').append('<td>' + dateFormat(statList[i].lastTedt) + '</td>')
-					$('#chargersInfo').append('<td>' + dateFormat(statList[i].nowTsdt) + '</td>')
-					$('#chargersInfo').append('</tr>')
+					infoScript += '<td>' + stat + '</td>'
+					infoScript += '<td>' + dateFormat(statList[i].statUpdDt) + '</td>'
+					infoScript += '<td>' + dateFormat(statList[i].lastTsdt) + '</td>'
+					infoScript += '<td>' + dateFormat(statList[i].lastTedt) + '</td>'
+					infoScript += '<td>' + dateFormat(statList[i].nowTsdt) + '</td>'
+					infoScript += '</tr>'
+					$('#chargersInfo').append(infoScript)
 				}
 				
+				$('#active').append(actives + '대 / ' + statList.length + '대')
 				
 				
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -127,6 +142,13 @@
 
 				// 마커가 지도 위에 표시되도록 설정합니다
 				marker.setMap(map);
+			},
+			error: function(request, status, error) {
+				$('#body').empty()
+				$('#body').append('<h2>충전소 정보 로딩 실패</h2>')
+				$('#body').append('<h6>' + status + '</h6>')
+				$('#body').append('<h6>' + error + '</h6>')
+				$('#body').append('<h6>페이지를 새로고침해주세요</h6>')
 			}
 				
 		})
@@ -164,92 +186,93 @@
 
 	<div class="container mt-5">
 		<h4>테스트용 페이지 이동 버튼</h4>
-		<button type="button" class="btn btn-primary" onclick="location.href='/tayotayo/chargers/details?es_statId=HS001452'">HS001452</button>
-		<button type="button" class="btn btn-primary" onclick="location.href='/tayotayo/chargers/details?es_statId=CSCS1023'">CSCS1023</button>
-		<button type="button" class="btn btn-primary" onclick="location.href='/tayotayo/chargers/details?es_statId=HS001456'">HS001456</button>
-		<button type="button" class="btn btn-primary" onclick="location.href='/tayotayo/chargers/details?es_statId=HY000552'">HY000552</button>
+		<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/chargers/details_test.jsp'">테스트페이지로 복귀</button>
 	</div>
-	<div class="container mt-5">
-		<h2 id="statNm"></h2>
-		<button type="button" class="btn btn-secondary">즐겨찾기 버튼 넣을 임시 위치</button>
-		<button type="button" class="btn btn-warning">이 충전소를 즐겨찾기 등록했다면 이런 모습으로</button>
-		<table class="table">
-			<tr>
-				<td>충전기 타입</td>
-				<td id="chgerType"></td>
-			</tr>
-			<tr>
-				<td>주소</td>
-				<td id="addr"></td>
-			</tr>
-			<tr>
-				<td>전화번호</td>
-				<td id="busiCall"></td>
-			</tr>
-			<tr>
-				<td>운영기관</td>
-				<td id="busiNm"></td>
-			</tr>
-			<tr>
-				<td>주차비</td>
-				<td id="parkingFree"></td>
-			</tr>
-			<tr>
-				<td>충전요금</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>영업시간</td>
-				<td id="useTime"></td>
-			</tr>
-			<tr>
-				<td>이용자제한</td>
-				<td id="limit"></td>
-			</tr>
-		</table>
+	<div id="body" class="container mt-5">
+		<div class="container mt-5">
+			<h2 id="statNm"></h2>
+			<table class="table">
+				<tr>
+					<td>충전기 타입</td>
+					<td id="chgerType"></td>
+				</tr>
+				<tr>
+					<td>주소</td>
+					<td id="addr"></td>
+				</tr>
+				<tr>
+					<td>전화번호</td>
+					<td id="busiCall"></td>
+				</tr>
+				<tr>
+					<td>운영기관</td>
+					<td id="busiNm"></td>
+				</tr>
+				<tr>
+					<td>주차비</td>
+					<td id="parkingFree"></td>
+				</tr>
+				<tr>
+					<td>충전요금</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>영업시간</td>
+					<td id="useTime"></td>
+				</tr>
+				<tr>
+					<td>이용자제한</td>
+					<td id="limit"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="container mt-5">
+			<h2>충전기 상태정보</h2>
+			<h6 id="active">충전 가능한 충전기 갯수 : </h6>
+			<h6>충전기 위치 : <span id="location"></span> <button id="locBtn" type="button" class="btn btn-outline-success btn-sm">사진으로 보기</button></h6>
+			<table class="table table-striped">
+				<thead>
+						<tr>
+							<th scope="col">충전기ID</th>
+							<th scope="col">충전기 상태</th>
+							<th scope="col">상태갱신일시</th>
+							<th scope="col">마지막 충전시작일시</th>
+							<th scope="col">마지막 충전종료일시</th>
+							<th scope="col">충전중시작일시</th>
+						</tr>
+					</thead>
+				<tbody id="chargersInfo">
+					
+				</tbody>
+			</table>
+			<button type="button" class="btn btn-outline-danger" onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">선불결제</button>
+		</div>
+		<div class="container mt-5">
+			<h2>리뷰목록</h2>
+			<h6>전체 별점</h6>
+			<h6>최근 1달 별점</h6>
+			<button type="button" class="btn btn-outline-success">최근순</button> <button type="button" class="btn btn-outline-info">좋아요순</button>
+			<table class="table table-striped">
+				<thead>
+						<tr>
+							<th scope="col">별점</th>
+							<th scope="col">좋아요</th>
+							<th scope="col">제목</th>
+							<th scope="col">작성자</th>
+							<th scope="col">작성일</th>
+						</tr>
+					</thead>
+				<tbody id="reviews">
+					
+				</tbody>
+			</table>
+		</div>
+	
+		<div class="container mt-5" style="height: 500px;">
+			<h2>충전소 상세위치</h2>
+			<div id="map" style="width: 100%; height: 350px;"></div>
+		</div>
 	</div>
-	<div class="container mt-5">
-		<h2>충전기 상태정보</h2>
-		<h6 id="location">충전기 위치 : </h6>
-		<table class="table">
-			<thead>
-					<tr>
-						<th scope="col">충전기ID</th>
-						<th scope="col">충전기 상태</th>
-						<th scope="col">상태갱신일시</th>
-						<th scope="col">마지막 충전시작일시</th>
-						<th scope="col">마지막 충전종료일시</th>
-						<th scope="col">충전중시작일시</th>
-					</tr>
-				</thead>
-			<tbody id="chargersInfo">
-				
-			</tbody>
-		</table>
-	</div>
-	<div class="container mt-5">
-		<h2>리뷰목록</h2>
-		<button>최근순</button> <button>좋아요순</button>
-		<table class="table">
-			<thead>
-					<tr>
-						<th scope="col">별점</th>
-						<th scope="col">좋아요</th>
-						<th scope="col">제목</th>
-						<th scope="col">작성자</th>
-						<th scope="col">작성일</th>
-					</tr>
-				</thead>
-			<tbody id="reviews">
-				
-			</tbody>
-		</table>
-	</div>
-
-	<div class="container mt-5" style="height: 500px;">
-		<div id="map" style="width: 100%; height: 350px;"></div>
-	</div>
-
 </body>
 </html>
 	
