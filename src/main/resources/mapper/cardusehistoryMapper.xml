@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cardusehistory">
+
+	<select id="getCardInformationList"
+		resultType="cardusehistoryVO">
+		SELECT
+		cu.charge_day,
+		cu.station_name,
+		cu.charge_time,
+		cu.charge_amount,
+		cu.payment_amount,
+		cu.payment_point
+		FROM
+		card_usehistory cu
+		JOIN membership mc on
+		cu.mcard_num = mc.card_num
+		where
+		cu.mcard_num =
+		#{card_num};
+
+	</select>
+
+	<select id="getUsePointCardInformation" resultType="pointVO">
+		SELECT
+		card_point,
+		used_point,
+		point_day
+		FROM
+		point_history
+		where
+		card_num =
+		#{card_num};
+
+	</select>
+
+</mapper>

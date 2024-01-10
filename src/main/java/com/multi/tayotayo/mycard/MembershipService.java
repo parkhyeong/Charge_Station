@@ -44,20 +44,44 @@ public class MembershipService {
 			return null;
 		}
 	}
-	
+
 	// 멤버쉽 카드 충전
 	public void updateCardNewBalance(String cardNum, int newBalance, int newPoint) {
-	    try {
-	        Map<String, Object> paramMap = new HashMap<>();
-	        paramMap.put("cardNum", cardNum);
-	        paramMap.put("newBalance", newBalance);
-	        paramMap.put("newPoint", newPoint);
+		try {
+			Map<String, Object> paramMap = new HashMap<>();
+			paramMap.put("cardNum", cardNum);
+			paramMap.put("newBalance", newBalance);
+			paramMap.put("newPoint", newPoint);
 
-	        membershipDAO.updateCardNewBalance(paramMap);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        throw new RuntimeException("충전 실패: " + e.getMessage());
-	    }
+			membershipDAO.updateCardNewBalance(paramMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("충전 실패: " + e.getMessage());
+		}
+	}
+
+	// 멤버쉽 카드 리스트 불러오기 (이용내역 조회용)
+	public List<MembershipVO> getMembershipCardListForBillSearch(String c_memberid) {
+		try {
+			return membershipDAO.getMembershipList(c_memberid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
+	}
+
+	// 멤버쉽 카드 충전소 결제
+	public void updateCardSubtract(String cardNum, int amountToSubtract) {
+		try {
+			Map<String, Object> paramMap = new HashMap();
+			paramMap.put("cardNum", cardNum);
+			paramMap.put("amountToSubtract", amountToSubtract);
+
+			membershipDAO.updateCardSubtract(paramMap);
+		} catch (Exception e) {
+			e.printStackTrace(); // 예외 정보를 콘솔에 출력
+			throw new RuntimeException("충전 실패: " + e.getMessage());
+		}
 	}
 
 }
