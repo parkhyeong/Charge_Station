@@ -1,3 +1,4 @@
+// MainpageService.java
 
 package com.multi.tayotayo.mainpage;
 
@@ -10,12 +11,13 @@ import java.util.List;
 public class MainpageService {
 
     @Autowired
-    MainpageDAO dao;
+    private MainpageDAO dao;
 
     public List<MainpageVO> select() {
         return dao.select();
     }
-    public List<MainpageVO> selectlist(String keyword) {
-    	return dao.selectlist(keyword);
+
+    public List<MainpageVO> selectlist(String es_statNm) {
+        return dao.selectlist(es_statNm);
     }
-} 
+}
