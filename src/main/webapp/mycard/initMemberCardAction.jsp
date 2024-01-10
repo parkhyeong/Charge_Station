@@ -115,6 +115,14 @@ session.setAttribute("c_memberid", c_memberid);
 	text-decoration: none;
 	border-radius: 5px;
 	cursor: pointer;
+	margin-left: 90%;
+}
+.btn_agree_next:hover {
+	
+	background-color: #fff;
+	color: #212529;
+	border: 1px solid #212529;
+	
 }
 </style>
 
@@ -136,17 +144,30 @@ session.setAttribute("c_memberid", c_memberid);
 						aria-current="page" href="/tayotayo/index.jsp">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
 					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+						class="nav-link dropdown-toggle" id="managementDropdown" href="#"
 						role="button" data-bs-toggle="dropdown" aria-expanded="false">관리
 							및 조회</a>
 						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="navbarDropdown">
+							aria-labelledby="managementDropdown">
 							<li><a class="dropdown-item"
 								href="/tayotayo/mycard/initMemberCardAction.jsp">회원카드 관리</a></li>
-							<li><a class="dropdown-item" href="#">충전요금 조회</a></li>
+							<li><a class="dropdown-item"
+								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
+							<li><a class="dropdown-item"
+								href="/tayotayo/mycard/payAction.jsp">요금 결제</a></li>
 							<li><hr class="dropdown-divider" /></li>
 							<li><a class="dropdown-item" href="#">Something else
 									here</a></li>
+						</ul></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" id="communityDropdown" href="#"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							커뮤니티 </a>
+						<ul class="dropdown-menu dropdown-menu-end"
+							aria-labelledby="communityDropdown">
+							<li><a class="dropdown-item" href="#">공지 게시판</a></li>
+							<li><a class="dropdown-item"
+								href="/tayotayo/review/initReviewBoard.jsp">리뷰 게시판</a></li>
 						</ul></li>
 				</ul>
 			</div>

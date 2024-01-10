@@ -1,4 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ch7">
+<mapper namespace="review">
+	<insert id="create" parameterType="reviewVO">
+		INSERT INTO review_board
+		(r_title, r_content, r_writer, r_like, r_time,
+		r_rank, r_statid)
+		VALUES
+		(#{r_title}, #{r_content}, #{r_writer}, #{r_like}, now(),
+		#{r_rank}, #{r_statid})
+	</insert>
+
+	<select id="list" resultType="reviewVO" parameterType="map">
+		select *
+		from (
+		select ROW_NUMBER() over(order by r_num desc) as r_no,
+		r_num,
+		r_title, r_content, r_writer, r_like, r_time, r_rank
+		FROM
+		review_board r
+		)
+		r2
+		where r2.r_no between #{start} and #{end} and r2.r_num is not null
+	</select>
+
+
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(*) FROM
+		review_board
+	</select>
+
+
+	<select id="searchReviewList" parameterType="reviewVO"
+		resultType="reviewVO">
+		SELECT * FROM ( SELECT ROW_NUMBER() OVER(ORDER BY r_num DESC) as r_no,
+		r_num,
+		r_title, r_content, r_writer, r_like, r_time, r_rank FROM
+		review_board
+		<where>
+			<choose>
+				<when
+					test="reviewVO != null and reviewVO.type != null and reviewVO.type.equals('title')">
+					AND r_title LIKE CONCAT('%', #{reviewVO.keyword}, '%') </when>
+				<when
+					test="reviewVO != null and reviewVO.type != null and reviewVO.type.equals('content')"> AND
+					r_content LIKE CONCAT('%', #{reviewVO.keyword}, '%')
+				</when>
+				<when
+					test="reviewVO != null and reviewVO.type != null and reviewVO.type.equals('writer')"> AND
+					r_writer = #{reviewVO.keyword}
+				</when>
+			</choose>
+		</where>
+		) r2
+		WHERE r2.r_no BETWEEN #{start} AND #{end} AND r2.r_num IS NOT NULL
+	</select>
+
+	<!-- ) r2 WHERE r2.r_no BETWEEN #{start} AND #{end} AND r2.r_num IS NOT 
+		NULL -->
+
+	<select id="searchTotalCount" parameterType="reviewVO"
+		resultType="int">
+		SELECT COUNT(*) FROM review_board
+		<where>
+			<choose>
+				<when test="type != null and type.equals('title')"> AND r_title LIKE
+					CONCAT('%', #{keyword}, '%') </when>
+				<when test="type != null and type.equals('content')">
+					AND r_content LIKE CONCAT('%', #{keyword}, '%')
+				</when>
+				<when test="type != null and type.equals('writer')"> AND r_writer = #{keyword} </when>
+			</choose>
+		</where>
+	</select>
+
+	<select id="selectReviewDetails" parameterType="map"
+		resultType="reviewVO">
+		SELECT * FROM (
+		SELECT
+		ROW_NUMBER() OVER(ORDER BY r_num DESC)
+		as r_no,
+		r_num, r_title, r_content, r_writer, r_like, r_time, r_rank
+		FROM
+		review_board
+		) r
+		WHERE r.r_num = #{r_num}
+	</select>
+
+
+	<!-- 게시글 수정하기 -->
+	<update id="updateReviewPost" parameterType="reviewVO">
+		UPDATE review_board
+		SET
+		r_title = #{r_title},
+		r_content = #{r_content},
+		r_rank = #{r_rank}
+		WHERE
+		r_num = #{r_num}
+	</update>
+
+	<!-- 게시글 삭제하기 -->
+	<delete id="deleteReviewPost">
+		DELETE FROM review_board
+		WHERE r_num = #{r_num}
+	</delete>
 </mapper>
