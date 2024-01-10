@@ -19,7 +19,8 @@ public class MainpageController {
         return mainpageService.select();
     }
     @GetMapping("selectlist")
-    public List<MainpageVO> selectlistMainpage(String keyword) {
-        return mainpageService.selectlist(keyword);
+    public List<MainpageVO> selectlistMainpage( String es_statNm) {
+    	return mainpageService.selectlist(es_statNm);
+    	
     }
 }
