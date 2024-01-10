@@ -1,6 +1,7 @@
 package com.multi.tayotayo.mainpage;
 
 public class MainpageVO {
+	String es_statId;
 	String es_gungoo;
 	String es_addr;
 	String es_statNm;
@@ -15,6 +16,12 @@ public class MainpageVO {
 	String es_limit;
 	String es_lat;
 	String es_lon;
+	public String getEs_statId() {
+		return es_statId;
+	}
+	public void setEs_statId(String es_statId) {
+		this.es_statId = es_statId;
+	}
 	public String getEs_gungoo() {
 		return es_gungoo;
 	}
@@ -101,11 +108,15 @@ public class MainpageVO {
 	}
 	@Override
 	public String toString() {
-		return "MainpageVO [es_gungoo=" + es_gungoo + ", es_addr=" + es_addr + ", es_statNm=" + es_statNm
-				+ ", es_faciL=" + es_faciL + ", es_faciS=" + es_faciS + ", es_dvcL=" + es_dvcL + ", es_dvcS=" + es_dvcS
-				+ ", es_bnm=" + es_bnm + ", es_busiNm=" + es_busiNm + ", es_output=" + es_output + ", es_chgerType="
-				+ es_chgerType + ", es_limit=" + es_limit + ", es_lat=" + es_lat + ", es_lon=" + es_lon + "]";
+		return "MainpageVO [es_statId=" + es_statId + ", es_gungoo=" + es_gungoo + ", es_addr=" + es_addr
+				+ ", es_statNm=" + es_statNm + ", es_faciL=" + es_faciL + ", es_faciS=" + es_faciS + ", es_dvcL="
+				+ es_dvcL + ", es_dvcS=" + es_dvcS + ", es_bnm=" + es_bnm + ", es_busiNm=" + es_busiNm + ", es_output="
+				+ es_output + ", es_chgerType=" + es_chgerType + ", es_limit=" + es_limit + ", es_lat=" + es_lat
+				+ ", es_lon=" + es_lon + "]";
 	}
+	
+
+
 	
 	
 }
