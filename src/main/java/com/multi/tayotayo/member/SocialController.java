@@ -1,10 +1,10 @@
 package com.multi.tayotayo.member;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,30 +12,131 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class SocialController {
 	@Autowired
 	MemberService memberservice;
+
+	@Autowired
+	SocialService socialservice;
 	
 	@Autowired
-	SocialService Socialservice;
+	MemberController memberController;
 	
-	//소셜 등록
+
+	// 소셜 등록
 	@RequestMapping(value = "member/socialinsert", method = RequestMethod.POST)
-	public String insert(MemberVO memberVO, HttpSession session)  {
+	public String insert(SocialVO socialVO, Model model, HttpSession session) {
+		model.addAttribute("social", socialVO);
+		System.out.println(socialVO);
+		
+		// 아이디 중복검사 true면 insert
+		if (socialservice.socialidConfirm(socialVO)) {
+			return "member/social_memberid_confirm";
+		} else {
+			String member_id_confirm = socialservice.member_id_select(socialVO);
+			session.setAttribute("member_id", member_id_confirm);
+			session.setAttribute("type", socialVO.getType());
+
+			System.out.println(member_id_confirm + " 세션저장 " + "로그인 성공");
+			System.out.println(socialVO.getType() + " 소셜로그인");
+
+			return "redirect:/mainpage/MainPage.jsp";
+		}
+	}
+
+	// 소셜 등록
+	@RequestMapping(value = "member/social_memberid_update", method = RequestMethod.POST)
+	public String social_memberid_update(SocialVO socialVO, String member_id, String pw, Model model, HttpSession session) {
 		try {
-			System.out.println(memberVO);
+			System.out.println(socialVO);
+			System.out.println(member_id);
+			System.out.println(pw);
+
+			model.addAttribute("social", socialVO);
 			
-			//아이디 중복검사 true면 insert
-			if (Socialservice.socialidConfirm(memberVO)) {
-				memberservice.insert(memberVO);
-			};
-			
-			session.setAttribute("member_id", memberVO.getMember_id());
-			session.setAttribute("type", memberVO.getType());
-			System.out.println(memberVO.getType()+ "세션저장 "+ memberVO.getType()+ "로그인 성공");
-			System.out.println(memberVO.getName()+ "님 환영합니다.!! ");
-			return "redirect:home.jsp";
+			// 계정연동진행
+			// member_id 확인
+			MemberVO memberVO = new MemberVO();
+			memberVO.setMember_id(member_id);
+			memberVO.setPw(pw);
+
+			if (login(memberVO)) {
+				System.out.println("<<연동>> 타요타요 아이디가 맞습니다.");
+				socialVO.setMember_id(memberVO.getMember_id());
+				System.out.println(socialVO);
+				socialservice.insert(socialVO);
+
+			} else {
+				System.out.println("연동아이디가 틀렸습니다.");
+				System.out.println("잘됨");
+				model.addAttribute("msg" ,"연동아이디가 틀렸습니다.");
+				return "member/social_memberid_confirm";
+			}
+
+			// 현재 연동된 member로그인 세션 찾기
+			String member_id_confirm = socialservice.member_id_select(socialVO);
+			session.setAttribute("member_id", member_id_confirm);
+			session.setAttribute("type", socialVO.getType());
+
+			System.out.println(member_id_confirm + " 세션저장 " + "로그인 성공");
+			System.out.println(socialVO.getType() + " 소셜로그인");
+
+			return "redirect:/mainpage/MainPage.jsp";
 		} catch (Exception e) {
 			System.out.println("sql 실패");
-			return "redirect:index.jsp";
+			return "member/social_memberid_confirm";
 		}
 
+	}
+
+	// 계정연동id 확인
+	@RequestMapping(value = "member/memberidconfirm", method = RequestMethod.POST)
+	public boolean login(MemberVO memberVO) {
+		System.out.println(memberVO);
+
+		int result = memberservice.login(memberVO);
+
+		System.out.println(result);
+		if (result == 0) { // 연동실패
+			return false;
+		} else { // 연동id 성공
+			return true;
+		}
+
+	}
+	
+	//소셜로그인후 계정연동하기위한 타요타요 로그인
+	@RequestMapping(value = "member/login_peristalsis", method = RequestMethod.POST)
+	public int login_peristalsis(MemberVO memberVO) {
+		int result = memberservice.login(memberVO);
+		System.out.println(result);
+		
+		if (result == 0) {
+			return 0;
+		} else {
+			return 1;
+		}
+		
+	}
+	
+	// 계정연동회원가입
+	@RequestMapping(value = "member/creat_account_peristalsis", method = RequestMethod.POST)
+	public String creat_account_peristalsis(SocialVO socialVO, Model model) {
+		System.out.println(socialVO);
+
+		model.addAttribute("social", socialVO);
+		return "member/create_account_peristalsis";
+	}
+
+	//소셜연동후 회원가입시 넘어가는 페이지
+	@RequestMapping(value = "member/create_account_insert", method = RequestMethod.POST)
+	public String socialinsert2(MemberVO memberVO, String id, String type, Model model) {
+		SocialVO socialVO= new SocialVO();
+		socialVO.setId(id);
+		socialVO.setType(type);
+		
+		System.out.println(socialVO);
+		System.out.println(memberVO);
+		
+		memberController.insert(memberVO);
+		model.addAttribute("social", socialVO);
+		return "member/social_memberid_confirm";
 	}
 }
