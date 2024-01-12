@@ -152,7 +152,23 @@
 			}
 				
 		})
+		
+		loadReviews(null)
 	})
+	
+	function loadReviews(type){
+		$.ajax({
+			url: '/review/getSearchListForChargers',
+			data: {
+				r_statId: stationID,
+				type: type
+			},
+			dataType: 'json',
+			success: function(json) {
+				colsole.log(json)
+			}
+		})
+	}
 	
 	
 	function dateFormat(date) {
