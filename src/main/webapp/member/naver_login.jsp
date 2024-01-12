@@ -30,6 +30,7 @@
 		function fn_reload(){
 				location.href = "/tayotayo/mainpage/MainPage.jsp";
 		}
+		
 	</script>
 </body>
 </html>

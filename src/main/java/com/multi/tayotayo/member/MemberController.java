@@ -10,8 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MemberController {
@@ -23,19 +25,20 @@ public class MemberController {
 
 	// 로그인
 	@RequestMapping(value = "member/login", method = RequestMethod.POST)
-	public String login(MemberVO memberVO, HttpSession session) {
+	@ResponseBody
+	public int login(MemberVO memberVO, HttpSession session) {
 		System.out.println(memberVO);
 
 		int result = memberservice.login(memberVO);
 		
 		System.out.println(result);
 		if (result == 0) {
-			session.setAttribute("member_id", null);
-			return "member/login_fail_alert";
+			//session.setAttribute("member_id", null);
+			return 0;
 		} else {
 			session.setAttribute("member_id", memberVO.getMember_id());
 			System.out.println((String)session.getAttribute("member_id"));
-			return "redirect:/mainpage/MainPage.jsp";
+			return 1;
 		}
 
 	}

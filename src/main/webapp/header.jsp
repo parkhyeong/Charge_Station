@@ -60,7 +60,7 @@
 			%>
 			<!-- 로그인 했을때 네비게이션 바 -->
 			<li class="nav-item"><a class="nav-link"
-				href="logout">로그아웃</a></li>
+				href="member/logout">로그아웃</a></li>
 			<%
 				}
 			%>

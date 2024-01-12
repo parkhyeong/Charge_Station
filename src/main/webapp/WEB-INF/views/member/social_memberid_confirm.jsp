@@ -2,6 +2,11 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+
+<head>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	
 <style type="text/css">
 	:root {
   --color-white: #ffffff;
@@ -235,12 +240,61 @@ img {
 
 </style>
 <script type="text/javascript">
-function fn_oncilck(){
-	opener.parent.fn_reload(); 
-    setTimeout(function () {
-	window.close();
-    }, 300);
+$(function() {
+	$('#login').click(function(){
+		  let member_id = $('#member_id').val();
+		  let pw = $('#password').val();
+
+		  $.ajax({
+			type: "post",
+			url: "login_peristalsis",
+			data: {
+				member_id: member_id,
+			  	pw:pw
+			},
+			success: function(data){
+				if (data == 1){
+					alert('로그인 성공')
+					location.href="/tayotayo/mainpage/MainPage.jsp"
+				}
+				else {
+					alert('아이디 또는 비밀번호가 틀렸습니다.')
+				}
+			},
+			error : function(request, status, error) {
+				alert('오류')
+			}
+		})
+	  
+	})
+})//$
+
+
+
+function goPost(){
+	alert('${social.id}')
+	const form = document.createElement('form'); // form 태그 생성
+	form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
+	form.setAttribute('action', 'creat_account_peristalsis'); // 전송할 url 지정
+
+	let social = document.createElement('input'); //<input>
+	social.setAttribute('type', 'hidden');
+	social.setAttribute('name', 'id');
+	social.setAttribute('value', '${social.id}');
+
+	let social2 = document.createElement('input');
+	social2.setAttribute('type', 'hidden');
+	social2.setAttribute('name', 'type');
+	social2.setAttribute('value','${social.type}');
+
+	form.appendChild(social);
+	form.appendChild(social2);
+
+	document.body.appendChild(form);
+	form.submit();
+	
 }
+
 
 </script>
 
@@ -253,7 +307,7 @@ function fn_oncilck(){
         <h1 class="text text-large">타요타요 계정연동<br> 로그인</h1>
       </div>
       
-      <form action="social_memberid_update" method="post" name="signin" class="form">
+      <div class="form">
         <div class="input-control">
           <label for="id" class="input-label" hidden>ID</label>
           <input type="text"  id="member_id" class="input-field" name="member_id" placeholder="ID" required>
@@ -264,14 +318,14 @@ function fn_oncilck(){
         </div>
         <div class="input-control">
           <a href="#" class="text text-links">ID/PW 찾기</a>
-          <a href="create_account.jsp" class="text text-links">회원가입</a>
+          <a href="javascript:void(0)" class="text text-links" onClick="javascript:goPost()">회원가입</a>
           
            <input type="hidden"  id="social_id" name="id" value="${social.id}">
            <input type="hidden"  id="social_type" name="type" value="${social.type}">
          
-          <input type="submit" class="input-submit" value="계정연동" onclick="fn_oncilck()">
+          <Button type="button" id="login" class="input-submit">계정연동</Button>
         </div>
-      </form>
+      </div>
       
     </section>
   </div>

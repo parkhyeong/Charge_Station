@@ -14,7 +14,7 @@ social.setAttribute('value', ${social.id});
 
 let social2 = document.createElement('input');
 social2.setAttribute('name', 'type');
-social2.setAttribute('value', ${social.id});
+social2.setAttribute('value', ${social.type});
 
 form.appendChild(social);
 form.appendChild(social2);

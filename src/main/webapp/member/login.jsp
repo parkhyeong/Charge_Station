@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>타요타요 로그인</title>
-
+<!-- jquery -->
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <style type="text/css">
 	:root {
   --color-white: #ffffff;
@@ -239,6 +242,40 @@ img {
 }
 
 </style>
+
+<script type="text/javascript">
+
+$(function() {
+	$('#login').click(function(){
+		  let member_id = $('#member_id').val();
+		  let pw = $('#password').val();
+
+		  $.ajax({
+			type: "post",
+			url: "login",
+			data: {
+				member_id: member_id,
+			  	pw:pw
+			},
+			success: function(data){
+				if (data == 1){
+					alert('로그인 성공')
+					location.href="/tayotayo/mainpage/MainPage.jsp"
+				}
+				else {
+					alert('아이디 또는 비밀번호가 틀렸습니다.')
+				}
+			},
+			error : function(request, status, error) {
+				alert('오류')
+			}
+		})
+	  
+	})
+})//$
+
+</script>
+
 </head>
 
 <body>
@@ -252,7 +289,7 @@ img {
         <h1 class="text text-large">Login</h1>
       </div>
       
-      <form action="login" method="post" name="signin" class="form">
+      <div action="login" method="post" name="signin" class="form">
         <div class="input-control">
           <label for="id" class="input-label" hidden>ID</label>
           <input type="text"  id="member_id" class="input-field" name="member_id" placeholder="ID" required>
@@ -264,10 +301,10 @@ img {
         <div class="input-control">
           <a href="#" class="text text-links">ID/PW 찾기</a>
           <a href="create_account.jsp" class="text text-links">회원가입</a>
-          <input type="submit" name="submit" class="input-submit" value="Sign In">
+          <Button type="button" id ="login" class="input-submit">로그인</Button>
         </div>
         
-      </form>
+      </div>
       
       <div class="striped">
         <span class="striped-line"></span>

@@ -51,8 +51,7 @@
 		#{name},
 		#{tel},
 		#{email},
-		#{nickname},
-		#{type}
+		#{nickname}
 		)
 	</insert>
 

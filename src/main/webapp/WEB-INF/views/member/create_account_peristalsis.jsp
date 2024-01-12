@@ -202,9 +202,7 @@ section {
 }
 
 </style>
-<script type="text/javascript">
 
-</script>
 </head>
 <body>
 
@@ -219,7 +217,7 @@ section {
 
             <!-- section -->
             <section>
-				<form action="insert" method="post" accept-charset="utf-8">
+				<form action="create_account_insert" method="post" accept-charset="utf-8">
                 <!-- ID -->
                 <div>
                     <h3 class="join_title">
@@ -289,6 +287,9 @@ section {
                     <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
                 </div>
 
+				<input type="hidden" name= id value="${social.id}">
+				<input type="hidden" name= type value="${social.type}">
+				
                 <!-- JOIN BTN-->
                 <div class="btn_area">
                     <button type="submit" id="btnJoin">
