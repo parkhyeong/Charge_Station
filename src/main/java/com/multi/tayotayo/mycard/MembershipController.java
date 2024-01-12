@@ -1,7 +1,9 @@
 package com.multi.tayotayo.mycard;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -111,22 +113,38 @@ public class MembershipController {
 			return Collections.emptyList();
 		}
 	}
-	
-	@PostMapping("updateCardSubtract")
+
+	// 충전소에서 결제
+	@PostMapping("/updateCardSubtract")
 	@ResponseBody
-	public String updateCardSubtract(@RequestParam("cardNum") String cardNum,
-	                                  @RequestParam("chargeAmount") int chargeAmount) {
-	    try {
-	        // 사용자로부터 받은 카드 번호와 충전소 결제 금액을 이용하여 잔액 업데이트
-	        membershipService.updateCardSubtract(cardNum, chargeAmount);
+	public Map<String, String> updateCardSubtract(@RequestParam("cardNum") String cardNum,
+			@RequestParam("chargeAmountInput") int chargeAmountInput, @RequestParam("pointInput") int pointInput,
+			@RequestParam("chargingTime") double chargingTime, @RequestParam("chargingAmount") float chargingAmount,
+			@RequestParam("statId") String statId) {
+		Map<String, String> result = new HashMap<>();
+		try {
+			membershipService.updateCardSubtract(cardNum, chargeAmountInput, pointInput, chargingTime, chargingAmount,
+					statId);
 
-	        // 여기서는 충전소 결제 금액을 차감했지만, 필요에 따라 다른 로직 수행 가능
+			result.put("status", "success");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("status", "error");
+		}
+		return result;
+	}
 
-	        return "success";
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return "error";
-	    }
+	// 멤버십 카드 불러오기(결제)
+	@RequestMapping("getMembershipCardInfo")
+	@ResponseBody
+	public MembershipVO getMembershipCardInfo(@RequestParam("cardNum") String cardNum) {
+		try {
+			MembershipVO cardInfo = membershipService.getMembershipCardInfo(cardNum);
+			return cardInfo;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

@@ -71,29 +71,34 @@ public class ReviewDAO {
 		return my.delete("reply.deleteComment", rr_num);
 	}
 
-	// 댓글 전체 삭제 
+	// 댓글 전체 삭제
 	public int deleteComments(int rr_num) {
 		return my.delete("reply.deleteComments", rr_num);
 	}
 
-	// 댓글 추가 
+	// 댓글 추가
 	public int addComment(ReplyVO comment) {
 		return my.insert("reply.create", comment);
 	}
 
-	// 댓글 가져오기 
+	// 댓글 가져오기
 	public List<ReplyVO> getComments(int rr_ori_bbs) throws Exception {
 		return my.selectList("reply.getComments", rr_ori_bbs);
 	}
 
-	// 댓글 수정 
+	// 댓글 수정
 	public int updateComment(ReplyVO replyVO) {
 		return my.update("reply.updateComment", replyVO);
 	}
 
-	// 댓글 상세 정보 
+	// 댓글 상세 정보
 	public ReplyVO getCommentDetails(int rr_num) throws Exception {
 		return my.selectOne("reply.getCommentDetails", rr_num);
+	}
+
+	// 충전소 상세정보 페이지용
+	public List<ReviewVO> selectSearchListForChargers(ReviewVO reviewVo) throws Exception {
+		return my.selectList("review.searchReviewListForChargers", reviewVo);
 	}
 
 }

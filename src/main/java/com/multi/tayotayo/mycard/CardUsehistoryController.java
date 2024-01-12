@@ -19,21 +19,20 @@ public class CardUsehistoryController {
 	@ResponseBody
 	@RequestMapping("/getUseCardInformation")
 	public List<CardUsehistoryVO> getUseCardInformation(@RequestParam(name = "card_num") String card_num, Model model) {
-	    System.out.println("Received request for card_num: " + card_num);
+		System.out.println("Received request for card_num: " + card_num);
 
-	    List<CardUsehistoryVO> cardusehistoryList = cardusehistoryService.getCardInformationList(card_num);
+		List<CardUsehistoryVO> cardusehistoryList = cardusehistoryService.getCardInformationList(card_num);
 
-	    return cardusehistoryList;
+		return cardusehistoryList;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/getUsePointCardInformation")
 	public List<PointVO> getUsePointCardInformation(@RequestParam(name = "card_num") String card_num, Model model) {
-	    System.out.println("Received request for card_num: " + card_num);
+		System.out.println("Received request for card_num: " + card_num);
 
-	    List<PointVO> pointList = cardusehistoryService.getUsePointCardInformation(card_num);
+		List<PointVO> pointList = cardusehistoryService.getUsePointCardInformation(card_num);
 
-	    return pointList;
+		return pointList;
 	}
-
 }

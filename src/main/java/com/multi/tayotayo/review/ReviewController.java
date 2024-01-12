@@ -1,8 +1,11 @@
 package com.multi.tayotayo.review;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/review")
@@ -39,7 +43,6 @@ public class ReviewController {
 	}
 
 	// 게시글 메인에서 검색하기
-
 	@RequestMapping("getSearchList")
 	@ResponseBody
 	private Map<String, Object> getSearchList(@RequestParam("page") int page, @RequestParam("pageSize") int pageSize,
@@ -50,11 +53,11 @@ public class ReviewController {
 
 		int totalCount = reviewService.getSearchTotalCount(reviewVO);
 		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-		
+
 		if (page > totalPages) {
-	        page = totalPages;
-	    }
-		
+			page = totalPages;
+		}
+
 		Map<String, Object> result = reviewService.getSearchListWithPagination(page, pageSize, reviewVO);
 		result.put("numPages", totalPages);
 
@@ -68,12 +71,12 @@ public class ReviewController {
 		try {
 			String sessionUserId = (String) request.getSession().getAttribute("c_memberid");
 			String sessionStatId = (String) request.getSession().getAttribute("es_statid");
-			
+
 			model.addAttribute("sessionUserId", sessionUserId);
 			model.addAttribute("sessionStatId", sessionStatId);
-			
+
 			reviewVO.setR_statid(sessionStatId);
-			
+
 			int result = reviewService.insert(reviewVO);
 			if (result > 0) {
 				model.addAttribute("result", "게시글이 성공적으로 작성되었습니다.");
@@ -89,7 +92,6 @@ public class ReviewController {
 	}
 
 	// 게시글 상세페이지
-
 	@RequestMapping("getReviewDetails")
 	@ResponseBody
 	private ReviewVO getReviewDetails(@RequestParam("r_no") int r_no, @RequestParam("r_num") int r_num)

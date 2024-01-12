@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.multi.tayotayo.review.ReviewVO;
+
 
 @Controller
 @RequestMapping("/notice")
@@ -19,7 +21,7 @@ public class NoticeController {
 	@Autowired
 	private NoticeService noticeService;
 	
-	@PostMapping("/notice_list")
+	@RequestMapping("notice_list")
 	@ResponseBody
 	public Map<String, Object> list(@RequestParam(defaultValue = "1") int page,
 			@RequestParam(defaultValue = "10") int pageSize) throws Exception {
@@ -35,5 +37,13 @@ public class NoticeController {
 
 		return result;
 	}
+	
+	// 게시글 상세페이지
+		@RequestMapping("getNoticeDetails")
+		@ResponseBody
+		private NoticeVO getNoticeDetails(@RequestParam("n_no") int n_no, @RequestParam("n_num") int n_num)
+				throws Exception {
+			return noticeService.getNoticeDetails(n_no, n_num);
+		}
 
 }

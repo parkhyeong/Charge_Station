@@ -8,6 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.multi.tayotayo.review.ReviewVO;
+
 @Repository
 public class NoticeDAO {
 	
@@ -24,6 +26,9 @@ public class NoticeDAO {
 	public int getTotalCount() throws Exception {
 		return my.selectOne("notice.totalCount");
 	}
-
+	
+	public NoticeVO getNoticeDetails(Map<String, Integer> paramMap) throws Exception {
+		return my.selectOne("notice.selectNoticeDetails", paramMap);
+	}
 
 }

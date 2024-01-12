@@ -199,33 +199,45 @@ ul, li {
 
 		//게시글 리스트 불러오기
 		function loadReviewList(page) {
-			$.ajax({
-				method : 'POST',
-				url : "review_list",
-				data : {
-					page : page,
-					pageSize : pageSize
-				},
-				dataType : "json",
-				success : function(result) {
-					console.log("Received data:", result);
-					numPages = result.numPages;
-					console.log("Number of pages:", numPages);
-					console.log("Data for page " + page + ":", result.posts);
-					displayData(result.posts);
-					renderPaginationButtons();
-				},
-				error : function(xhr, status, error) {
-					console.error("Ajax 요청 중 에러 발생:", status, error);
-				}
-			});
+			$
+					.ajax({
+						method : 'POST',
+						url : "review_list",
+						data : {
+							page : page,
+							pageSize : pageSize
+						},
+						dataType : "json",
+						success : function(result) {
+							console.log("Received data:", result);
+							numPages = result.numPages;
+							console.log("Number of pages:", numPages);
+							console.log("Data for page " + page + ":",
+									result.posts);
+							var allPosts = result.posts;
+							var selectedRating = $("#ratingFilter").val();
+							var filteredPosts = filterByRating(allPosts,
+									selectedRating);
+							displayData(result.posts);
+							renderPaginationButtons();
+						},
+						error : function(xhr, status, error) {
+							console.error("Ajax 요청 중 에러 발생:", status, error);
+						}
+					});
 		}
 
 		// 별점에 따라 필터링하는 함수
 		function filterByRating(posts, rating) {
-			return posts.filter(function(post) {
-				return post.r_rank == rating;
-			});
+			if (rating === "0") {
+				return posts.filter(function(post) {
+					return post.r_rank == 0;
+				});
+			} else {
+				return posts.filter(function(post) {
+					return post.r_rank == rating;
+				});
+			}
 		}
 
 		function getSearchList(page) {
@@ -298,6 +310,7 @@ ul, li {
 		$("<option>").val("3").text("3점").appendTo(ratingFilterSelect);
 		$("<option>").val("2").text("2점").appendTo(ratingFilterSelect);
 		$("<option>").val("1").text("1점").appendTo(ratingFilterSelect);
+		$("<option>").val("0").text("0점").appendTo(ratingFilterSelect);
 
 		function displayData(posts) {
 
@@ -308,6 +321,7 @@ ul, li {
 
 			var headerRow = $("<tr>").appendTo(thead);
 			$("<th>").text("글번호").appendTo(headerRow);
+			$("<th>").text("충전소명").appendTo(headerRow);
 			$("<th>").text("제목").appendTo(headerRow);
 			$("<th>").text("내용").appendTo(headerRow);
 			$("<th>").text("작성자").appendTo(headerRow);
@@ -327,6 +341,8 @@ ul, li {
 					return post.r_content.includes(searchKeyword);
 				} else if (searchType === "writer") {
 					return post.r_writer === searchKeyword;
+				} else if (searchType === "stationName") {
+					return post.r_statid === searchKeyword;
 				}
 				return true;
 			});
@@ -347,6 +363,7 @@ ul, li {
 			$.each(filteredPosts, function(index, post) {
 				var row = $("<tr>").appendTo(tbody);
 				$("<td>").text(post.r_no).appendTo(row);
+				$("<td>").text(post.r_statid).appendTo(row);
 				$("<td>").html(
 						"<a href='initReviewBoardDetail.jsp?r_no=" + post.r_no
 								+ "&r_num=" + post.r_num
@@ -401,11 +418,20 @@ ul, li {
 									"form[name=search-form] input[name=keyword]")
 									.val();
 
-							if (searchType === ""
-									&& (searchKeyword.trim() !== "")) {
-								alert("카테고리를 선택해주세요.");
-								return;
-							}
+						    if (searchType === "" && (searchKeyword.trim() === "")) {
+						        alert("카테고리와 검색어를 입력해주세요.");
+						        return;
+						    }
+
+						    if (searchType === "" && (searchKeyword.trim() !== "")) {
+						        alert("카테고리를 선택해주세요.");
+						        return;
+						    }
+
+						    if (searchType !== "" && (searchKeyword.trim() === "")) {
+						        alert("검색어를 입력해주세요.");
+						        return;
+						    }
 							getSearchList(1);
 						});
 
@@ -440,7 +466,7 @@ ul, li {
 							<li><a class="dropdown-item"
 								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
 							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/payAction.jsp">요금 결제</a></li>
+								href="/tayotayo/mycard/pointPage.jsp">포인트 조회</a></li>
 							<li><hr class="dropdown-divider" /></li>
 							<li><a class="dropdown-item" href="#">Something else
 									here</a></li>
@@ -451,7 +477,8 @@ ul, li {
 							커뮤니티 </a>
 						<ul class="dropdown-menu dropdown-menu-end"
 							aria-labelledby="communityDropdown">
-							<li><a class="dropdown-item" href="#">공지 게시판</a></li>
+							<li><a class="dropdown-item"
+								href="/tayotayo/notice/initNoticeBoard.jsp">공지 게시판</a></li>
 							<li><a class="dropdown-item"
 								href="/tayotayo/mycard/initReviewBoard.jsp">리뷰 게시판</a></li>
 						</ul></li>
@@ -483,6 +510,7 @@ ul, li {
 						<option value="title">제목</option>
 						<option value="content">내용</option>
 						<option value="writer">작성자</option>
+						<option value="stationName">충전소명</option>
 					</select> <input type="text" name="keyword" value=""></input> <input
 						type="submit" class="btn_search" value="검색하기"></input> <input
 						type="button"

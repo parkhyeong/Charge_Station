@@ -49,9 +49,10 @@ public class ReviewService {
 		List<ReviewVO> searchList = reviewDAO.getSearchList(start, end, reviewVO);
 		int totalCount = reviewDAO.getSearchTotalCount(reviewVO);
 		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-		
-		System.out.println("Search Parameters: " + page + ", " + pageSize + ", " + reviewVO.getType() + ", " + reviewVO.getKeyword());
-	    System.out.println("Search Result: " + searchList);
+
+		System.out.println("Search Parameters: " + page + ", " + pageSize + ", " + reviewVO.getType() + ", "
+				+ reviewVO.getKeyword());
+		System.out.println("Search Result: " + searchList);
 
 		Map<String, Object> result = new HashMap<>();
 		result.put("numPages", totalPages);
@@ -141,9 +142,14 @@ public class ReviewService {
 		}
 	}
 
-	// 댓글 상세 정보 
+	// 댓글 상세 정보
 	public ReplyVO getCommentDetails(int rr_num) throws Exception {
 		return reviewDAO.getCommentDetails(rr_num);
+	}
+
+	// 충전소 상세정보 페이지용
+	public List<ReviewVO> getSearchListForChargers(ReviewVO reviewVO) throws Exception {
+		return reviewDAO.selectSearchListForChargers(reviewVO);
 	}
 
 }

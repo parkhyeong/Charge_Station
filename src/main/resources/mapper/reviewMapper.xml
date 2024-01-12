@@ -7,7 +7,8 @@
 		r_rank, r_statid)
 		VALUES
 		(#{r_title}, #{r_content}, #{r_writer}, #{r_like}, now(),
-		#{r_rank}, #{r_statid})
+		#{r_rank},
+		#{r_statid})
 	</insert>
 
 	<select id="list" resultType="reviewVO" parameterType="map">
@@ -15,12 +16,13 @@
 		from (
 		select ROW_NUMBER() over(order by r_num desc) as r_no,
 		r_num,
-		r_title, r_content, r_writer, r_like, r_time, r_rank
+		r_title, r_statid, r_content, r_writer, r_like, r_time, r_rank
 		FROM
 		review_board r
 		)
 		r2
-		where r2.r_no between #{start} and #{end} and r2.r_num is not null
+		where r2.r_no between #{start} and #{end} and
+		r2.r_num is not null
 	</select>
 
 
@@ -34,7 +36,8 @@
 		resultType="reviewVO">
 		SELECT * FROM ( SELECT ROW_NUMBER() OVER(ORDER BY r_num DESC) as r_no,
 		r_num,
-		r_title, r_content, r_writer, r_like, r_time, r_rank FROM
+		r_title, r_statid, r_content, r_writer, r_like, r_time, r_rank
+		FROM
 		review_board
 		<where>
 			<choose>
@@ -48,6 +51,10 @@
 				<when
 					test="reviewVO != null and reviewVO.type != null and reviewVO.type.equals('writer')"> AND
 					r_writer = #{reviewVO.keyword}
+				</when>
+				<when
+					test="reviewVO != null and reviewVO.type != null and reviewVO.type.equals('stationName')"> AND
+					r_statid = #{reviewVO.keyword}
 				</when>
 			</choose>
 		</where>
@@ -69,6 +76,9 @@
 					AND r_content LIKE CONCAT('%', #{keyword}, '%')
 				</when>
 				<when test="type != null and type.equals('writer')"> AND r_writer = #{keyword} </when>
+				<when test="type != null and type.equals('stationName')">
+					AND r_statid = #{keyword}
+				</when>
 			</choose>
 		</where>
 	</select>
@@ -79,7 +89,8 @@
 		SELECT
 		ROW_NUMBER() OVER(ORDER BY r_num DESC)
 		as r_no,
-		r_num, r_title, r_content, r_writer, r_like, r_time, r_rank
+		r_num, r_statid, r_title, r_content, r_writer, r_like, r_time,
+		r_rank
 		FROM
 		review_board
 		) r
@@ -103,4 +114,23 @@
 		DELETE FROM review_board
 		WHERE r_num = #{r_num}
 	</delete>
+
+	<!-- 충전소 상세정보 페이지용 -->
+	<select id="searchReviewListForChargers"
+		parameterType="reviewVO" resultType="reviewVO">
+		SELECT * FROM ( SELECT ROW_NUMBER()
+		OVER(ORDER BY
+		<if test="type.equals('like')">
+			r_like DESC,
+		</if>
+		r_num DESC) as r_no,
+		r_num,
+		r_title, r_statid, r_content, r_writer, r_like, r_time, r_rank
+		FROM
+		review_board
+		where r_statid = #{reviewVO.r_statid}
+		) r2
+		WHERE r2.r_no BETWEEN 1 AND 5 AND
+		r2.r_num IS NOT NULL
+	</select>
 </mapper>

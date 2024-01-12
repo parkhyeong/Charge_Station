@@ -50,4 +50,9 @@ public class MembershipDAO {
 		my.update("membership.updateCardSubtract", paramMap);
 	}
 
+	// 멤버십 카드 불러오기 (결제)
+	public MembershipVO getMembershipCardInfo(String cardNum) {
+		return my.selectOne("membership.getMembershipCardInfo", cardNum);
+	}
+
 }
