@@ -1,15 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+
+
 <head>
-<meta charset="UTF-8">
-<title>타요타요 로그인</title>
-<!-- jquery -->
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	
 <style type="text/css">
 	:root {
   --color-white: #ffffff;
@@ -242,9 +239,7 @@ img {
 }
 
 </style>
-
 <script type="text/javascript">
-
 $(function() {
 	$('#login').click(function(){
 		  let member_id = $('#member_id').val();
@@ -252,7 +247,7 @@ $(function() {
 
 		  $.ajax({
 			type: "post",
-			url: "login",
+			url: "login_peristalsis",
 			data: {
 				member_id: member_id,
 			  	pw:pw
@@ -274,22 +269,45 @@ $(function() {
 	})
 })//$
 
+
+
+function goPost(){
+	alert('${social.id}')
+	const form = document.createElement('form'); // form 태그 생성
+	form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
+	form.setAttribute('action', 'creat_account_peristalsis'); // 전송할 url 지정
+
+	let social = document.createElement('input'); //<input>
+	social.setAttribute('type', 'hidden');
+	social.setAttribute('name', 'id');
+	social.setAttribute('value', '${social.id}');
+
+	let social2 = document.createElement('input');
+	social2.setAttribute('type', 'hidden');
+	social2.setAttribute('name', 'type');
+	social2.setAttribute('value','${social.type}');
+
+	form.appendChild(social);
+	form.appendChild(social2);
+
+	document.body.appendChild(form);
+	form.submit();
+	
+}
+
+
 </script>
 
 </head>
-
 <body>
-
-
-
 <main class="main">
   <div class="container">
     <section class="wrapper">
       <div class="heading">
-        <h1 class="text text-large">Login</h1>
+        <h1 class="text text-large">타요타요 계정연동<br> 로그인</h1>
       </div>
       
-      <div action="login" method="post" name="signin" class="form">
+      <div class="form">
         <div class="input-control">
           <label for="id" class="input-label" hidden>ID</label>
           <input type="text"  id="member_id" class="input-field" name="member_id" placeholder="ID" required>
@@ -300,28 +318,16 @@ $(function() {
         </div>
         <div class="input-control">
           <a href="#" class="text text-links">ID/PW 찾기</a>
-          <a href="create_account.jsp" class="text text-links">회원가입</a>
-          <Button type="button" id ="login" class="input-submit">로그인</Button>
+          <a href="javascript:void(0)" class="text text-links" onClick="javascript:goPost()">회원가입</a>
+          
+           <input type="hidden"  id="social_id" name="id" value="${social.id}">
+           <input type="hidden"  id="social_type" name="type" value="${social.type}">
+         
+          <Button type="button" id="login" class="input-submit">계정연동</Button>
         </div>
-        
       </div>
       
-      <div class="striped">
-        <span class="striped-line"></span>
-        <span class="striped-text">Or</span>
-        <span class="striped-line"></span>
-      </div>
-      <div class="method">
-        <%@ include file="naver_login.jsp" %><br>
-
-		<%@ include file="kakao_login.jsp" %><br>
-
-        <%@ include file="google_login.jsp" %><br>
-
-      </div>
     </section>
   </div>
 </main>
-
 </body>
-</html>
