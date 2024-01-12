@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CardUsehistoryService {
-	
+
 	@Autowired
 	private CardUsehistoryDAO cardusehistoryDAO;
 
@@ -16,9 +16,9 @@ public class CardUsehistoryService {
 	}
 
 	public List<CardUsehistoryVO> getCardInformationList(String card_num) {
-        return cardusehistoryDAO.getCardInformationList(card_num);
-    }
-	
+		return cardusehistoryDAO.getCardInformationList(card_num);
+	}
+
 	public List<PointVO> getUsePointCardInformation(String card_num) {
 		return cardusehistoryDAO.getUsePointCardInformation(card_num);
 	}

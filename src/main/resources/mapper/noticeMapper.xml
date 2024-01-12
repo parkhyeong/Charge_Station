@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="notice">
-	<select id="list" resultType="reviewVO" parameterType="map">
+	<select id="list" resultType="NoticeVO" parameterType="map">
 		select *
 		from (
 		select ROW_NUMBER() over(order by n_num desc) as n_no,
 		n_num,
-		n_title, n_content, n_date, n_id
+		n_title, n_content, n_time, n_id
 		FROM
 		notice n
 		)
@@ -14,9 +14,22 @@
 		where n2.n_no between #{start} and #{end} and n2.n_num is not null
 	</select>
 
-
 	<select id="totalCount" resultType="int">
 		SELECT COUNT(*) FROM
 		notice
+	</select>
+	
+	<select id="selectNoticeDetails" parameterType="map"
+		resultType="NoticeVO">
+		SELECT * FROM (
+		SELECT
+		ROW_NUMBER() OVER(ORDER BY n_num DESC)
+		as n_no,
+		n_num,
+		n_title, n_content, n_time, n_id
+		FROM
+		notice
+		) n
+		WHERE n.n_num = #{n_num}
 	</select>
 </mapper>

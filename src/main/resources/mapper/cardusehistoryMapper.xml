@@ -33,5 +33,10 @@
 		#{card_num};
 
 	</select>
+	
+	<insert id="processPayment" parameterType="cardusehistoryVO">
+        INSERT INTO card_usehistory (charge_time, charge_amount, station_name, payment_amount, payment_point, charge_day, mcard_num)
+        VALUES (#{chargingTime}, #{chargingAmount}, #{statId}, #{chargeAmountInput}, #{pointInput}, NOW(), #{cardNum})
+    </insert>
 
 </mapper>

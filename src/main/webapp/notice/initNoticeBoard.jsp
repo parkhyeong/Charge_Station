@@ -263,10 +263,7 @@ ul, li {
 			$("<th>").text("글번호").appendTo(headerRow);
 			$("<th>").text("제목").appendTo(headerRow);
 			$("<th>").text("내용").appendTo(headerRow);
-			$("<th>").text("작성자").appendTo(headerRow);
-			$("<th>").text("좋아요").appendTo(headerRow);
 			$("<th>").text("작성일").appendTo(headerRow);
-			$("<th>").text("별점").appendTo(headerRow);
 
 			var searchType = $("form[name=search-form] select[name=type]")
 					.val();
@@ -275,12 +272,10 @@ ul, li {
 
 			var filteredPosts = posts.filter(function(post) {
 				if (searchType === "title") {
-					return post.r_title.includes(searchKeyword);
+					return post.n_title.includes(searchKeyword);
 				} else if (searchType === "content") {
-					return post.r_content.includes(searchKeyword);
-				} else if (searchType === "writer") {
-					return post.r_writer === searchKeyword;
-				}
+					return post.n_content.includes(searchKeyword);
+				} 
 				return true;
 			});
 
@@ -299,20 +294,17 @@ ul, li {
 
 			$.each(filteredPosts, function(index, post) {
 				var row = $("<tr>").appendTo(tbody);
-				$("<td>").text(post.r_no).appendTo(row);
+				$("<td>").text(post.n_no).appendTo(row);
 				$("<td>").html(
-						"<a href='initNoticeBoardDetail.jsp?r_no=" + post.r_no
-								+ "&r_num=" + post.r_num
+						"<a href='initNoticeBoardDetail.jsp?n_no=" + post.n_no
+								+ "&n_num=" + post.n_num
 								+ "' class='post-link' data-post-id='"
-								+ post.r_no + "'>" + post.r_title + "</a>")
+								+ post.n_no + "'>" + post.n_title + "</a>")
 						.appendTo(row);
-				$("<td>").text(post.r_content).appendTo(row);
-				$("<td>").text(post.r_writer).appendTo(row);
-				$("<td>").text(post.r_like).appendTo(row);
-				var formattedDate = new Date(post.r_time).toISOString().split(
+				$("<td>").text(post.n_content).appendTo(row);
+				var formattedDate = new Date(post.n_time).toISOString().split(
 						'T')[0];
 				$("<td>").text(formattedDate).appendTo(row);
-				$("<td>").text(post.r_rank).appendTo(row);
 			});
 
 			$(".board_list").html(table);
@@ -404,9 +396,9 @@ ul, li {
 							커뮤니티 </a>
 						<ul class="dropdown-menu dropdown-menu-end"
 							aria-labelledby="communityDropdown">
-							<li><a class="dropdown-item" href="/tayotayo/mycard/initNoticeBoard.jsp">공지 게시판</a></li>
+							<li><a class="dropdown-item" href="/tayotayo/notice/initNoticeBoard.jsp">공지 게시판</a></li>
 							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initReviewBoard.jsp">리뷰 게시판</a></li>
+								href="/tayotayo/review/initReviewBoard.jsp">리뷰 게시판</a></li>
 						</ul></li>
 				</ul>
 			</div>

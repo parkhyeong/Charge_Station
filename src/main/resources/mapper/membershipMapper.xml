@@ -62,10 +62,15 @@
 
 	<!--멤버쉽 카드에 있는 잔액으로 충전소 결제 -->
 	<update id="updateCardSubtract" parameterType="map">
-    <![CDATA[
-    UPDATE membership
-    SET card_balance = card_balance - #{amountToSubtract}
-    WHERE card_num = #{cardNum}
-    ]]>
+		UPDATE membership
+		SET card_balance = card_balance - #{chargeAmountInput},
+		card_point = card_point - #{pointInput}
+		WHERE card_num = #{cardNum}
 	</update>
+
+	<!-- 특정 카드 번호에 대한 정보 조회 (결제) -->
+	<select id="getMembershipCardInfo" resultType="membershipVO">
+		SELECT
+		card_balance, card_point FROM membership WHERE card_num = #{cardNum}
+	</select>
 </mapper>

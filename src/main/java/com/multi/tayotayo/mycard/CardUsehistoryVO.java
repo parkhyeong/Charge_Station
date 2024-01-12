@@ -5,8 +5,8 @@ import java.util.Date;
 public class CardUsehistoryVO {
 	private int payment_amount;
 	private int payment_point;
-	private String charge_amount;
-	private String charge_time;
+	private float charge_amount;
+	private Double charge_time;
 	private Date charge_day;
 	private String mcard_num;
 	private String station_name;
@@ -22,16 +22,16 @@ public class CardUsehistoryVO {
 	public void setPayment_point(int payment_point) {
 		this.payment_point = payment_point;
 	}
-	public String getCharge_amount() {
+	public float getCharge_amount() {
 		return charge_amount;
 	}
-	public void setCharge_amount(String charge_amount) {
+	public void setCharge_amount(float charge_amount) {
 		this.charge_amount = charge_amount;
 	}
-	public String getCharge_time() {
+	public Double getCharge_time() {
 		return charge_time;
 	}
-	public void setCharge_time(String charge_time) {
+	public void setCharge_time(Double charge_time) {
 		this.charge_time = charge_time;
 	}
 	public Date getCharge_day() {
@@ -59,6 +59,5 @@ public class CardUsehistoryVO {
 				+ ", charge_amount=" + charge_amount + ", charge_time=" + charge_time + ", charge_day=" + charge_day
 				+ ", mcard_num=" + mcard_num + ", station_name=" + station_name + "]";
 	}
-	
 	
 }

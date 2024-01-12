@@ -250,7 +250,7 @@ session.setAttribute("c_memberid", c_memberid);
 							<li><a class="dropdown-item"
 								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
 							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/payAction.jsp">요금 결제</a></li>
+								href="/tayotayo/mycard/pointPage.jsp">포인트 조회</a></li>
 							<li><hr class="dropdown-divider" /></li>
 							<li><a class="dropdown-item" href="#">Something else
 									here</a></li>
@@ -319,7 +319,7 @@ session.setAttribute("c_memberid", c_memberid);
 							</th>
 							<th scope="col">결제금액<br>
 							</th>
-							<th scope="col">결제포인트<br>
+							<th scope="col">결제<br>포인트<br>
 							</th>
 							<th scope="col">환불</th>
 						</tr>

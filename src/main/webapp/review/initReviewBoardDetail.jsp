@@ -272,17 +272,18 @@ h2, h3 {
 				$("#postRank").text(result.r_rank);
 				$("#postWriter").text(result.r_writer);
 				$("#postTime").text(formattedPostTime);
+				$("#postStation").text(result.r_statid);
 				$("#title").val(result.r_title);
 				$("#contents").val(result.r_content);
 
 				const initialRank = parseInt(result.r_rank);
 				if (isNaN(initialRank)) {
-	                setStarRating(0);
-	                $("#postRank").val("");
-	            } else {
-	                setStarRating(initialRank);
-	                $("#postRank").val(initialRank);
-	            }
+					setStarRating(0);
+					$("#postRank").val("");
+				} else {
+					setStarRating(initialRank);
+					$("#postRank").val(initialRank);
+				}
 				getComments(rNum);
 			},
 			error : function(xhr, status, error) {
@@ -370,12 +371,15 @@ h2, h3 {
 							</div> <input type="hidden" id="postRank" name="postRank" value="0">
 						</td>
 					</tr>
-
 					<tr>
 						<th scope="row">작성자</th>
 						<td id="postWriter"></td>
 						<th scope="row">작성일</th>
 						<td id="postTime"></td>
+					</tr>
+					<tr>
+						<th scope="row">충전소 명</th>
+						<td colspan="3" id="postStation"></td>
 					</tr>
 					<tr>
 						<th scope="row">제목</th>
@@ -391,6 +395,11 @@ h2, h3 {
 			<div class="btn_area">
 				<button type="button" onclick="location.href='initReviewBoard.jsp'"
 					class="board_area button">목록으로</button>
+					<button type="button" onclick="likePost()" class="board_area button">
+					<span id="heartIcon">❤️</span>
+					좋아요
+				</button>
+				<span id="likeCount">0</span>
 				<button type="button" onclick="updatePost()"
 					class="board_area button">수정하기</button>
 				<button type="button" onclick="deletePost()"
@@ -427,8 +436,8 @@ h2, h3 {
 		var rNum = getParameterByName('r_num');
 		var starValue = parseInt($("#postRank").val());
 		if (isNaN(starValue)) {
-	        starValue = null;
-	    }
+			starValue = null;
+		}
 		$.ajax({
 			url : "updateReviewPost",
 			method : "POST",
@@ -437,7 +446,7 @@ h2, h3 {
 				r_title : title,
 				r_content : contents,
 				r_num : rNum,
-				r_rank: starValue
+				r_rank : starValue
 			},
 			success : function(result) {
 				if (result === "success") {
@@ -710,5 +719,7 @@ h2, h3 {
 	}
 
 	$(".star-rating").on("mouseover", handleStarRating);
+	
+	
 </script>
 </html>

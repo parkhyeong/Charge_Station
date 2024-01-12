@@ -7,7 +7,7 @@ public class NoticeVO {
 	private int n_num;
 	private String n_title;
 	private String n_content;
-	private Date n_date;
+	private Date n_time;
 	private String n_id;
 	private String type;
 	private String keyword;
@@ -35,11 +35,11 @@ public class NoticeVO {
 	public void setN_content(String n_content) {
 		this.n_content = n_content;
 	}
-	public Date getN_date() {
-		return n_date;
+	public Date getN_time() {
+		return n_time;
 	}
-	public void setN_date(Date n_date) {
-		this.n_date = n_date;
+	public void setN_time(Date n_time) {
+		this.n_time = n_time;
 	}
 	public String getN_id() {
 		return n_id;
@@ -62,6 +62,6 @@ public class NoticeVO {
 	@Override
 	public String toString() {
 		return "NoticeVO [n_no=" + n_no + ", n_num=" + n_num + ", n_title=" + n_title + ", n_content=" + n_content
-				+ ", n_date=" + n_date + ", n_id=" + n_id + ", type=" + type + ", keyword=" + keyword + "]";
+				+ ", n_date=" + n_time + ", n_id=" + n_id + ", type=" + type + ", keyword=" + keyword + "]";
 	}
 }

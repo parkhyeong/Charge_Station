@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	String c_memberid = "root";
-	String es_statid = "AM900008";
+String es_statid = "AM900008";
 session.setAttribute("c_memberid", c_memberid);
 session.setAttribute("es_statid", es_statid);
 %>
@@ -217,6 +217,12 @@ session.setAttribute("es_statid", es_statid);
 								</h5>
 								<textarea class="textarea" rows="10" cols="89" name="r_content"
 									required></textarea>
+								<div>
+									<h5>
+										<span class="title_span">&nbsp;</span> 사진 첨부
+									</h5>
+									<input type="file" name="r_photo">
+								</div>
 							</div>
 							<div class="btn_area">
 								<button type="button"

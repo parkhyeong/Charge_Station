@@ -2,6 +2,8 @@ package com.multi.tayotayo.review;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ReviewVO {
 	private int r_no;
 	private int r_num;
@@ -14,8 +16,8 @@ public class ReviewVO {
 	private int r_rank;
 	private String type;
 	private String keyword;
-	
-	
+	private String r_photo;
+
 	public int getR_no() {
 		return r_no;
 	}
@@ -83,11 +85,17 @@ public class ReviewVO {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+	public String getR_photo() {
+		return r_photo;
+	}
+	public void setR_photo(String r_photo) {
+		this.r_photo = r_photo;
+	}
 	@Override
 	public String toString() {
 		return "ReviewVO [r_no=" + r_no + ", r_num=" + r_num + ", r_title=" + r_title + ", r_content=" + r_content
 				+ ", r_writer=" + r_writer + ", r_like=" + r_like + ", r_time=" + r_time + ", r_statid=" + r_statid
-				+ ", r_rank=" + r_rank + ", type=" + type + ", keyword=" + keyword + "]";
+				+ ", r_rank=" + r_rank + ", type=" + type + ", keyword=" + keyword + ", r_photo=" + r_photo + "]";
 	}
 	
 }
