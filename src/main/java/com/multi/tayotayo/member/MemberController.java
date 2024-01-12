@@ -188,15 +188,35 @@ public class MemberController {
 	
 	// 아이디 중복확인 처리
 	@RequestMapping(value = "member/idConfirm", method = RequestMethod.POST)
-	public void idConfirm(HttpServletResponse response, String member_id) throws IOException {
+	@ResponseBody
+	public int idConfirm(String member_id) {
 		// @RequestParam는 요청의 특정 파라미터 값을 찾아낼 때 사용하는 어노테이션
-		memberservice.idConfirm(member_id, response); // 서비스에 있는 idOverlap 호출.
+		return memberservice.idConfirm(member_id); // 서비스에 있는 idOverlap 호출.
 	}
 
-	//닉네임 중복확인 처리
+	// 닉네임 중복확인 처리
 	@RequestMapping(value = "member/nicknameConfirm", method = RequestMethod.POST)
-	public void nicknameConfirm(HttpServletResponse response, String nickname) throws IOException {
-		memberservice.nicknameConfirm(nickname, response); 
+	@ResponseBody
+	public int nicknameConfirm(String nickname) {
+		// @RequestParam는 요청의 특정 파라미터 값을 찾아낼 때 사용하는 어노테이션
+		return memberservice.nicknameConfirm(nickname); // 서비스에 있는 idOverlap 호출.
 	}
+	
+	// 전화번호 중복확인 처리
+	@RequestMapping(value = "member/telConfirm", method = RequestMethod.POST)
+	@ResponseBody
+	public int telConfirm(String tel) {
+		// @RequestParam는 요청의 특정 파라미터 값을 찾아낼 때 사용하는 어노테이션
+		return memberservice.telConfirm(tel); // 서비스에 있는 idOverlap 호출.
+	}
+	
+	// 이메일 중복확인 처리
+	@RequestMapping(value = "member/emailConfirm", method = RequestMethod.POST)
+	@ResponseBody
+	public int emailConfirm(String email) {
+		// @RequestParam는 요청의 특정 파라미터 값을 찾아낼 때 사용하는 어노테이션
+		return memberservice.emailConfirm(email); // 서비스에 있는 idOverlap 호출.
+	}
+	
 	
 }

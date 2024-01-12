@@ -65,16 +65,27 @@ public class MemberDAO {
 		return my.selectOne("member.idConfirm", member_id);
 	}
 	
+	//비밀번호 변경시 비밀번호가 일치하는지 검사
+	public String pwConfirm(MemberVO memberVO) {
+		return my.selectOne("member.pwConfirm", memberVO);
+	}
+	
 	//닉네임검사
 	public String nicknameConfirm(String nickname) {
 		return my.selectOne("member.nicknameConfirm", nickname);
 	}
 	
-	//비밀번호검사
-	public String pwConfirm(MemberVO memberVO) {
-		return my.selectOne("member.pwConfirm", memberVO);
+	//휴대전화검사
+	public String telConfirm(String tel) {
+		return my.selectOne("member.telConfirm", tel);
 	}
-
+	
+	//이메일검사
+	public String emailConfirm(String email) {
+		return my.selectOne("member.emailConfirm", email);
+	}
+	
+	//나의 후기 게시판
 	public List<MemberVO> myreviewlist(String member_id) {
 		
 		return my.selectList("member.myreviewlist",member_id);

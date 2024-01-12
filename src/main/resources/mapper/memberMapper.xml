@@ -68,9 +68,13 @@
 	</select>
 
 	<!-- 이메일 중복 확인하기 -->
-	<select id="email" parameterType="memberVO" resultType="String">
-		SELECT
-		email FROM member WHERE email = #{email}
+	<select id="emailConfirm" parameterType="memberVO" resultType="String">
+		SELECT email FROM member WHERE email = #{email}
+	</select>
+	
+	<!-- 전화번호 중복 확인하기 -->
+	<select id="telConfirm" parameterType="memberVO" resultType="String">
+		SELECT tel FROM member WHERE tel = #{tel}
 	</select>
 
 	<!-- 비밀번호 검사 확인하기 -->

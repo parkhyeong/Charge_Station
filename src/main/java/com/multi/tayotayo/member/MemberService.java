@@ -13,7 +13,7 @@ public class MemberService {
 	MemberDAO dao;
 	
 	public int login(MemberVO memberVO) {
-		System.out.println("MeberService : longin()");
+		System.out.println("MeberService : login()");
 		return dao.count(memberVO);
 	}
 	
@@ -45,29 +45,20 @@ public class MemberService {
 		dao.delete(memberVO);
 	}
 	
-	public void idConfirm(String member_id, HttpServletResponse response) throws IOException {
+	public int idConfirm(String member_id)  {
 
 		if(dao.idConfirm(member_id) == null) {
 			//dao에서 select이 되지 않아야 true
 			//id가 없어야 true(사용 가능)
-			response.getWriter().print("1");
+			return 1;
 		}else {
 			//id가 있으면 false(중복으로 사용 불가능)
-			response.getWriter().print("0");
+			return 0;
 		}
 		
 	}
 	
-	
-	public void nicknameConfirm(String nickname, HttpServletResponse response) throws IOException {
-		if(dao.nicknameConfirm(nickname) == null) {
-			response.getWriter().print("1");
-		}else {
-			response.getWriter().print("0");
-		}
-		
-	}
-
+	//비밀번호 변경시 비밀번호 일치하는지 검사
 	public int pwConfirm(MemberVO memberVO) {
 		if(dao.pwConfirm(memberVO) == null) { //잘못된 비밀번호
 			return 0;
@@ -77,5 +68,43 @@ public class MemberService {
 		
 	}
 	
+	public int nicknameConfirm(String nickname)  {
+
+		if(dao.nicknameConfirm(nickname) == null) {
+			//dao에서 select이 되지 않아야 true
+			//id가 없어야 true(사용 가능)
+			return 1;
+		}else {
+			//id가 있으면 false(중복으로 사용 불가능)
+			return 0;
+		}
+		
+	}
+	
+	public int emailConfirm(String email)  {
+
+		if(dao.emailConfirm(email) == null) {
+			//dao에서 select이 되지 않아야 true
+			//id가 없어야 true(사용 가능)
+			return 1;
+		}else {
+			//id가 있으면 false(중복으로 사용 불가능)
+			return 0;
+		}
+		
+	}
+	
+	public int telConfirm(String tel)  {
+
+		if(dao.telConfirm(tel) == null) {
+			//dao에서 select이 되지 않아야 true
+			//id가 없어야 true(사용 가능)
+			return 1;
+		}else {
+			//id가 있으면 false(중복으로 사용 불가능)
+			return 0;
+		}
+		
+	}
 	
 }
