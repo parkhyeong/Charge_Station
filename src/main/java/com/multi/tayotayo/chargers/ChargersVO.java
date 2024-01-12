@@ -16,6 +16,16 @@ public class ChargersVO {
 	private String es_limit;	// 이용자제한 여부
 	private double es_lat;		// 위도
 	private double es_lon;		// 경도
+	private int row_no; //정렬 값 ROW_NUMBER() over(order by es_statNm)
+	
+	
+	public int getRow_no() {
+		return row_no;
+	}
+
+	public void setRow_no(int row_no) {
+		this.row_no = row_no;
+	}
 
 	public String getEs_statId() {
 		return es_statId;
@@ -143,7 +153,9 @@ public class ChargersVO {
 				+ ", es_statNm=" + es_statNm + ", es_faciL=" + es_faciL + ", es_faciS=" + es_faciS + ", es_dvcL="
 				+ es_dvcL + ", es_dvcS=" + es_dvcS + ", es_bnm=" + es_bnm + ", es_busiNm=" + es_busiNm + ", es_output="
 				+ es_output + ", es_chgerType=" + es_chgerType + ", es_limit=" + es_limit + ", es_lat=" + es_lat
-				+ ", es_lon=" + es_lon + "]";
+				+ ", es_lon=" + es_lon + ", row_no=" + row_no + "]";
 	}
+
+
 
 }
