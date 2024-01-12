@@ -129,21 +129,23 @@
         <!-- 패널 -->
         <div id="panel">
             <!-- 패널 내용은 이 부분에 넣으세요 -->
+            <h4>충전소 검색</h4>
             <div id="search-options">
                 <!-- 검색 옵션 추가 -->
-                <input type="text" id="keyword" placeholder="검색하기" value="현대"> <select
-                    class="search-input" id="charging-station-category">
+                <input type="text" id="keyword" placeholder="검색하기" value="현대"><hr> 
+                <select class="search-input" id="charging-station-category"><hr>
                     <option value="">충전소 분류</option>
                     <option value="public">공공 충전소</option>
                     <option value="private">사설 충전소</option>
-                </select> <select class="search-input" id="charging-type">
+                </select> 
+                <select class="search-input" id="charging-type"><hr>
                     <option value="">충전기 타입</option>
                     <option value="fast">급속 충전</option>
                     <option value="normal">완속 충전</option>
                 </select>
                 <!-- 검색, 초기화 버튼 -->
                 <button id="search-btn">검색하기</button>
-                <button id="reset-btn">초기화하기</button>
+                <button id="reset-btn">초기화하기</button><hr>
 
             </div>
             <!-- 토글 버튼 -->
@@ -191,6 +193,14 @@
             };
             //map 생성
             var map = new kakao.maps.Map(container, options);
+           
+            // marker img
+            
+            var imageSrcSucc = '../resources/img/blue.png'; 
+    		var imageSrcFail = '../resources/img/red.png'; 
+
+    		var markerImageSucc = new kakao.maps.MarkerImage(imageSrcSucc, new kakao.maps.Size(24, 35));
+    		var markerImageFail = new kakao.maps.MarkerImage(imageSrcFail, new kakao.maps.Size(24, 35));
 
             // 마커 클러스터러를 생성합니다
             var clusterer = new kakao.maps.MarkerClusterer({
@@ -198,11 +208,11 @@
                 averageCenter: true, // 개별 마커의 평균 위치를 사용하여 클러스터링
                 minLevel: 5
             });
-            
-            // 목록 리스트 클릭 함수
+          
+         // 목록 리스트 클릭 함수
             $(document).on('click', '#result-list a', function(event) {
-            	event.preventDefault();//현재페이지로 새로고침하지않고 지정한 기능만 구현하게 만드는 코드
-                var parentDiv = event.target.parentElement 
+                event.preventDefault(); // 현재 페이지로 새로고침하지 않고 지정한 기능만 구현하게 만드는 코드
+                var parentDiv = event.target.parentElement;
                 var es_lat = parentDiv.querySelector('.location-info').dataset.lat;
                 var es_lon = parentDiv.querySelector('.location-info').dataset.lon;
                 var es_statNm = parentDiv.querySelector('.location-info').dataset.name;
@@ -229,11 +239,41 @@
 
                 // 마커 지도에 추가
                 marker.setMap(map);
-                apiDetailRequest(es_statId)
+
+                // 마커에 인포윈도우 추가
+                var iwContent = '<div style="padding:5px;">' + es_statNm + '</div>';
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: iwContent
+                });
+
+                // 마커 클릭 이벤트
+                kakao.maps.event.addListener(marker, 'click', function () {
+                    apiDetailRequest(es_statId);
+                    $('#chargeDetailModal').modal('show');
+                });
+
+                // 마커에 마우스오버 이벤트
+                kakao.maps.event.addListener(marker, 'mouseover', function () {
+                    infowindow.open(map, marker);
+                });
+
+                // 마커에 마우스아웃 이벤트
+                kakao.maps.event.addListener(marker, 'mouseout', function () {
+                    infowindow.close();
+                });
+
                 $('#chargeDetailModal').modal('show');
-                
-               
             });
+            
+          
+            
+            $('#reset-btn').click(function() {
+                var resultlist = $('#result-list');
+                resultlist.empty();
+                location.href = "MainPage2.jsp";
+            });
+            
+            
 
             $('#search-btn').click(function() {
                 var keyword = $('#keyword').val();
@@ -300,19 +340,53 @@
                 location.href = "MainPage2.jsp";
             });
 
-            // 데이터 불러오기 및 표시
+         // 데이터 불러오기 및 표시 // 마커찍기
             $.ajax({
-                url: "select",
+                url: "select2",
                 success: function (response) {
+                    var markers = [];  // 이 부분을 수정: 매번 마커를 저장할 배열을 새로 만듭니다.
+                    
                     $(response).each(function (i, json) {
-                        var marker = new kakao.maps.Marker({
-                            position: new kakao.maps.LatLng(json.es_lat, json.es_lon),
-                        });
+                        	if (json.stat == "2") {
+		                        var marker = new kakao.maps.Marker({
+		                            position: new kakao.maps.LatLng(json.es_lat, json.es_lon),
+		                            image : markerImageSucc
+		                        });              		
+							}else{
+		                        var marker = new kakao.maps.Marker({
+		                            position: new kakao.maps.LatLng(json.es_lat, json.es_lon),
+		                            image : markerImageFail
+										
+		                        	})
+                        };
 
                         markers.push(marker);
+                        
+                        // 마커에 인포윈도우 추가
+                        var iwContent = '<div style="padding:5px;">' + json.es_statNm + '</div>';
+                        var infowindow = new kakao.maps.InfoWindow({
+                            content: iwContent
+                        });
+
+                        // 마커에 마우스오버 이벤트
+                        kakao.maps.event.addListener(marker, 'mouseover', function () {
+                            infowindow.open(map, marker);
+                        });
+
+                        // 마커에 마우스아웃 이벤트
+                        kakao.maps.event.addListener(marker, 'mouseout', function () {
+                            infowindow.close();
+                        });
+                        
+                        // 마커 클릭 이벤트
+                        kakao.maps.event.addListener(marker, 'click', function () {
+                            apiDetailRequest(json.es_statId);
+                            $('#chargeDetailModal').modal('show');
+                        });
+
                     });
 
-                    clusterer.addMarkers(markers);
+                    	clusterer.addMarkers(markers);
 
                     kakao.maps.event.addListener(clusterer, 'clusterclick', function (cluster) {
                         var content = '<div style="padding:5px;">' + cluster.getMarkers()[0].es_statNm + '</div>';
@@ -320,13 +394,13 @@
                         infoWindow.setPosition(cluster.getCenter());
                         infoWindow.open(map);
                     });
+
                 },
                 error: function (error) {
                     console.log("데이터를 불러오는 중 에러 발생: " + error);
                 }
             });
-
-            $('#bt').click(function () {
+            $('#toggle-btn').click(function () {
                 $('#panel').toggleClass('open');
                 if ($('#panel').hasClass('open')) {
                     $('#panel').animate({ width: '0%' }, 300);
@@ -334,6 +408,7 @@
                     $('#panel').animate({ width: '15%' }, 300);
                 }
             });
+            
             
             // 지도레벨 확대 LOCK
             kakao.maps.event.addListener(map, 'zoom_changed', function () {
@@ -378,7 +453,12 @@
         				var addr = statList[0].addr;				// 주소
         				var bnm = statList[0].bnm;					// 기관명
         				var busiCall = statList[0].busiCall;		// 전화번호
-        				var location = statList[0].location;		// 상세위치
+        				var location = statList[0].location;	    // 상세위치
+        				if (location !== null && location !== "null") {
+        				    location;  // location값을 그대로 사용.
+        				} else {
+        				   	location = "정보가 없습니다";
+        				}
         				var useTime = statList[0].useTime;			// 이용가능시간
         				var busiNm = statList[0].busiNm;			// 운영기관명
         				var parkingFree = statList[0].parkingFree;	// 주차료 무료
@@ -405,6 +485,8 @@
         					chgerType = 'DC콤보(완속)';
         				}
         				
+        				
+        				
         				let statMap = new Map();
         				statMap.set('1', 0);		// 통신이상
         				statMap.set('2', 0);		// 충전대기
@@ -414,6 +496,7 @@
         				statMap.set('9', 0);		// 상태미확인
         				
         				console.log(statNm);
+        				console.log(typeof location);
         				console.log(addr);
         				console.log(bnm);
         				console.log(busiCall);
@@ -424,9 +507,10 @@
         				console.log(trafficYn);
         				console.log(note);
         				console.log(output);
-        				
+
         				for (let i = 0; i < statList.length; i++) {
         					statMap.set(statList[i].stat, statMap.get(statList[i].stat) + 1);
+        					
         				}
         				
         				var modalTitle = $('#chargeDetailModalLabel');
@@ -445,6 +529,7 @@
 
         	            modalTitle.append('<h3>' + statNm + '</h3>');
         	            modalTitle.append('<h3>별점 넣는 자리</h3>');
+        	            modalTitle.append('<h4><button>상세정보</button></h4>');
 
         	            modalBody.append('<p>' + useTime + '</p>');
         	            modalBody.append('<h4>실시간 충전기 상황</h4>');
