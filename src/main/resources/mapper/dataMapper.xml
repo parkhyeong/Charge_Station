@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data">
+
+    <!-- API 데이터 저장 -->
+    <insert id="insert" parameterType="dataVO">
+         INSERT INTO status 
+         VALUES (#{chgerId}, #{statId}, #{stat})
+    </insert>
+    
+    <select id = "select" resultType="joinVO">
+    	select *
+		from 
+			(select statId, MAX(CASE WHEN stat = '2' THEN '2' ELSE '1' END) AS stat
+			from 
+				status 
+			GROUP BY 
+				statId 
+			) s
+		join e_station es on es.es_statId = s.statId
+    </select>
+   <select id="selectlist" parameterType="String" resultType="mainpageVO">
+        	select *
+			from 
+				(select statId, MAX(CASE WHEN stat = '2' THEN '2' ELSE '1' END) AS stat
+				from 
+					status 
+				GROUP BY 
+					statId 
+				) s
+			join e_station es on es.es_statId = s.statId
+      	  where es_statNm like CONCAT('%',#{keyword},'%')
+    </select>
+</mapper>

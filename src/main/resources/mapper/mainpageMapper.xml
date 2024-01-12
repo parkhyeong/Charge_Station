@@ -4,8 +4,9 @@
 
     <!-- 전체 목록 조회 -->
     <select id="select" resultType="mainpageVO">
-        select * from e_station
+        SELECT * FROM e_station
     </select>
+    
 
     <!-- 주소로 목록 조회 -->
     <select id="selectlist" parameterType="String" resultType="mainpageVO">
