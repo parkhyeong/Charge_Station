@@ -13,7 +13,6 @@ public class MemberService {
 	MemberDAO dao;
 	
 	public int login(MemberVO memberVO) {
-		System.out.println("MeberService : login()");
 		return dao.count(memberVO);
 	}
 	
@@ -43,6 +42,11 @@ public class MemberService {
 	
 	public void delete(MemberVO memberVO) {
 		dao.delete(memberVO);
+	}
+	
+	//내정보 가져오기
+	public MemberVO myselect(MemberVO memberVO) {
+		return dao.one(memberVO.getMember_id());
 	}
 	
 	public int idConfirm(String member_id)  {

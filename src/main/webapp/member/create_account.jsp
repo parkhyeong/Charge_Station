@@ -217,7 +217,7 @@ section {
 
             <!-- section -->
             <section>
-				<form action="insert" method="post" accept-charset="utf-8" onsubmit="return doAction()">
+				<form action="${pageContext.request.contextPath}/member/insert" method="post" accept-charset="utf-8" onsubmit="return doAction()">
                 <!-- ID -->
                 <div>
                     <h3 class="join_title">

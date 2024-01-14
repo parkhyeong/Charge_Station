@@ -309,7 +309,5 @@ section {
 
 	</div>
 
-	<!-- wrapper -->
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
 </body>
 </html>

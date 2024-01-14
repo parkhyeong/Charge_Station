@@ -9,6 +9,8 @@
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/resources/js/join.js"></script>
+
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
@@ -179,7 +181,7 @@ select {
 	margin: 30px 0 91px;
 }
 
-#btnJoin {
+#join1, #join2{
 	width: 100%;
 	padding: 21px 0 17px;
 	border: 0;
@@ -217,12 +219,9 @@ section {
 
 		<!-- section -->
 		<section>
-			<form action="insert" method="post" accept-charset="utf-8">
-
-
-
-				<input type="radio" name="chk_info" value="회원정보에 등록한 휴대전화로 인증">회원정보에
-				등록한 휴대전화로 인증
+			<br>
+			
+				<label>회원정보에 등록한 휴대전화로 인증</label>
 				
                 <!-- ID -->
                 <div>
@@ -265,30 +264,34 @@ section {
 						<label for="number">인증번호</label>
 					</h3>
 					<span class="box int_mobile"> <input type="number"
-						id="number" class="int" maxlength="16" placeholder="전화번호 입력"
+						id="number" class="int" maxlength="16"
 						name="tel" required>
 					</span> <span class="error_next_box"></span>
 				</div>
 
 				<!-- JOIN BTN-->
 				<div class="btn_area">
-					<button type="submit" id="btnJoin">
+					<button type="submit" id="join1">
 						<span>비밀번호 찾기</span>
 					</button>
 				</div>
-				<br> <br> <br> <input type="radio" name="chk_info"
-					value="본인확인 이메일로 인증">본인확인 이메일로 인증
+				<br> <br> <br>
 				
+				
+				
+				
+				 <label>본인확인 이메일로 인증</label>
+					
+				                
 				                <!-- ID -->
                 <div>
                     <h3 class="join_title">
                         <label for="id">아이디</label>
                     </h3>
                     <span class="box int_id">
-                        <input type="text" id="id" class="int" maxlength="20" name="member_id" required>
+                        <input type="text" id="member_id2" class="int" maxlength="20" required>
                         <span class="step_url">@tayotayo.com</span>
                     </span>
-                    <span class="error_next_box"></span>
                 </div>
                 
 				<!-- EMAIL -->
@@ -297,44 +300,43 @@ section {
 						<label for="email">이메일</label>
 					</h3>
 					<span class="box int_email"> <input type="text" id="email"
-						class="int" maxlength="100" placeholder="필수입력" name="email"
+						class="int" maxlength="100" placeholder="이메일 입력" name="email"
 						required>
-					</span> <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
+					</span>
 				</div>
 
-				<input type="hidden" id="type" name="type" value="tayotayo">
+<br> 	
+				<button type="button" id="email_auth_btn" style="padding-top: 9px; padding-bottom: 8px;">인증번호 전송</button>
+<br>
 
 				<!-- 이메일 인증번호 -->
 				<div>
 					<h3 class="join_title">
 						<label for="number">인증번호</label>
 					</h3>
-					<span class="box int_mobile"> <input type="number"
-						id="number" class="int" maxlength="16" placeholder="전화번호 입력"
-						name="tel" required>
-					</span> <span class="error_next_box"></span>
+					<span class="box int_mobile">
+					<input type="number"
+						id="email_auth_key" class="int"
+						required>
+					</span>
 				</div>
-				<br> <input class="btn btn-primary" type="button"
-					value="인증번호 전송"
-					style="
-    padding-top: 9px;
-    padding-bottom: 8px;">
-<br>
+	<br>			
+				<button type="button" id="email_auth_check_btn2" style="padding-top: 9px; padding-bottom: 8px;">인증번호 확인</button>
+	<br>			
+	<br>
 				<!-- JOIN BTN-->
 				<div class="btn_area">
-					<button type="submit" id="btnJoin">
+					<button type="button" id="join2">
 						<span>비밀번호 찾기</span>
 					</button>
 				</div>
 
 
-			</form>
 		</section>
 		<!-- section -->
 
 	</div>
 
-	<!-- wrapper -->
-	<script src="${pageContext.request.contextPath}/resources/js/main.js"></script>
+
 </body>
 </html>

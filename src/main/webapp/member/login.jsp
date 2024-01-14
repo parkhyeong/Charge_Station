@@ -246,13 +246,14 @@ img {
 <script type="text/javascript">
 
 $(function() {
+
 	$('#login').click(function(){
 		  let member_id = $('#member_id').val();
 		  let pw = $('#password').val();
 
 		  $.ajax({
 			type: "post",
-			url: "login",
+			url: "${pageContext.request.contextPath}/member/login",
 			data: {
 				member_id: member_id,
 			  	pw:pw
@@ -260,7 +261,7 @@ $(function() {
 			success: function(data){
 				if (data == 1){
 					alert('로그인 성공')
-					location.href="/tayotayo/mainpage/MainPage.jsp"
+					location.href="${pageContext.request.contextPath}/mainpage/MainPage.jsp"
 					
 				}
 				else {
@@ -349,7 +350,7 @@ function getCookie(cookieName) {
         <h1 class="text text-large">Login</h1>
       </div>
       
-      <div action="login" method="post" name="signin" class="form">
+      <div class="form">
         <div class="input-control">
           <label for="id" class="input-label" hidden>ID</label>
           <input type="text"  id="member_id" class="input-field" name="member_id" value=""placeholder="ID" required>
@@ -364,8 +365,8 @@ function getCookie(cookieName) {
         
         
         <div class="input-control">
-          <a href="#" class="text text-links">ID/PW 찾기</a>
-          <a href="create_account.jsp" class="text text-links">회원가입</a>
+          <a href="${pageContext.request.contextPath}/member/pw_find.jsp" class="text text-links">ID/PW 찾기</a>
+          <a href="${pageContext.request.contextPath}/member/create_account.jsp" class="text text-links">회원가입</a>
           <Button type="button" id ="login" class="input-submit">로그인</Button>
         </div>
         

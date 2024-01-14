@@ -40,7 +40,7 @@
 			// location.href='insert?email='+email+'&member_id='+id+'&name='+name+'&nickname='+nickname+'&tel='+mobile;
 			const form = document.createElement('form'); // form 태그 생성
 			form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
-			form.setAttribute('action', 'socialinsert'); // 전송할 url 지정
+			form.setAttribute('action', '${pageContext.request.contextPath}/member/socialinsert'); // 전송할 url 지정
 
 			let social = document.createElement('input'); //<input>
 			social.setAttribute('type', 'hidden');

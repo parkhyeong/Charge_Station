@@ -31,13 +31,12 @@ public class MemberController {
 
 		int result = memberservice.login(memberVO);
 		
-		System.out.println(result);
 		if (result == 0) {
 			//session.setAttribute("member_id", null);
 			return 0;
 		} else {
 			session.setAttribute("member_id", memberVO.getMember_id());
-			System.out.println((String)session.getAttribute("member_id"));
+			System.out.println("tayotayo 로그인성공 아아디: "+ (String)session.getAttribute("member_id"));
 			return 1;
 		}
 
@@ -70,7 +69,7 @@ public class MemberController {
 			return "member/create_account_success";
 		} catch (Exception e) {
 			System.out.println("sql 실패");
-			return "redirect:create_account.jsp";
+			return "redirect:/member/create_account.jsp";
 		}
 
 	}
@@ -86,7 +85,7 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println("sql 실패");
 		}
-		return "redirect:mypage";
+		return "redirect:/member/mypage";
 
 	}
 	
@@ -100,7 +99,7 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println("sql 실패");
 		}
-		return "redirect:mypage";
+		return "redirect:/member/mypage";
 
 	}
 	
@@ -114,7 +113,7 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println("sql 실패");
 		}
-		return "redirect:mypage";
+		return "redirect:/member/mypage";
 	}
 	
 	// 휴대전화변경
@@ -127,7 +126,7 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println("sql 실패");
 		}
-		return "redirect:mypage";
+		return "redirect:/member/mypage";
 
 	}
 	
@@ -143,12 +142,12 @@ public class MemberController {
 			return "redirect:/mainpage/MainPage.jsp";
 		} catch (Exception e) {
 			System.out.println("sql 실패");
-			return "redirect:mypage";
+			return "redirect:/member/mypage";
 		}
 
 	}
 	
-	// 비밀번호변경
+	// 마이페이지에서 비밀번호변경
 	@RequestMapping(value = "member/pwupdate", method = RequestMethod.POST)
 	public String pwupdate(String pw_1, String pw_2, MemberVO memberVO, Model model) {
 
@@ -185,6 +184,35 @@ public class MemberController {
 		return null;
 	}
 	
+	// 비밀번호찾기에서 비밀번호변경
+	@RequestMapping(value = "member/pwupdate2", method = RequestMethod.POST)
+	@ResponseBody
+	public int pwupdate2(String pw_1, String pw_2, MemberVO memberVO, Model model) {
+
+		try {
+			System.out.println(memberVO.getPw());
+			
+			if (pw_1.equals(pw_2)) {
+				System.out.println("새비밀번호 일치");
+				System.out.println(pw_1);
+				memberVO.setPw(pw_1);
+				memberservice.pwupdate(memberVO);
+				System.out.println("비밀번호 변경 성공");
+
+				return 1;
+			}
+			else {
+				System.out.println("새비밀번호 불일치");
+				return 0;
+			}
+
+		} catch (Exception e) {
+			System.out.println("sql 실패");
+			return -1;
+		}
+	
+	}
+	
 	
 	// 아이디 중복확인 처리
 	@RequestMapping(value = "member/idConfirm", method = RequestMethod.POST)
@@ -218,5 +246,18 @@ public class MemberController {
 		return memberservice.emailConfirm(email); // 서비스에 있는 idOverlap 호출.
 	}
 	
+	// 비밀번호 변경 폼으로 이동
+	@RequestMapping(value = "member/pwupdate_form", method = RequestMethod.POST)
+	public String pwupdate_form(MemberVO memberVO, Model model) {
+		System.out.println(memberVO.getMember_id());
+		try {
+			System.out.println(memberVO);
+			model.addAttribute("member",memberVO);
+			return "member/pwupdate_form";
+		} catch (Exception e) {
+			return "redirect:/mainpage/MainPage.jsp";
+		}
+
+	}
 	
 }

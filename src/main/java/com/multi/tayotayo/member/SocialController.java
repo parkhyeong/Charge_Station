@@ -107,12 +107,10 @@ public class SocialController {
 	@RequestMapping(value = "member/login_peristalsis", method = RequestMethod.POST)
 	@ResponseBody
 	public int login_peristalsis(MemberVO memberVO) {
-		System.out.println("되냐");
 		int result = memberservice.login(memberVO);
 		System.out.println(result);
 		
 		if (result == 0) {
-			System.out.println("되냐2");
 			return 0;
 		} else {
 			return 1;

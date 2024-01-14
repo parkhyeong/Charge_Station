@@ -85,6 +85,13 @@ public class MemberDAO {
 		return my.selectOne("member.emailConfirm", email);
 	}
 	
+	//나의 정보조회
+	public MemberVO myselect(String member_id) {
+		
+		return my.selectOne("member.one",member_id);
+	}
+	
+	
 	//나의 후기 게시판
 	public List<MemberVO> myreviewlist(String member_id) {
 		
