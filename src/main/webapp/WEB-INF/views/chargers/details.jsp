@@ -15,6 +15,9 @@
 		urlParams = new URLSearchParams(queryString)
 	    stationID = urlParams.get('es_statId')
 	    
+	    let reviewByTime = null
+	    let reviewByLike = null
+	    
 	    $('#chargersInfo').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
 		
 		$.ajax({
@@ -153,21 +156,89 @@
 				
 		})
 		
-		loadReviews(null)
+		reviewRecent(stationID)
 	})
 	
-	function loadReviews(type){
+	function loadReviewsByTime(stationID){
 		$.ajax({
-			url: '/review/getSearchListForChargers',
+			url: 'getSearchListForChargers',
 			data: {
 				r_statId: stationID,
-				type: type
+				type: 'time'
 			},
 			dataType: 'json',
 			success: function(json) {
-				colsole.log(json)
+				reviewList = json.reviewList
+				
+				reviewByTime = '<tr>'
+				
+				for(let i = 0; i < reviewList.length; i++) {
+					reviewByTime += '<td>' + reviewList[i].r_rank + '</td>'
+					reviewByTime += '<td>' + reviewList[i].r_like + '</td>'
+					
+					title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
+							+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
+					
+					reviewByTime += '<td>' + title + '</td>'
+					reviewByTime += '<td>' + reviewList[i].r_writer + '</td>'
+					
+					var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
+					reviewByTime += '<td>' + formattedDate + '</td>'
+					reviewByTime += '</tr>'
+				}
+				
+				$('#reviews').empty()
+				$('#reviews').append(reviewByTime)
 			}
 		})
+	}
+	
+	function loadReviewsByLike(stationID){
+		$.ajax({
+			url: 'getSearchListForChargers',
+			data: {
+				r_statId: stationID,
+				type: 'like'
+			},
+			dataType: 'json',
+			success: function(json) {
+				reviewList = json.reviewList
+				
+				reviewByLike = '<tr>'
+				
+				for(let i = 0; i < reviewList.length; i++) {
+					reviewByLike += '<td>' + reviewList[i].r_rank + '</td>'
+					reviewByLike += '<td>' + reviewList[i].r_like + '</td>'
+					
+					title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
+							+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
+					
+					reviewByLike += '<td>' + title + '</td>'
+					reviewByLike += '<td>' + reviewList[i].r_writer + '</td>'
+					
+					var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
+					reviewByLike += '<td>' + formattedDate + '</td>'
+					reviewByLike += '</tr>'
+				}
+				
+				$('#reviews').empty()
+				$('#reviews').append(reviewByLike)
+			}
+		})
+	}
+	
+	function reviewRecent(stationID) {
+		loadReviewsByTime(stationID)
+		
+		$('#reviewRecentBtn').prop("disabled", true)
+		$('#reviewLikedBtn').prop("disabled", false)
+	}
+	
+	function reviewLiked(stationID) {
+		loadReviewsByLike(stationID)
+		
+		$('#reviewRecentBtn').prop("disabled", false)
+		$('#reviewLikedBtn').prop("disabled", true)
 	}
 	
 	
@@ -261,13 +332,18 @@
 					
 				</tbody>
 			</table>
-			<button type="button" class="btn btn-outline-danger" onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">선불결제</button>
+			<button type="button" class="btn btn-outline-danger"
+			onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">선불결제</button>
 		</div>
 		<div class="container mt-5">
-			<h2>리뷰목록</h2>
-			<h6>전체 별점</h6>
-			<h6>최근 1달 별점</h6>
-			<button type="button" class="btn btn-outline-success">최근순</button> <button type="button" class="btn btn-outline-info">좋아요순</button>
+			<h2>리뷰목록 
+				<button type="button" class="btn btn-danger"
+				onClick="location.href='${pageContext.request.contextPath}/review/initReviewBoardInsert.jsp?es_statId=${param.es_statId}'">리뷰 작성하기</button>
+			</h2>
+			<h6>전체 별점 : </h6>
+			<h6>최근 1달 별점 : </h6>
+			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="reviewRecent('${param.es_statId}')">최근순</button> 
+			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="reviewLiked('${param.es_statId}')">좋아요순</button>
 			<table class="table table-striped">
 				<thead>
 						<tr>

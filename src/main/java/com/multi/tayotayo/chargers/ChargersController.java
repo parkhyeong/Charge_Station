@@ -1,20 +1,30 @@
 package com.multi.tayotayo.chargers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.tayotayo.mainpage.MainpageVO;
+import com.multi.tayotayo.review.ReviewService;
+import com.multi.tayotayo.review.ReviewVO;
 
 @Controller
 public class ChargersController {
 
 	@Autowired
-	private ChargersService chargersService;
+	ChargersService chargersService;
+	
+	@Autowired
+	ReviewService reviewService;
 
 	@Autowired
 	ChargersDAO chargersdao;
@@ -74,5 +84,25 @@ public class ChargersController {
 	@RequestMapping("chargers/details")
 	public void details(ChargersVO chargersVo, Model model) {
 		model.addAttribute("chargersVo", chargersVo);
+	}
+	
+	
+	@RequestMapping("chargers/getSearchListForChargers")
+	@ResponseBody
+	public Map<String, Object> getReviews(@RequestParam("type") String type, @RequestParam("r_statId") String r_statId) throws Exception {
+		ReviewVO reviewVO = new ReviewVO();
+		reviewVO.setType(type);
+		reviewVO.setR_statid(r_statId);
+		
+		
+		System.out.println("리뷰 에러 체크 : 컨트롤러 단계 실행");
+		List<ReviewVO> list = reviewService.getSearchListForChargers(reviewVO);
+		System.out.println("리뷰 에러 체크 : 컨트롤러 단계 실행2");
+		System.out.println(list);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("reviewList", list);
+
+		return result;
 	}
 }
