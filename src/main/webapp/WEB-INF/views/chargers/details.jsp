@@ -164,12 +164,24 @@
 		
 		// 페이지가 로딩될 때 디폴트로 최신순 정렬된 리뷰 목록을 가져오도록 처리
 		loadReviewsByTime(stationID)
+		
+		$.ajax({
+			url: 'getReviewAverages',
+			data: {
+				r_statId: stationID
+			},
+			dataType: 'json',
+			success: function(json) {
+				$('#allRank').append(json.All)
+				$('#recentRank').append(json.Recent)
+			}
+		})
 	})
 	
 	// 최신순으로 정렬된 리뷰 목록 데이터를 가져오고 입력하는 함수
 	function loadReviewsByTime(stationID){
 		$.ajax({
-			url: 'getSearchListForChargers',
+			url: 'getReviews',
 			data: {
 				r_statId: stationID,
 				type: 'time'
@@ -207,7 +219,7 @@
 	// 받은 좋아요순으로 정렬된 리뷰 목록 데이터를 가져오고 입력하는 함수
 	function loadReviewsByLike(stationID){
 		$.ajax({
-			url: 'getSearchListForChargers',
+			url: 'getReviews',
 			data: {
 				r_statId: stationID,
 				type: 'like'
@@ -357,8 +369,8 @@
 					리뷰 작성하기
 				</button>
 			</h2>
-			<h6>전체 별점 : </h6>
-			<h6>최근 1달 별점 : </h6>
+			<h6 id="allRank">전체 별점 : </h6>
+			<h6 id="recentRank">최근 1달 별점 : </h6>
 			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviewsByTime('${param.es_statId}')">최근순</button> 
 			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviewsByLike('${param.es_statId}')">좋아요순</button>
 			<table class="table table-striped">
