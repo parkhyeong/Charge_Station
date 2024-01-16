@@ -163,7 +163,7 @@
 		})
 		
 		// 페이지가 로딩될 때 디폴트로 최신순 정렬된 리뷰 목록을 가져오도록 처리
-		loadReviewsByTime(stationID)
+		loadReviews(stationID, 'recent')
 		
 		$.ajax({
 			url: 'getReviewAverages',
@@ -178,80 +178,52 @@
 		})
 	})
 	
-	// 최신순으로 정렬된 리뷰 목록 데이터를 가져오고 입력하는 함수
-	function loadReviewsByTime(stationID){
+	// 리뷰 목록 데이터를 가져오고 입력하는 함수
+	function loadReviews(stationID, type){
 		$.ajax({
 			url: 'getReviews',
 			data: {
 				r_statId: stationID,
-				type: 'time'
+				type: type
 			},
 			dataType: 'json',
 			success: function(json) {
 				reviewList = json.reviewList
 				
-				reviewByTime = '<tr>'
+				reviewHTML = '<tr>'
 				
 				for(let i = 0; i < reviewList.length; i++) {
-					reviewByTime += '<td>' + reviewList[i].r_rank + '</td>'
-					reviewByTime += '<td>' + reviewList[i].r_like + '</td>'
+					reviewHTML += '<td>' + reviewList[i].r_rank + '</td>'
+					reviewHTML += '<td>' + reviewList[i].r_like + '</td>'
 					
 					title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
 							+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
 					
-					reviewByTime += '<td>' + title + '</td>'
-					reviewByTime += '<td>' + reviewList[i].r_writer + '</td>'
+					reviewHTML += '<td>' + title + '</td>'
+					reviewHTML += '<td>' + reviewList[i].r_writer + '</td>'
 					
 					var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
-					reviewByTime += '<td>' + formattedDate + '</td>'
-					reviewByTime += '</tr>'
+					reviewHTML += '<td>' + formattedDate + '</td>'
+					reviewHTML += '</tr>'
 				}
 				
 				$('#reviews').empty()
-				$('#reviews').append(reviewByTime)
+				$('#reviews').append(reviewHTML)
 				
-				$('#reviewRecentBtn').prop("disabled", true)
-				$('#reviewLikedBtn').prop("disabled", false)
+				reviewBtnProp(type)
 			}
 		})
 	}
 	
-	// 받은 좋아요순으로 정렬된 리뷰 목록 데이터를 가져오고 입력하는 함수
-	function loadReviewsByLike(stationID){
-		$.ajax({
-			url: 'getReviews',
-			data: {
-				r_statId: stationID,
-				type: 'like'
-			},
-			dataType: 'json',
-			success: function(json) {
-				reviewList = json.reviewList
-				
-				reviewByLike = '<tr>'
-				
-				for(let i = 0; i < reviewList.length; i++) {
-					reviewByLike += '<td>' + reviewList[i].r_rank + '</td>'
-					reviewByLike += '<td>' + reviewList[i].r_like + '</td>'
-					
-					title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
-							+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
-					
-					reviewByLike += '<td>' + title + '</td>'
-					reviewByLike += '<td>' + reviewList[i].r_writer + '</td>'
-					
-					var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
-					reviewByLike += '<td>' + formattedDate + '</td>'
-					reviewByLike += '</tr>'
-				}
-				
-				$('#reviews').empty()
-				$('#reviews').append(reviewByLike)
-				
-				$('#reviewRecentBtn').prop("disabled", false)
-				$('#reviewLikedBtn').prop("disabled", true)
-			}
-		})
+	// 리뷰 정렬 버튼 조작용
+	function reviewBtnProp(type) {
+		if(type == 'recent') {
+			$('#reviewRecentBtn').prop("disabled", true)
+			$('#reviewLikedBtn').prop("disabled", false)
+		} else if(type == 'like') {
+			$('#reviewRecentBtn').prop("disabled", false)
+			$('#reviewLikedBtn').prop("disabled", true)
+		}
 	}
 	
 	
@@ -371,8 +343,8 @@
 			</h2>
 			<h6 id="allRank">전체 별점 : </h6>
 			<h6 id="recentRank">최근 1달 별점 : </h6>
-			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviewsByTime('${param.es_statId}')">최근순</button> 
-			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviewsByLike('${param.es_statId}')">좋아요순</button>
+			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviews('${param.es_statId}', 'recent')">최근순</button> 
+			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviews('${param.es_statId}', 'like')">좋아요순</button>
 			<table class="table table-striped">
 				<thead>
 						<tr>
