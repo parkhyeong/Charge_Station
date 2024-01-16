@@ -11,15 +11,15 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bc000838267eca6928506435ba12fcc9"></script>
 <script type="text/javascript">
 	$(function() {
+		// 전달받은 url에서 충전소 ID를 추출
 		queryString = window.location.search.substring(1)
 		urlParams = new URLSearchParams(queryString)
 	    stationID = urlParams.get('es_statId')
 	    
-	    let reviewByTime = null
-	    let reviewByLike = null
-	    
+	    // 페이지가 로딩중일 때 보여줄 연출 처리
 	    $('#chargersInfo').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
 		
+	    // 충전소ID를 통해 충전기 정보 획득
 		$.ajax({
 			url: 'https://apis.data.go.kr/B552584/EvCharger/getChargerInfo',
 			data: {
@@ -42,6 +42,7 @@
 				/* 충전요금 어디서 가져오지 */
 				
 				
+				// 충전소 정보 입력 시작
 				$('#statNm').append(statInfo.statNm)
 				
 				chgerType = null
@@ -91,7 +92,10 @@
 					$('#locBtn').html('사진 없음')
 				}
 				$('#location').append(loc)
+				// 충전소 정보 입력 끝
 				
+				
+				// 충전기 정보 입력 시작
 				var actives = 0;				
 				$('#chargersInfo').empty()
 				
@@ -124,8 +128,10 @@
 				}
 				
 				$('#active').append(actives + '대 / ' + statList.length + '대')
+				// 충전기 정보 입력 끝
 				
 				
+				// 지도 핀 찍어주는 파트
 				var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				mapOption = {
 					center : new kakao.maps.LatLng(statInfo.lat, statInfo.lng), // 지도의 중심좌표
@@ -156,9 +162,11 @@
 				
 		})
 		
-		reviewRecent(stationID)
+		// 페이지가 로딩될 때 디폴트로 최신순 정렬된 리뷰 목록을 가져오도록 처리
+		loadReviewsByTime(stationID)
 	})
 	
+	// 최신순으로 정렬된 리뷰 목록 데이터를 가져오고 입력하는 함수
 	function loadReviewsByTime(stationID){
 		$.ajax({
 			url: 'getSearchListForChargers',
@@ -189,10 +197,14 @@
 				
 				$('#reviews').empty()
 				$('#reviews').append(reviewByTime)
+				
+				$('#reviewRecentBtn').prop("disabled", true)
+				$('#reviewLikedBtn').prop("disabled", false)
 			}
 		})
 	}
 	
+	// 받은 좋아요순으로 정렬된 리뷰 목록 데이터를 가져오고 입력하는 함수
 	function loadReviewsByLike(stationID){
 		$.ajax({
 			url: 'getSearchListForChargers',
@@ -223,25 +235,15 @@
 				
 				$('#reviews').empty()
 				$('#reviews').append(reviewByLike)
+				
+				$('#reviewRecentBtn').prop("disabled", false)
+				$('#reviewLikedBtn').prop("disabled", true)
 			}
 		})
 	}
 	
-	function reviewRecent(stationID) {
-		loadReviewsByTime(stationID)
-		
-		$('#reviewRecentBtn').prop("disabled", true)
-		$('#reviewLikedBtn').prop("disabled", false)
-	}
 	
-	function reviewLiked(stationID) {
-		loadReviewsByLike(stationID)
-		
-		$('#reviewRecentBtn').prop("disabled", false)
-		$('#reviewLikedBtn').prop("disabled", true)
-	}
-	
-	
+	// 충전소 api에서 받아오는 시간 정보를 보기 좋은 형태로 가공
 	function dateFormat(date) {
 		if(date.length < 14) {
 			return ''
@@ -275,7 +277,11 @@
 		<h4>테스트용 페이지 이동 버튼</h4>
 		<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/chargers/details_test.jsp'">테스트페이지로 복귀</button>
 	</div>
+	
+	<!-- 메인 div 영역 -->
 	<div id="body" class="container mt-5">
+	
+		<!-- 충전소 상세정보 div 영역 -->
 		<div class="container mt-5">
 			<h2 id="statNm"></h2>
 			<table class="table">
@@ -313,37 +319,48 @@
 				</tr>
 			</table>
 		</div>
+		
+		<!-- 충전기 상태정보 div 영역 -->
 		<div class="container mt-5">
 			<h2>충전기 상태정보</h2>
 			<h6 id="active">충전 가능한 충전기 갯수 : </h6>
-			<h6>충전기 위치 : <span id="location"></span> <button id="locBtn" type="button" class="btn btn-outline-success btn-sm">사진으로 보기</button></h6>
+			<h6>충전기 위치 : 
+				<span id="location"></span> 
+				<button id="locBtn" type="button" class="btn btn-outline-success btn-sm">사진으로 보기</button>
+			</h6>
 			<table class="table table-striped">
 				<thead>
-						<tr>
-							<th scope="col">충전기ID</th>
-							<th scope="col">충전기 상태</th>
-							<th scope="col">상태갱신일시</th>
-							<th scope="col">마지막 충전시작일시</th>
-							<th scope="col">마지막 충전종료일시</th>
-							<th scope="col">충전중시작일시</th>
-						</tr>
-					</thead>
+					<tr>
+						<th scope="col">충전기ID</th>
+						<th scope="col">충전기 상태</th>
+						<th scope="col">상태갱신일시</th>
+						<th scope="col">마지막 충전시작일시</th>
+						<th scope="col">마지막 충전종료일시</th>
+						<th scope="col">충전중시작일시</th>
+					</tr>
+				</thead>
 				<tbody id="chargersInfo">
-					
+					<!-- jQuery를 통해 충전기 개별정보가 삽입됨 -->
 				</tbody>
 			</table>
 			<button type="button" class="btn btn-outline-danger"
-			onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">선불결제</button>
+				onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">
+				선불결제
+			</button>
 		</div>
+		
+		<!-- 리뷰 div 영역 -->
 		<div class="container mt-5">
 			<h2>리뷰목록 
 				<button type="button" class="btn btn-danger"
-				onClick="location.href='${pageContext.request.contextPath}/review/initReviewBoardInsert.jsp?es_statId=${param.es_statId}'">리뷰 작성하기</button>
+					onClick="location.href='${pageContext.request.contextPath}/review/initReviewBoardInsert.jsp?es_statId=${param.es_statId}'">
+					리뷰 작성하기
+				</button>
 			</h2>
 			<h6>전체 별점 : </h6>
 			<h6>최근 1달 별점 : </h6>
-			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="reviewRecent('${param.es_statId}')">최근순</button> 
-			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="reviewLiked('${param.es_statId}')">좋아요순</button>
+			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviewsByTime('${param.es_statId}')">최근순</button> 
+			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviewsByLike('${param.es_statId}')">좋아요순</button>
 			<table class="table table-striped">
 				<thead>
 						<tr>
@@ -355,11 +372,12 @@
 						</tr>
 					</thead>
 				<tbody id="reviews">
-					
+					<!-- 리뷰 목록 삽입 위치 -->
 				</tbody>
 			</table>
 		</div>
-	
+
+		<!-- 지도 div 영역 -->	
 		<div class="container mt-5" style="height: 500px;">
 			<h2>충전소 상세위치</h2>
 			<div id="map" style="width: 100%; height: 350px;"></div>
