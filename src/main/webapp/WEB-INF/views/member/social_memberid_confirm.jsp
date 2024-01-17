@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+<jsp:include page="/header.jsp"></jsp:include>
 
 <head>
 <script type="text/javascript"
@@ -76,7 +77,7 @@ img {
 }
 
 
-.container {
+.container2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -294,7 +295,6 @@ $(function() {
 
 
 function goPost(){
-	alert('${social.id}')
 	const form = document.createElement('form'); // form 태그 생성
 	form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
 	form.setAttribute('action', 'creat_account_peristalsis'); // 전송할 url 지정
@@ -323,7 +323,7 @@ function goPost(){
 </head>
 <body>
 <main class="main">
-  <div class="container">
+  <div class="container2">
     <section class="wrapper">
       <div class="heading">
         <h1 class="text text-large">${social.type} 타요타요 계정연동<br> 로그인</h1>

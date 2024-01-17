@@ -6,6 +6,8 @@
 <meta charset="EUC-KR">
 <title>비밀번호 변경</title>
 
+<jsp:include page="/header.jsp"></jsp:include>
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -72,7 +74,7 @@ $(function(){
                         <label for="id">새 비밀번호</label>
                     </h3>
                     <span class="box int_id">
-                        <input type="text" id="pw_1" class="int" name="pw_1" required>
+                        <input type="password" id="pw_1" class="int" name="pw_1" required>
                     </span>
                 </div>
                 
@@ -81,7 +83,7 @@ $(function(){
 					<h3 class="join_title">
 						<label for="name">새 비밀번호 확인</label>
 					</h3>
-					<span class="box int_name"> <input type="text" id="pw_2"
+					<span class="box int_name"> <input type="password" id="pw_2"
 						class="int" name="pw_2" required>
 					</span> 
 				</div>
@@ -93,5 +95,8 @@ $(function(){
 						<span>비밀번호 변경</span>
 					</button>
 				</div>
+		</section>
+	</div>
+	
 </body>
 </html>

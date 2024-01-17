@@ -34,7 +34,8 @@ public class SocialController {
 			String member_id_confirm = socialservice.member_id_select(socialVO);
 			session.setAttribute("member_id", member_id_confirm);
 			session.setAttribute("type", socialVO.getType());
-
+			session.setAttribute("social_id", socialVO.getId());
+			
 			System.out.println(member_id_confirm + " 세션저장 " + "로그인 성공");
 			System.out.println(socialVO.getType() + " 소셜로그인");
 
@@ -75,7 +76,8 @@ public class SocialController {
 			String member_id_confirm = socialservice.member_id_select(socialVO);
 			session.setAttribute("member_id", member_id_confirm);
 			session.setAttribute("type", socialVO.getType());
-
+			session.setAttribute("social_id", socialVO.getId());
+			
 			System.out.println(member_id_confirm + " 세션저장 " + "로그인 성공");
 			System.out.println(socialVO.getType() + " 소셜로그인");
 
@@ -92,7 +94,7 @@ public class SocialController {
 	public boolean login(MemberVO memberVO) {
 		System.out.println(memberVO);
 
-		int result = memberservice.login(memberVO);
+		int result = memberservice.slogin(memberVO);
 
 		System.out.println(result);
 		if (result == 0) { // 연동실패
@@ -107,14 +109,10 @@ public class SocialController {
 	@RequestMapping(value = "member/login_peristalsis", method = RequestMethod.POST)
 	@ResponseBody
 	public int login_peristalsis(MemberVO memberVO) {
-		int result = memberservice.login(memberVO);
+		int result = memberservice.slogin(memberVO);
 		System.out.println(result);
 		
-		if (result == 0) {
-			return 0;
-		} else {
-			return 1;
-		}
+		return result; //숫자0 이면 연동실패, 1 연동성공
 		
 	}
 	
@@ -141,4 +139,20 @@ public class SocialController {
 		model.addAttribute("social", socialVO);
 		return "member/social_memberid_confirm";
 	}
+	
+	// 소셜id 삭제(소셜 연동 취소)
+		@RequestMapping(value = "social/delete", method = RequestMethod.POST)
+		public String social_delete(SocialVO socialVO, HttpSession session) {
+
+			try {
+				socialservice.delete(socialVO);
+				session.invalidate(); //세션끊기
+				return "redirect:/mainpage/MainPage.jsp";
+			} catch (Exception e) {
+				System.out.println("sql 실패");
+				return "redirect:/member/mypage";
+			}
+			
+		}
+		
 }

@@ -7,9 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>타요타요 로그인</title>
-<!-- jquery -->
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<jsp:include page="/header.jsp"></jsp:include>
+
 <style type="text/css">
 	:root {
   --color-white: #ffffff;
@@ -70,7 +70,6 @@ button {
   text-decoration: none;
 }
 
-
 img {
   display: block;
   width: 370px;
@@ -78,8 +77,7 @@ img {
 
 }
 
-
-.container {
+.container2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,7 +87,7 @@ img {
   padding: 0 2rem;
   margin: 0 auto;
 }
-
+<!--
 .ion-logo-apple {
   font-size: 1.65rem;
   line-height: inherit;
@@ -108,7 +106,7 @@ img {
   margin-right: 0.5rem;
   color: var(--color-blue);
 }
-
+-->
 .text {
   font-family: inherit;
   line-height: inherit;
@@ -330,21 +328,17 @@ function getCookie(cookieName) {
 		var end = cookieData.indexOf(';', start);
 		if (end == -1) // 쿠키 값의 마지막 위치 인덱스 번호 설정 
 			end = cookieData.length;
-            console.log("end위치  : " + end);
 		cookieValue = cookieData.substring(start, end);
 	}
 	return unescape(cookieValue);
 }
 </script>
-
 </head>
 
 <body>
 
-
-
 <main class="main">
-  <div class="container">
+  <div class="container2">
     <section class="wrapper">
       <div class="heading">
         <h1 class="text text-large">Login</h1>

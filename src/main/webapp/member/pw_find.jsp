@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<jsp:include page="/header.jsp"></jsp:include>
 
 <!DOCTYPE html>
 <html>
@@ -220,65 +221,6 @@ section {
 		<!-- section -->
 		<section>
 			<br>
-			
-				<label>회원정보에 등록한 휴대전화로 인증</label>
-				
-                <!-- ID -->
-                <div>
-                    <h3 class="join_title">
-                        <label for="id">아이디</label>
-                    </h3>
-                    <span class="box int_id">
-                        <input type="text" id="id" class="int" maxlength="20" name="member_id" required>
-                        <span class="step_url">@tayotayo.com</span>
-                    </span>
-                    <span class="error_next_box"></span>
-                </div>
-                
-				<!-- NAME -->
-				<div>
-					<h3 class="join_title">
-						<label for="name">이름</label>
-					</h3>
-					<span class="box int_name"> <input type="text" id="name"
-						class="int" maxlength="20" name="name" required>
-					</span> <span class="error_next_box"></span>
-				</div>
-
-				<!-- MOBILE -->
-				<div>
-					<h3 class="join_title">
-						<label for="phoneNo">휴대전화</label>
-					</h3>
-					<span class="box int_mobile"> <input type="tel" id="mobile"
-						class="int" maxlength="16" placeholder="전화번호 입력" name="tel"
-						required>
-					</span> <span class="error_next_box"></span>
-				</div>
-				<br> <input class="btn btn-primary" type="button"
-					value="인증번호 전송"  style="  padding-top: 9px;
-    padding-bottom: 8px;">
-				<!-- 휴대폰 인증번호 -->
-				<div>
-					<h3 class="join_title">
-						<label for="number">인증번호</label>
-					</h3>
-					<span class="box int_mobile"> <input type="number"
-						id="number" class="int" maxlength="16"
-						name="tel" required>
-					</span> <span class="error_next_box"></span>
-				</div>
-
-				<!-- JOIN BTN-->
-				<div class="btn_area">
-					<button type="submit" id="join1">
-						<span>비밀번호 찾기</span>
-					</button>
-				</div>
-				<br> <br> <br>
-				
-				
-				
 				
 				 <label>본인확인 이메일로 인증</label>
 					
@@ -336,7 +278,7 @@ section {
 		<!-- section -->
 
 	</div>
-
+		
 
 </body>
 </html>

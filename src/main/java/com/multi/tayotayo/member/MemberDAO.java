@@ -1,22 +1,28 @@
 package com.multi.tayotayo.member;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.multi.tayotayo.review.ReplyVO;
+import com.multi.tayotayo.review.ReviewVO;
+
 
 @Repository
 public class MemberDAO {
 	@Autowired
 	SqlSessionTemplate my;
 	
-	//로그인
+	//로그인 (암호화전 지금은 사용 x)
 	public int count(MemberVO memberVO) {
 		return my.selectOne("member.count", memberVO);
 	}
 	
-	//사용자 정보 조회
+	//사용자 정보 조회, 로그인용으로도 사용
 	public MemberVO one(String member_id) {
 		MemberVO result = my.selectOne("member.one", member_id);
 		System.out.println("result 결과 전");
@@ -91,11 +97,21 @@ public class MemberDAO {
 		return my.selectOne("member.one",member_id);
 	}
 	
+	public MemberVO id_find_to_email(MemberVO memberVO) {
+		return my.selectOne("member.id_find_to_email",memberVO);
+	}
 	
-	//나의 후기 게시판
-	public List<MemberVO> myreviewlist(String member_id) {
-		
-		return my.selectList("member.myreviewlist",member_id);
+	//내댓글 개수
+	public int getSearchTotalCount(ReplyVO replyVO) {
+		return my.selectOne("member.replysearchTotalCount", replyVO);
+	}
+	
+	public List<ReplyVO> getSearchList(int start, int end, ReplyVO replyVO) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("start", start);
+		params.put("end", end);
+		params.put("replyVO", replyVO);
+		return my.selectList("member.myreplyList", params);
 	}
 	
 }

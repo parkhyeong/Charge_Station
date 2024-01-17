@@ -3,8 +3,7 @@
 <mapper namespace="member">
 
 	<select id="one" parameterType="String" resultType="memberVO">
-		SELECT
-		member_id, pw, name, tel, email, nickname FROM member WHERE
+		SELECT * FROM member WHERE
 		member_id = #{member_id}
 	</select>
 
@@ -81,15 +80,31 @@
 	<select id="pwConfirm" parameterType="memberVO"
 		resultType="String">
 		SELECT
-		pw FROM member WHERE pw = #{pw} and member_id =
-		#{member_id}
+		pw FROM member WHERE member_id = #{member_id}
 	</select>
-
-	<!-- 내 게시글 조회 -->
-	<select id="myreviewlist" parameterType="String"
-		resultType="reviewVO">
-		select * from review_board where r_writer =#{member_id}
+	
+		<!-- 비밀번호 검사 확인하기 -->
+	<select id="id_find_to_email" parameterType="memberVO"
+		resultType="memberVO">
+		SELECT * FROM member WHERE email = #{email}
 	</select>
+	
+	<select id="replysearchTotalCount" parameterType="replyVO"
+		resultType="int">
+		SELECT COUNT(*) FROM review_reply where rr_writer=#{rr_writer}
+	</select>
+	
+	<select id="myreplyList" parameterType="replyVO"
+		resultType="replyVO">
+		SELECT * FROM ( SELECT ROW_NUMBER() OVER(ORDER BY rr_num DESC) as rr_no,
+		rr_num,
+		rr_content, rr_writer, rr_time, rr_ori_review 
+		FROM
+		review_reply where rr_writer = #{replyVO.rr_writer}
+		) r2
+		WHERE r2.rr_no BETWEEN #{start} AND #{end} AND r2.rr_num IS NOT NULL
+	</select>
+	
 
 </mapper>
 
