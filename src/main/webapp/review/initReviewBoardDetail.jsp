@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +11,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <title>전기차 타요타요 - 리뷰 상세보기</title>
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
 
 <style>
 body {
@@ -234,8 +235,6 @@ h2, h3 {
 }
 </style>
 
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		function getParameterByName(name, url) {
@@ -254,92 +253,70 @@ h2, h3 {
 		var postId = getParameterByName('r_no');
 		var rNum = getParameterByName('r_num');
 
-		$.ajax({
-			url : "getReviewDetails",
-			data : {
-				r_no : postId,
-				r_num : rNum
-			},
-			dataType : "json",
-			success : function(result) {
-				console.log("게시물 상세 정보 수신:", result);
+		$
+				.ajax({
+					url : "getReviewDetails",
+					data : {
+						r_no : postId,
+						r_num : rNum
+					},
+					dataType : "json",
+					success : function(result) {
+						console.log("게시물 상세 정보 수신:", result);
 
-				var postTime = new Date(result.r_time);
-				var formattedPostTime = postTime.getFullYear() + "-"
-						+ (postTime.getMonth() + 1) + "-" + postTime.getDate();
+						var postTime = new Date(result.r_time);
+						var formattedPostTime = postTime.getFullYear() + "-"
+								+ (postTime.getMonth() + 1) + "-"
+								+ postTime.getDate();
 
-				$("#postNo").text(result.r_no);
-				$("#postRank").text(result.r_rank);
-				$("#postWriter").text(result.r_writer);
-				$("#postTime").text(formattedPostTime);
-				$("#postStation").text(result.r_statid);
-				$("#title").val(result.r_title);
-				$("#contents").val(result.r_content);
+						$("#postNo").text(result.r_no);
+						$("#postRank").text(result.r_rank);
+						$("#postWriter").text(result.r_writer);
+						$("#postTime").text(formattedPostTime);
+						$("#postStation").text(result.r_statid);
+						$("#title").val(result.r_title);
+						$("#contents").val(result.r_content);
 
-				const initialRank = parseInt(result.r_rank);
-				if (isNaN(initialRank)) {
-					setStarRating(0);
-					$("#postRank").val("");
-				} else {
-					setStarRating(initialRank);
-					$("#postRank").val(initialRank);
-				}
-				getComments(rNum);
-			},
-			error : function(xhr, status, error) {
-				console.error("Ajax 요청 중 에러 발생:", status, error);
-			}
-		});
+						var imageSrc = result.r_photo;
+						if (imageSrc && imageSrc.trim() !== "") {
+		                    $("#imageContainer")
+		                        .html("<img src='" + imageSrc + "' width='300' height='300' alt='게시글 이미지'><br>")
+		                        .show();  
+		                } else {
+		                    $("#imageContainer").hide();  
+		                }
+						const initialRank = parseInt(result.r_rank);
+						if (isNaN(initialRank)) {
+							setStarRating(0);
+							$("#postRank").val("");
+						} else {
+							setStarRating(initialRank);
+							$("#postRank").val(initialRank);
+						}
+						getComments(rNum);
+						var loggedInUser = '<%=(session.getAttribute("member_id") != null) ? session.getAttribute("member_id") : ""%>';
+						var postWriter = $("#postWriter").text().trim();
+						
+						console.log("loggedInUser:", loggedInUser);
+						console.log("postWriter:", postWriter);
+				
+						if (loggedInUser !== postWriter) {
+							$("#updateBtn").hide();
+							$("#deleteBtn").hide();
+						}
+					},
+					error : function(xhr, status, error) {
+						console.error("Ajax 요청 중 에러 발생:", status, error);
+					}
+				});
 		$(".star-rating").on("click", handleStarRating);
 	});
 </script>
 </head>
 <body>
-	<!-- Responsive navbar-->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">전기차 타요타요</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/tayotayo/index.jsp">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="managementDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">관리
-							및 조회</a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="managementDropdown">
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initMemberCardAction.jsp">회원카드 관리</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/payAction.jsp">요금 결제</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="communityDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							커뮤니티 </a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="communityDropdown">
-							<li><a class="dropdown-item" href="#">공지 게시판</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initReviewBoard.jsp">리뷰 게시판</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div id="top">
+		<jsp:include page="../header.jsp"></jsp:include>
+	</div>
 	<div class="outer">
 		<div class="wrap">
 			<div class="board_area">
@@ -387,22 +364,23 @@ h2, h3 {
 							class="input_area editable" /></td>
 					</tr>
 					<tr>
-						<td colspan="4" class="view_text"><textarea title="내용"
-								id="contents" name="contents" class="textarea editable"></textarea></td>
+						<td colspan="4" class="view_text">
+							<div id="imageContainer"></div> <textarea title="내용"
+								id="contents" name="contents" class="textarea editable"></textarea>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="btn_area">
 				<button type="button" onclick="location.href='initReviewBoard.jsp'"
 					class="board_area button">목록으로</button>
-					<button type="button" onclick="likePost()" class="board_area button">
-					<span id="heartIcon">❤️</span>
-					좋아요
+				<button type="button" onclick="likePost()" class="board_area button"
+					style="width: 130px;">
+					<span id="heartIcon">❤️</span> 좋아요 <span id="likeCount"></span>
 				</button>
-				<span id="likeCount">0</span>
-				<button type="button" onclick="updatePost()"
+				<button type="button" id="updateBtn" onclick="updatePost()"
 					class="board_area button">수정하기</button>
-				<button type="button" onclick="deletePost()"
+				<button type="button" id="deleteBtn" onclick="deletePost()"
 					class="board_area button">삭제하기</button>
 			</div>
 
@@ -428,6 +406,19 @@ h2, h3 {
 	</div>
 </div>
 <script>
+<%-- $(function () {
+    var loggedInUser = '<%=(session.getAttribute("member_id") != null) ? session.getAttribute("member_id") : ""%>';
+    var postWriter = $("#postWriter").text().trim();
+    
+    console.log("loggedInUser:", loggedInUser);
+    console.log("postWriter:", postWriter);
+
+		if (loggedInUser !== postWriter) {
+			$("#updateBtn").hide();
+			$("#deleteBtn").hide();
+		}
+
+	}); --%>
 	// 게시글 수정하기
 	function updatePost() {
 		var postId = $("#postNo").text();
@@ -502,13 +493,15 @@ h2, h3 {
 	function addComment() {
 		var rNum = getParameterByName('r_num');
 		var commentContent = $("#commentContent").val();
+		var loggedInUser = '<%= session.getAttribute("member_id") %>';
 
 		$.ajax({
 			url : "addComment",
 			method : "POST",
 			data : {
 				rr_content : commentContent,
-				rr_ori_review : rNum
+				rr_ori_review : rNum,
+				rr_writer: loggedInUser
 			},
 			success : function(result) {
 				if (result === "success") {
@@ -570,18 +563,17 @@ h2, h3 {
 												+ '</span>'
 												+ '작성 날짜 : <span class="comment-info">'
 												+ formattedCommentTime
-												+ '</span>'
-												+ ' <button class="update-comment" onclick="openEditCommentModal('
-												+ comment.rr_num
-												+ ')">수정</button>'
-												+ ' <button class="delete-comment" onclick="deleteComment('
-												+ comment.rr_num
-												+ ')">삭제</button>'
-												+ '</p>'
-												+ '<p class="comment-content">'
-												+ (comment.rr_content || "No Content")
-												+ '</p>' + '<br>';
-										$(".comment_area").append(commentHtml);
+												+ '</span>';
+												var loggedInUser = '<%=(session.getAttribute("member_id") != null) ? session.getAttribute("member_id") : ""%>';
+							                    var commentWriter = comment.rr_writer;
+
+							                    if (loggedInUser === commentWriter) {
+							                        commentHtml += ' <button class="update-comment" onclick="openEditCommentModal(' + comment.rr_num + ')">수정</button>';
+							                        commentHtml += ' <button class="delete-comment" onclick="deleteComment(' + comment.rr_num + ')">삭제</button>';
+							                    }
+
+							                    commentHtml += '</p><p class="comment-content">' + (comment.rr_content || "No Content") + '</p><br>';
+							                    $(".comment_area").append(commentHtml);
 									});
 						} else {
 							console.log("댓글 목록이 비어있습니다.");
@@ -719,7 +711,51 @@ h2, h3 {
 	}
 
 	$(".star-rating").on("mouseover", handleStarRating);
-	
-	
+
+	// 게시글 좋아요 기능
+	function likePost() {
+		var postId = $("#postNo").text();
+		var rNum = getParameterByName('r_num');
+
+		$.ajax({
+			url : "likeReviewPost",
+			method : "POST",
+			data : {
+				r_no : postId,
+				r_num : rNum
+			},
+			success : function(result) {
+				if (result === "success") {
+					alert("좋아요가 성공적으로 등록되었습니다.");
+					updateLikeCount();
+				} else {
+					alert("좋아요 등록에 실패했습니다.");
+				}
+			},
+			error : function(xhr, status, error) {
+				console.error("좋아요 등록 중 에러 발생:", status, error);
+			}
+		});
+	}
+
+	// 좋아요 수 업데이트
+	function updateLikeCount() {
+		var postId = $("#postNo").text();
+		var rNum = getParameterByName('r_num');
+
+		$.ajax({
+			url : "getLikeCount",
+			data : {
+				r_no : postId,
+				r_num : rNum
+			},
+			success : function(count) {
+				$("#likeCount").text(count);
+			},
+			error : function(xhr, status, error) {
+				console.error("좋아요 수를 가져오는 중 에러 발생:", status, error);
+			}
+		});
+	}
 </script>
 </html>

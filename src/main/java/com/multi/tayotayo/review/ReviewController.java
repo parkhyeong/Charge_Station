@@ -1,11 +1,9 @@
 package com.multi.tayotayo.review;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -66,14 +64,28 @@ public class ReviewController {
 
 	// 게시글 작성하기
 	@RequestMapping("review_board_insert")
-	public String insert(HttpServletRequest request, ReviewVO reviewVO, Model model) {
+	public String insert(HttpServletRequest request, MultipartFile file, ReviewVO reviewVO, Model model) {
 		System.out.println("insert 호출!");
 		try {
-			String sessionUserId = (String) request.getSession().getAttribute("c_memberid");
+			String sessionUserId = (String) request.getSession().getAttribute("member_id");
 			String sessionStatId = (String) request.getSession().getAttribute("es_statid");
 
 			model.addAttribute("sessionUserId", sessionUserId);
 			model.addAttribute("sessionStatId", sessionStatId);
+
+			// 사진 첨부
+			if (file != null && !file.isEmpty()) {
+				String savedName = file.getOriginalFilename();
+				String uploadPath = request.getSession().getServletContext().getRealPath("resources/upload");
+				System.out.println(uploadPath + "/" + savedName);
+
+				File target = new File(uploadPath + "/" + savedName);
+
+				file.transferTo(target);
+				reviewVO.setR_photo(savedName);
+			} else {
+				reviewVO.setR_photo("");
+			}
 
 			reviewVO.setR_statid(sessionStatId);
 
@@ -96,7 +108,14 @@ public class ReviewController {
 	@ResponseBody
 	private ReviewVO getReviewDetails(@RequestParam("r_no") int r_no, @RequestParam("r_num") int r_num)
 			throws Exception {
-		return reviewService.getReviewDetails(r_no, r_num);
+		ReviewVO reviewDetails = reviewService.getReviewDetails(r_no, r_num);
+		if (reviewDetails.getR_photo() != null && !reviewDetails.getR_photo().isEmpty()) {
+			reviewDetails.setR_photo("/tayotayo/resources/upload/" + reviewDetails.getR_photo());
+		} else {
+			reviewDetails.setR_photo(""); 
+		}
+
+		return reviewDetails;
 	}
 
 	// 게시글 수정
@@ -156,12 +175,13 @@ public class ReviewController {
 	@ResponseBody
 	private String addComment(@RequestParam("rr_ori_review") int rr_ori_review,
 
-			@RequestParam("rr_content") String rr_content) {
+			@RequestParam("rr_content") String rr_content,
+			@RequestParam("rr_writer") String rr_writer) {
 		try {
 			ReplyVO comment = new ReplyVO();
 			comment.setRr_ori_review(rr_ori_review);
-
 			comment.setRr_content(rr_content);
+			comment.setRr_writer(rr_writer);
 
 			int result = reviewService.addComment(comment);
 
@@ -232,5 +252,42 @@ public class ReviewController {
 			return "error";
 		}
 	}
+
+	// 좋아요 처리
+	@PostMapping("/likeReviewPost")
+	@ResponseBody
+	public String likeReviewPost(@RequestParam("r_no") int r_no, @RequestParam("r_num") int r_num) {
+		try {
+			int result = reviewService.likeReviewPost(r_no, r_num);
+
+			if (result > 0) {
+				return "success";
+			} else {
+				return "fail";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
+	// 좋아요 수 가져오기
+	@RequestMapping("getLikeCount")
+	@ResponseBody
+	public int getLikeCount(@RequestParam("r_no") int r_no, @RequestParam("r_num") int r_num) {
+		try {
+			return reviewService.getLikeCount(r_no, r_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	// 충전소 리뷰 계산
+		@RequestMapping("selectAvg")
+		@ResponseBody
+		public double selectSearchChargeIdAvg(@RequestParam("r_statId") String r_statId) {
+			return reviewService.selectSearchChargeIdAvg(r_statId);
+		}
 
 }

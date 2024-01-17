@@ -152,4 +152,39 @@ public class ReviewService {
 		return reviewDAO.selectSearchListForChargers(reviewVO);
 	}
 
+	// 좋아요 처리
+	public int likeReviewPost(int r_no, int r_num) throws Exception {
+		try {
+			return reviewDAO.likeReviewPost(r_no, r_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("좋아요 처리 중 오류 발생", e);
+		}
+	}
+
+	// 좋아요 수 가져오기
+	public int getLikeCount(int r_no, int r_num) throws Exception {
+		try {
+			return reviewDAO.getLikeCount(r_no, r_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("좋아요 수 가져오기 중 오류 발생", e);
+		}
+	}
+
+	// 충전소 리뷰 점수 계산
+	public double selectSearchChargeIdAvg(String r_statId) {
+		Double result = reviewDAO.selectSearchChargeIdAvg(r_statId);
+		return result != null ? result : (double) -1;
+	}
+
+	// 충전소 상세정보 페이지용, 리뷰 별점 평균 모음
+	public Map<String, Double> getRankAverages(ReviewVO reviewVo) {
+		Map<String, Double> map = new HashMap<>();
+
+		map.put("All", reviewDAO.getRankAverageAll(reviewVo));
+		map.put("Recent", reviewDAO.getRankAverageRecent(reviewVo));
+
+		return map;
+	}
 }

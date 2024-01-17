@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	String c_memberid = "root";
-String es_statid = "AM900008";
-session.setAttribute("c_memberid", c_memberid);
-session.setAttribute("es_statid", es_statid);
-%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +10,6 @@ session.setAttribute("es_statid", es_statid);
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>전기차 타요타요 - 리뷰 작성하기</title>
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
 
 <style>
 .outer {
@@ -126,51 +117,9 @@ session.setAttribute("es_statid", es_statid);
 
 </head>
 <body>
-	<!-- Responsive navbar-->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">전기차 타요타요</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/tayotayo/index.jsp">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="managementDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">관리
-							및 조회</a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="managementDropdown">
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initMemberCardAction.jsp">회원카드 관리</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/payAction.jsp">요금 결제</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="communityDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							커뮤니티 </a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="communityDropdown">
-							<li><a class="dropdown-item" href="#">공지 게시판</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initReviewBoard.jsp">리뷰 게시판</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div id="top">
+		<jsp:include page="../header.jsp"></jsp:include>
+	</div>
 
 
 	<div class="outer">
@@ -181,14 +130,17 @@ session.setAttribute("es_statid", es_statid);
 				</div>
 				<div class="board_content">
 					<form method="post" action="review_board_insert"
-						onsubmit="return validateForm()">
+						onsubmit="return validateForm()" enctype="multipart/form-data">
 						<div class="content">
 							<br>
 							<h5>
-								<span class="title_span">&nbsp;</span> 작성자 ${c_memberid}
+								<span class="title_span">&nbsp;</span> 작성자
+								<c:out value="${member_id}" />
 							</h5>
-							<input type="hidden" name="r_writer" value="${c_memberid}">
+							<input type="hidden" name="r_writer"
+								value="<c:out value='${member_id}' />">
 							<h5>
+
 								<span class="title_span">&nbsp;</span> 충전소 아이디 ${es_statid}
 							</h5>
 							<input type="hidden" name="es_statid" value="${es_statid}">
@@ -221,7 +173,11 @@ session.setAttribute("es_statid", es_statid);
 									<h5>
 										<span class="title_span">&nbsp;</span> 사진 첨부
 									</h5>
-									<input type="file" name="r_photo">
+									<input type="file" name="file">
+									<h5>
+										<span class="title_span">&nbsp;</span> 사진 미리보기
+									</h5>
+									<div id="photoPreview" style="max-width: 300px;"></div>
 								</div>
 							</div>
 							<div class="btn_area">
@@ -237,15 +193,9 @@ session.setAttribute("es_statid", es_statid);
 	</div>
 </body>
 
-<!-- Bootstrap core JS-->
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="/tayotayo/resources/js/scripts.js"></script>
-
 <script>
-	var c_memberid = "<c:out value='${c_memberid}'/>";
-	console.log(c_memberid);
+	var member_id = "<c:out value='${member_id}'/>";
+	console.log(member_id);
 	var es_statid = "<c:out value='${es_statid}'/>";
 	console.log(es_statid);
 	function validateForm() {
@@ -305,7 +255,35 @@ session.setAttribute("es_statid", es_statid);
 	    }
 
 	    starRating.addEventListener('mouseout', mouseoutStars);
+	    
+	    function previewPhoto() {
+	        var fileInput = document.querySelector('input[name="file"]');
+	        var photoPreview = document.getElementById('photoPreview');
 
+	        fileInput.addEventListener('change', function () {
+	            var file = fileInput.files[0];
+
+	            if (file) {
+	                var reader = new FileReader();
+
+	                reader.onload = function (e) {
+	                    var img = document.createElement('img');
+	                    img.src = e.target.result;
+	                    img.style.maxWidth = '100%';
+	                    photoPreview.innerHTML = '';
+	                    photoPreview.appendChild(img);
+	                };
+
+	                reader.readAsDataURL(file);
+	            } else {
+	                photoPreview.innerHTML = ''; 
+	            }
+	        });
+	    }
+
+	    document.addEventListener('DOMContentLoaded', function () {
+	        previewPhoto();
+	    });
 
 </script>
 </body>
