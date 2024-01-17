@@ -68,11 +68,13 @@ public class ReviewController {
 		System.out.println("insert 호출!");
 		try {
 			String sessionUserId = (String) request.getSession().getAttribute("member_id");
-			String sessionStatId = (String) request.getSession().getAttribute("es_statid");
+			String sessionStatId = (String) request.getSession().getAttribute("es_statId");
+			String sessionStatNm = (String) request.getSession().getAttribute("es_statNm");
 
 			model.addAttribute("sessionUserId", sessionUserId);
 			model.addAttribute("sessionStatId", sessionStatId);
-
+			model.addAttribute("sessionStatNm", sessionStatNm);
+			
 			// 사진 첨부
 			if (file != null && !file.isEmpty()) {
 				String savedName = file.getOriginalFilename();
@@ -88,6 +90,7 @@ public class ReviewController {
 			}
 
 			reviewVO.setR_statid(sessionStatId);
+			reviewVO.setR_statNm(sessionStatNm);
 
 			int result = reviewService.insert(reviewVO);
 			if (result > 0) {

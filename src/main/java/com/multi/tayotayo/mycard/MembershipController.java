@@ -120,11 +120,11 @@ public class MembershipController {
 	public Map<String, String> updateCardSubtract(@RequestParam("cardNum") String cardNum,
 			@RequestParam("chargeAmountInput") int chargeAmountInput, @RequestParam("pointInput") int pointInput,
 			@RequestParam("chargingTime") double chargingTime, @RequestParam("chargingAmount") float chargingAmount,
-			@RequestParam("statId") String statId) {
+			@RequestParam("statId") String statId, @RequestParam("es_statNm") String es_statNm) {
 		Map<String, String> result = new HashMap<>();
 		try {
 			membershipService.updateCardSubtract(cardNum, chargeAmountInput, pointInput, chargingTime, chargingAmount,
-					statId);
+					statId, es_statNm);
 
 			result.put("status", "success");
 		} catch (Exception e) {

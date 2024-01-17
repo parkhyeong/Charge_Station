@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
+<%@ page import="java.io.IOException"%>
+<%
+	HttpSession sessionPayAction = request.getSession(false);
+if (sessionPayAction == null || sessionPayAction.getAttribute("member_id") == null) {
+%>
+<script>
+	alert('로그인 후 포인트 조회가 가능합니다.');
+	window.location.href = '/tayotayo/member/login.jsp';
+</script>
+<%
+	return;
+}
+%>
 
 <!DOCTYPE html>
 <html lang="en">
