@@ -10,21 +10,22 @@
 	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
-		$(function() {
-			$('.pages').click(function() {
-				$.ajax({
-					url: "charger_table",//list1?page=9
-					data: {
-						page:$(this).text() //page : 2, page : 3지금 액션한 버튼의 text 값을 가져와라.
-					},
-					success: function(table) {
-						alert(table);
-						$('#result').html(table)
-					}
-				})
+	$(function() {
+		$('.pages').click(function() {
+			$.ajax({
+				url : "charger_table",//list1?page=9
+				data : {
+					page : $(this).text()
+				//page : 2, page : 3지금 액션한 버튼의 text 값을 가져와라.
+				},
+				success : function(table) {
+					alert(table);
+					$('#result').html(table)
+				}
 			})
 		})
-	</script>
+	})
+</script>
 <style>
 #search_div {
 	margin-bottom: 10px;
@@ -56,12 +57,14 @@
 	<div id="search_div">
 		<!-- 키워드 검색  -->
 		<div>
-			<input type="text" class="keyword" placeholder="검색하기" width="600px">
+			<input type="text" id="keyword" placeholder="검색하기" width="600px">
 		</div>
+		
 		<!-- 필터링   검색-->
+		<!-- 군/구 필터링 -->
 		<div>
 			<select class="search-input" id="location-category">
-				<option value="">군/구 선택</option>
+				<option value="%">군/구 선택</option>
 				<option value="강남구">강남구</option>
 				<option value="강동구">강동구</option>
 				<option value="강북구">강북구</option>
@@ -89,11 +92,11 @@
 				<option value="중랑구">중랑구</option>
 			</select>
 		</div>
-		<!-- 군/구 필터링 -->
 
+		<!-- 충전소 분류 필터링 -->
 		<div>
 			<select class="search-input" id="charging-station-category">
-				<option value="">충전소 분류</option>
+				<option value="%">충전소 분류</option>
 				<option value="공공시설">공공시설</option>
 				<option value="공동주택시설">공동주택시설</option>
 				<option value="관광시설">관광시설</option>
@@ -106,33 +109,23 @@
 				<option value="휴게시설">휴게시설</option>
 			</select>
 		</div>
-		<!-- 충전소 분류 필터링 -->
-
+		
+		<!-- 충전기 타입 필터링 -->
 		<div>
 			<select class="search-input" id="charging-type">
-				<option value="">충전기 타입</option>
-				<option value="급속 충전">급속 충전</option>
-				<option value="완속 충전">완속 충전</option>
+				<option value="%">충전기 타입</option>
+				<option value="급속">급속 충전</option>
+				<option value="완속">완속 충전</option>
 			</select>
 		</div>
-		<!-- 충전기 타입 필터링 -->
 
-		<!-- <div style="float: left; width: 110px">
-			<select class="search-input" id="charging-type">
-				<option value="">주차비 선택</option>
-				<option value="low_fee">00원 이하</option>
-				<option value="low_low_fee">00원 이하</option>
-			</select>
-		</div> -->
+
 
 		<!-- 검색 버튼 -->
 		<button id="search-btn">검색하기</button>
 
-	</div> <!-- search_div -->
-
-
-	<!-- 검색 결과 목록 -->
-	<div id="search_reslut"></div>
+	</div>
+	<!-- search_div --> 
 
 
 	<hr color="blue">
@@ -156,9 +149,9 @@
 						<td>${vo.row_no}</td>
 						<td>${vo.es_statNm}</td>
 						<td>${vo.es_addr}</td>
-						<td>충전기 정보</td>
-					</tr>
+						<td>충전기정보</td>
 				</c:forEach>
+
 			</tbody>
 		</table>
 	</div>
@@ -166,13 +159,10 @@
 	<!-- 페이지 번호  -->
 	<br> 전체 페이지 수 : ${pages}개
 	<%
-		int pages = (int) request.getAttribute("pages");//int(작ㅇ) <--Ogject(큰)
+		int pages = (int) request.getAttribute("pages");//int(작은) <--Ogject(큰)
 	for (int p = 1; p <= pages; p++) {
 	%>
-
 	<button style="background: pink;" class="pages"><%=p%></button>
-	&nbsp;
-
 	<%
 		}
 	%>
@@ -181,79 +171,32 @@
 
 	<!-- 스크립트 -->
 	<script>
-/*키워드 검색 검색하기 버튼 실행 -나중에 필터링과 합치기  */
-$('#search-btn').click(function() {
-	 var keyword = $('#keyword').val();
-     console.log(keyword)
-	
-	$.ajax({
-		url:"selectlist",
-		data: {
-			es_statNm: keyword,
-		},
-		success: function (response) {
-            renderSearchResults(response);
-		}
-		error: function (xhr, status, error) {
-            console.error("검색 중 오류 발생: " + error);
-        }	
-	})
-})
-$('#search-btn').click(function() {
-	var es_gungoo = $('#location-category').val();
-    var es_faciL = $('#charging-station-category').val();
-    var es_dvcL = $('#charging-type').val();
-	
-	
-	$.ajax({
-		url:
-	})
-	
-})
+		/* 필터링 검색 + 키워드 검색*/
+		$('#search-btn').click(function() {
+			var es_gungoo = $('#location-category').val();
+			var es_faciL = $('#charging-station-category').val();
+			var es_dvcL = $('#charging-type').val();
+			var keyword = $('#keyword').val();
+			console.log(keyword);
 
+			$.ajax({
+				url : "selectWithFilters",
+				data : {
+					es_gungoo : es_gungoo,
+					es_faciL : es_faciL,
+					es_dvcL : es_dvcL,
+					es_statNm : keyword
+				},
+				success : function(data) {
+					$('#result').html(data);
+				},
+				error : function(xhr, status, error) {
+					console.error("검색 중 오류 발생: " + error);
+				}
+			})//ajax
 
+		})//#search-btn
 
-$('#search-btn').click(function() {
-	var es_gungoo = $('#location-category').val();
-    var es_faciL = $('#charging-station-category').val();
-    var es_dvcL = $('#charging-type').val();
-	
-	$.ajax({
-		url:"selectlist",
-		data: {
-			es_statNm: keyword,
-		},
-		success: function (response) {
-            renderSearchResults(response);
-		}
-		error: function (xhr, status, error) {
-            console.error("검색 중 오류 발생: " + error);
-        }	
-	})
-})
-
-
-
-/* function renderSearchResults(results) {
-    var resultlist = $('#result-list');
-    resultlist.empty();
-
-    if (results.length === 0) {
-        resultlist.append('<p>No results found.</p>');
-    } else {
-        // 검색 결과를 하나씩 추가
-        for (let i = 0; i < results.length; i++) {
-            console.log(results[i]);
-            // 결과를 추가하는 부분
-            resultlist.append(
-                '<div class="result-item"><input type="hidden" class="location-info" data-lat="' + results[i].es_lat + '" data-lon="' + results[i].es_lon + '" data-name="' + results[i].es_statNm + '" data-statid="' + results[i].es_statId + '">' +
-                    '<a href="#" class="result-link text-decoration-none">' + results[i].es_statNm + '</a>' +
-                '</div>'
-            );
-        }
-    }
-}
- */
-</script>
+	</script>
 </body>
 </html>

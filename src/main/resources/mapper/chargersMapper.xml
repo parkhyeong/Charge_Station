@@ -21,70 +21,75 @@
 	</select>
 
 	<!-- 전체 목록 조회 + 페이징 -->
-	<select id="select_all_p"  parameterType="pageVO" resultType="chargersVO">
+	<select id="select_all_p" parameterType="pageVO"
+		resultType="chargersVO">
 		select *
 		from
 		(select
 		ROW_NUMBER() over(order by es_statNm) as row_no, es.*
-		from e_station
-		es) es2
+		from e_station es) es2
 		where es2.row_no between ${start} and ${end}
 	</select>
-
-	<!-- 필터링 검색 목록 조회 -->
-	<select id="select_options" parameterType="String"
-		resultType="ChargersVO">
-		select *
+	
+	<!-- 필터링 검색 + 키워드 목록 조회 row_no 가 안뜸.-->
+	<!-- <select id="selectWithFilters" parameterType="chargersVO"
+		resultType="chargersVO">
+		SELECT * 
+		from
+		(select
+		ROW_NUMBER() over(order by es_statNm) as row_no, es.*
 		from e_station
-		where es_gungoo = '강서구' and es_faciL='' and es_dvcL='급속'
+		es)
+		WHERE
+		필터 검색조건 1개라도 있으면
+		필터링 검색 choose when otherwise
+		<if test="es_gungoo != null and es_gungoo != ''"> es_gungoo LIKE #{es_gungoo} 
+			AND </if> <if test="es_faciL != null and es_faciL != ''"> es_faciL LIKE #{es_faciL} 
+			AND </if> <if test="es_dvcL != null and es_dvcL != ''"> es_dvcL LIKE #{es_dvcL} 
+			</if>
+		es_gungoo LIKE #{es_gungoo} AND es_faciL LIKE #{es_faciL} AND es_dvcL
+		LIKE #{es_dvcL}
+		
+		키워드 검색 choose when otherwise
+		<if test="es_statNm != null and es_statNm != ''">
+			AND es_statNm like
+			CONCAT('%',#{es_statNm},'%')
+		</if>
+	</select> -->
+	
+	<select id="selectWithFilters" parameterType="chargersVO"
+		resultType="chargersVO">
+		select * 
+		from
+		(select	ROW_NUMBER() over(order by es_statNm) as row_no, es.*
+		from e_station es
+		WHERE
+		<!-- 필터 검색 -->
+		es_gungoo LIKE #{es_gungoo} AND es_faciL LIKE #{es_faciL} AND es_dvcL
+		LIKE #{es_dvcL}
+		
+		<!-- 키워드 검색 choose when otherwise -->
+		<if test="es_statNm != null and es_statNm != ''">
+			AND es_statNm like
+			CONCAT('%',#{es_statNm},'%')
+		</if>
+		) es2
 	</select>
 
 
-	<!-- 키워드 검색 후 충전소명으로 목록 조회 -->
+<!-- 	 키워드 검색 후 충전소명으로 목록 조회 
 	<select id="selectlist" parameterType="String"
 		resultType="chargersVO">
 		select *
 		from e_station
 		where es_statNm like
 		CONCAT('%',#{keyword},'%')
-		<!-- where es2.row_no between ${start} and ${end} -->
-		
-	</select>
-	
-<!-- 필터링 검색 목록 조회 -->
-<select id="selectWithFilters" parameterType="chargersVO" resultType="chargersVO">
-    SELECT * FROM e_station
-    WHERE 
-    <if test="es_gungoo != null and es_gungoo != ''">
-        es_gungoo LIKE #{es_gungoo} AND
-    </if>
-    <if test="es_faciL != null and es_faciL != ''">
-        es_faciL LIKE #{es_faciL} AND
-    </if>
-    <if test="es_dvcL != null and es_dvcL != ''">
-        es_dvcL LIKE #{es_dvcL}
-    </if>
-</select>
-
-<!-- 명보님 필터링 코드? sql문 비교해보기 나중에
-
-<select id="filteringSearchList" parameterType="mainpageVO" resultType="mainpageVO">
-	    select *
-	    from e_station
-	    <where>
-	        <if test="es_gungoo != null">
-	            AND es_gungoo like CONCAT('%',#{es_gungoo},'%')
-	        </if>
-	        <if test="es_faciL != null">
-	            AND es_faciL like CONCAT('%',#{es_faciL},'%')
-	        </if>
-	        <if test="es_dvcS != null">
-	            AND es_dvcS like CONCAT('%',#{es_dvcS},'%')
-	        </if>
-	    </where>
+		where es2.row_no between ${start} and ${end}
 	</select> -->
 
-<!-- 현준님 코드 -->
+	
+
+	<!-- 현준님 코드 -->
 	<select id="station" parameterType="chargersVO"
 		resultType="chargersVO">
 		select * from e_station
