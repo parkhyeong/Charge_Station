@@ -10,13 +10,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class MembershipService {
 
-	private MembershipDAO membershipDAO;
-	private CardUsehistoryDAO cardusehistoryDAO;
+    private MembershipDAO membershipDAO;
+    private CardUsehistoryDAO cardusehistoryDAO;
+    private PointDAO pointDAO;
 
-	public MembershipService(MembershipDAO membershipDAO, CardUsehistoryDAO cardusehistoryDAO) {
-	    this.membershipDAO = membershipDAO;
-	    this.cardusehistoryDAO = cardusehistoryDAO;
-	}
+    public MembershipService(MembershipDAO membershipDAO, CardUsehistoryDAO cardusehistoryDAO, PointDAO pointDAO) {
+        this.membershipDAO = membershipDAO;
+        this.cardusehistoryDAO = cardusehistoryDAO;
+        this.pointDAO = pointDAO;
+    }
+
 	
 
 	// 멤버쉽 카드 신청
@@ -88,6 +91,9 @@ public class MembershipService {
 	        membershipDAO.updateCardSubtract(paramMap);
 
 	        cardusehistoryDAO.processPayment(paramMap);
+	        
+	        pointDAO.insertPoint(paramMap);
+	        
 	    } catch (Exception e) {
 	        e.printStackTrace(); 
 	        throw new RuntimeException("충전 실패: " + e.getMessage());

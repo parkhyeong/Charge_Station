@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	String c_memberid = "root";
-session.setAttribute("c_memberid", c_memberid);
-%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,8 +11,6 @@ session.setAttribute("c_memberid", c_memberid);
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>전기차 타요타요</title>
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
 <style>
 .subPage {
 	background-color: #f4f4f4;
@@ -208,67 +202,23 @@ session.setAttribute("c_memberid", c_memberid);
 	color: #fff;
 }
 
-.refundButton {
-	display: inline-block;
-	padding: 5px 10px;
+.refundButton button, .reviewButton button {
 	background-color: #212529;
 	color: #fff;
 	border-radius: 3px;
 	cursor: pointer;
 }
 
-.refundButton:hover {
+.refundButton button:hover, .reviewButton button:hover  {
 	background-color: #fff;
 	color: #212529;
 }
 </style>
 </head>
 <body>
-	<!-- Responsive navbar-->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">전기차 타요타요</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/tayotayo/index.jsp">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="managementDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">관리
-							및 조회</a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="managementDropdown">
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initMemberCardAction.jsp">회원카드 관리</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/pointPage.jsp">포인트 조회</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="communityDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							커뮤니티 </a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="communityDropdown">
-							<li><a class="dropdown-item" href="#">공지 게시판</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/review/initReviewBoard.jsp">리뷰 게시판</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div id="top">
+		<jsp:include page="../header.jsp"></jsp:include>
+	</div>
 	<div class="pageBox">
 		<h3 class="pageTit js-scrollmotion_up"
 			style="opacity: 1; transform: translateY(0px);">이용요금 조회</h3>
@@ -302,16 +252,19 @@ session.setAttribute("c_memberid", c_memberid);
 			<div class="contentList">
 				<table class="table01">
 					<colgroup>
+						<col style="width: 30px;">
+						<col style="width: 80px;">
+						<col style="width: 80px;">
 						<col style="width: 40px;">
-						<col style="width: 100px;">
+						<col style="width: 40px;">
 						<col style="width: 50px;">
 						<col style="width: 50px;">
-						<col style="width: 50px;">
-						<col style="width: 50px;">
-						<col style="width: 50px;">
+						<col style="width: 40px;">
+						<col style="width: 40px;">
 					</colgroup>
 					<thead>
 						<tr>
+							<th scope="col">이력</th>
 							<th scope="col">결제날짜</th>
 							<th scope="col">총전소명</th>
 							<th scope="col">충전시간</th>
@@ -322,11 +275,12 @@ session.setAttribute("c_memberid", c_memberid);
 							<th scope="col">결제<br>포인트<br>
 							</th>
 							<th scope="col">환불</th>
+							<th scope="col">리뷰</th>
 						</tr>
 					</thead>
 					<tbody id="cardInfoTableBody">
 						<tr>
-							<td colspan="7">조회된 내역이 없습니다</td>
+							<td colspan="8">조회된 내역이 없습니다</td>
 						</tr>
 					</tbody>
 				</table>
@@ -335,96 +289,180 @@ session.setAttribute("c_memberid", c_memberid);
 	</div>
 
 
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="/tayotayo/resources/js/scripts.js"></script>
-
 	<script type="text/javascript">
-		var c_memberid = "<c:out value='${c_memberid}'/>";
-		console.log(c_memberid);
+		var member_id = "<c:out value='${member_id}'/>";
+		console.log(member_id);
 
-		$(document).ready(function () {
-		    function getMembershipCardListForBillSearch() {
-		        $.ajax({
-		            type: "GET",
-		            url: "getMembershipCardListForBillSearch",
-		            success: function (data) {
-		                var dropdown = $("#card_num");
-		                dropdown.empty();
+		$(document)
+				.ready(
+						function() {
+							function getMembershipCardListForBillSearch() {
+								$
+										.ajax({
+											type : "GET",
+											url : "getMembershipCardListForBillSearch",
+											success : function(data) {
+												var dropdown = $("#card_num");
+												dropdown.empty();
 
-		                $.each(data, function (index, card) {
-		                    dropdown.append($('<option>')
-		                        .val(card.card_num)
-		                        .text(card.card_num));
-		                });
+												$
+														.each(
+																data,
+																function(index,
+																		card) {
+																	dropdown
+																			.append($(
+																					'<option>')
+																					.val(
+																							card.card_num)
+																					.text(
+																							card.card_num));
+																});
 
-		                dropdown.change(function () {
-		                    var selectedCardNum = $(this).val();
-		                    getUseCardInformation(selectedCardNum);
-		                });
+												dropdown
+														.change(function() {
+															var selectedCardNum = $(
+																	this).val();
+															getUseCardInformation(selectedCardNum);
+														});
 
-		                var selectedCardNum = $("#card_num").val();
-		                getUseCardInformation(selectedCardNum);
-		            },
-		            error: function () {
-		                console.error("Failed to load membership card list.");
-		            }
-		        });
-		    }
+												var selectedCardNum = $(
+														"#card_num").val();
+												getUseCardInformation(selectedCardNum);
+											},
+											error : function() {
+												console
+														.error("Failed to load membership card list.");
+											}
+										});
+							}
 
-		    function getUseCardInformation(selectedCardNum) {
-		        $.ajax({
-		            type: "GET",
-		            url: "getUseCardInformation",
-		            data: {
-		                card_num: selectedCardNum
-		            },
-		            success: function (cardInfoList) {
-		                console.log("카드정보:", cardInfoList);
+							function getUseCardInformation(selectedCardNum) {
+								$
+										.ajax({
+											type : "GET",
+											url : "getUseCardInformation",
+											data : {
+												card_num : selectedCardNum
+											},
+											success : function(cardInfoList) {
+												console.log("카드정보:",
+														cardInfoList);
 
-		                var tableBody = $("#cardInfoTableBody");
-		                tableBody.empty();
+												var tableBody = $("#cardInfoTableBody");
+												tableBody.empty();
 
-		                if (cardInfoList.length > 0) {
-		                    $.each(cardInfoList, function (index, cardInfo) {
-		                        var chargeDay = new Date(cardInfo.charge_day);
-		                        var formattedChargeDay = chargeDay.getFullYear() + '-' + (chargeDay.getMonth() + 1) + '-' + chargeDay.getDate();
+												if (cardInfoList.length > 0) {
+													$.each(cardInfoList, function (index, cardInfo) {
+													var chargeDay = new Date(cardInfo.charge_day);
+											        var formattedChargeDay = chargeDay.getFullYear() + '-' + (chargeDay.getMonth() + 1) + '-' + chargeDay.getDate();
 
-		                        var newRow = $("<tr>")
-		                            .append($("<td>").text(formattedChargeDay))
-		                            .append($("<td>").text(cardInfo.station_name))
-		                            .append($("<td>").text(cardInfo.charge_time))
-		                            .append($("<td>").text(cardInfo.charge_amount))
-		                            .append($("<td>").text(cardInfo.payment_amount))
-		                            .append($("<td>").text(cardInfo.payment_point));
+											        var newRow = $("<tr>")
+											        	.append($("<td>").text(cardInfo.transaction_id))
+											            .append($("<td>").text(formattedChargeDay))
+											            .append($("<td>").text(cardInfo.station_name))
+											            .append($("<td>").text(cardInfo.charge_time))
+											            .append($("<td>").text(cardInfo.charge_amount))
+											            .append($("<td>").text(cardInfo.payment_amount))
+											            .append($("<td>").text(cardInfo.payment_point));
+											        if (cardInfo.refunded === true) {
+											            newRow.append($("<td>").text("환불됨"));
+											        } else {
+											            var refundButton = $("<button>")
+											                .text("환불")
+											                .click(function() {
+											                	handleRefund(selectedCardNum, cardInfo.transaction_id, cardInfo.payment_amount, cardInfo.payment_point);
+														    });
+											            
+											            newRow.append($("<td>").append(refundButton).addClass("refundButton"));
+											        }
+											        var reviewButton = $("<button>")
+										            .text("작성")
+										            .click(function() {
+										                handleReview(selectedCardNum, cardInfo.transaction_id, cardInfo.station_name, cardInfo.charge_time, cardInfo.charge_amount, cardInfo.payment_amount, cardInfo.payment_point);
+										            });
+											            newRow.append($("<td>").append(reviewButton).addClass("reviewButton"));
 
-		                        var refundButton = $("<button>")
-		                            .text("환불")
-		                            .addClass("refundButton")
-		                            .click(function () {
-		                                alert("환불");
-		                            });
+											        tableBody.append(newRow);
+													});
+									            } else {
+									                var newRow = $("<tr>")
+									                    .append($("<td colspan='8'>").text("조회된 내역이 없습니다"));
+									                tableBody.append(newRow);
+									            }
+									        },
+									        error: function () {
+									            console.error("카드 정보를 불러오는 데 실패했습니다.");
+									        }
+									    });
+									}
 
-		                        newRow.append($("<td>").append(refundButton));
-		                        tableBody.append(newRow);
-		                    });
-		                } else {
-		                    var newRow = $("<tr>")
-		                        .append($("<td colspan='6'>").text("조회된 내역이 없습니다"));
-		                    tableBody.append(newRow);
-		                }
-		            },
-		            error: function () {
-		                console.error("카드 정보를 불러오는 데 실패했습니다.");
-		            }
-		        });
-		    }
-
-		getMembershipCardListForBillSearch();
-});
+							function handleRefund(selectedCardNum, transactionId, station_name, charge_time, charge_amount, payment_amount, payment_point) {
+							    if (confirm("정말로 환불하시겠습니까?")) {
+							        $.ajax({
+							            type: "POST",
+							            url: "refundEndpoint",
+							            data: {
+							                card_num: selectedCardNum,
+							                transactionId: transactionId,
+							                station_name: station_name,
+							                charge_time: charge_time,
+							                charge_amount: charge_amount,
+							                payment_amount: payment_amount,
+							                payment_point: payment_point
+							            },
+							            dataType: "json",
+							            success: function(response) {
+							            	console.log("환불 성공:", response);
+							                alert("환불이 성공적으로 처리되었습니다. ");
+							                getUseCardInformation(selectedCardNum);
+							            },
+							            error: function() {
+							            	console.error("환불 에러:", error);
+							                alert("환불에 실패했습니다. 다시 시도해주세요.");
+							            }
+							        });
+							    }
+							}
+							function handleReview(selectedCardNum, transactionId, stationName, chargeTime, chargeAmount, paymentAmount, paymentPoint) {
+							    var confirmReview = confirm("충전소 이용 내역에 대한 리뷰를 작성하시겠습니까?");
+							    
+							    if (confirmReview) {
+							    	 console.log("Selected Card Num: ", selectedCardNum);
+							         console.log("Transaction ID: ", transactionId);
+							         console.log("Station Name: ", stationName);
+							         console.log("Charge Time: ", chargeTime);
+							         console.log("Charge Amount: ", chargeAmount);
+							         console.log("Payment Amount: ", paymentAmount);
+							         console.log("Payment Point: ", paymentPoint);
+							        $.ajax({
+							            type: "POST",
+							            url: "PaymentReviewInsert",
+							            data: {
+							            	selectedCardNum: selectedCardNum,
+							                transactionId: transactionId,
+							                stationName: stationName,
+							                chargeTime: chargeTime,
+							                chargeAmount: chargeAmount,
+							                paymentAmount: paymentAmount,
+							                paymentPoint: paymentPoint
+							            },
+							            dataType: "json",
+							            success: function(response) {
+							                console.log("리뷰 작성이 성공적으로 처리되었습니다.", response);
+							                alert("리뷰 작성이 성공적으로 처리되었습니다.");
+							            },
+							            error: function(error) {
+							                console.error("리뷰 작성 중 에러가 발생했습니다.", error);
+							                alert("리뷰 작성 중 에러가 발생했습니다. 다시 시도해주세요.");
+							            }
+							        });
+							    } else {
+							        console.log("리뷰 작성이 취소되었습니다.");
+							    }
+							}
+							getMembershipCardListForBillSearch();
+						 });
 	</script>
 </body>
 </html>

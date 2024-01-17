@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="point">
+
+	<insert id="insertpoint" parameterType="pointVO">
+		INSERT INTO point_history
+		(card_num, card_point, used_point, point_day)
+		SELECT m.card_num,
+		m.card_point, #{pointInput}, NOW()
+		FROM membership m
+		WHERE m.card_num =
+		#{cardNum};
+	</insert>
+
+	<insert id="refundCard" parameterType="pointVO">
+		INSERT INTO point_history (card_num, card_point, used_point, point_day)
+		VALUES (
+		#{card_num},
+		(SELECT card_point FROM membership WHERE card_num = #{card_num}),
+		0,
+		NOW()
+		);
+	</insert>
+
+</mapper>

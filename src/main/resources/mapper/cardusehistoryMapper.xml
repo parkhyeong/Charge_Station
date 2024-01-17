@@ -10,7 +10,9 @@
 		cu.charge_time,
 		cu.charge_amount,
 		cu.payment_amount,
-		cu.payment_point
+		cu.payment_point,
+		cu.transaction_id,
+		cu.refunded
 		FROM
 		card_usehistory cu
 		JOIN membership mc on
@@ -38,5 +40,11 @@
         INSERT INTO card_usehistory (charge_time, charge_amount, station_name, payment_amount, payment_point, charge_day, mcard_num)
         VALUES (#{chargingTime}, #{chargingAmount}, #{statId}, #{chargeAmountInput}, #{pointInput}, NOW(), #{cardNum})
     </insert>
+    
+    <update id="refundCard">
+        UPDATE card_usehistory
+        SET refunded = true
+        WHERE transaction_id = #{transaction_id}
+    </update>
 
 </mapper>

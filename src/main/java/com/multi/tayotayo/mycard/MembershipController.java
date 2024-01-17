@@ -29,7 +29,7 @@ public class MembershipController {
 			@RequestParam("card_reason") String card_reason, @RequestParam("ship_zip_code") String shipZipCode,
 			@RequestParam("ship_addr_1") String shipAddr1, @RequestParam("ship_addr_2") String shipAddr2) {
 		try {
-			String c_memberid = (String) session.getAttribute("c_memberid");
+			String c_memberid = (String) session.getAttribute("member_id");
 			MembershipVO membership = new MembershipVO();
 			membership.setC_memberid(c_memberid);
 			membership.setCar_kind(car_kind);
@@ -63,7 +63,7 @@ public class MembershipController {
 	@ResponseBody
 	public List<MembershipVO> getMembershipList(HttpSession session) {
 		try {
-			String c_memberid = (String) session.getAttribute("c_memberid");
+			String c_memberid = (String) session.getAttribute("member_id");
 			List<MembershipVO> membershipList = membershipService.getMembershipList(c_memberid);
 			return membershipList;
 		} catch (Exception e) {
@@ -104,7 +104,7 @@ public class MembershipController {
 	@ResponseBody
 	public List<MembershipVO> getMembershipCardListForBillSearch(HttpSession session) {
 		try {
-			String c_memberid = (String) session.getAttribute("c_memberid");
+			String c_memberid = (String) session.getAttribute("member_id");
 
 			List<MembershipVO> membershipCardList = membershipService.getMembershipCardListForBillSearch(c_memberid);
 			return membershipCardList;

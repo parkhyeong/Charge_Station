@@ -10,8 +10,6 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>전기차 타요타요 - 공지게시판</title>
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
 <style>
 .outer {
 	width: 800px;
@@ -187,8 +185,6 @@ ul, li {
 }
 </style>
 
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 
@@ -359,51 +355,9 @@ ul, li {
 </script>
 </head>
 <body>
-	<!-- Responsive navbar-->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">전기차 타요타요</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/tayotayo/index.jsp">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="managementDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">관리
-							및 조회</a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="managementDropdown">
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initMemberCardAction.jsp">회원카드 관리</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/payAction.jsp">요금 결제</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="communityDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							커뮤니티 </a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="communityDropdown">
-							<li><a class="dropdown-item" href="/tayotayo/notice/initNoticeBoard.jsp">공지 게시판</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/review/initReviewBoard.jsp">리뷰 게시판</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div id="top">
+		<jsp:include page="../header.jsp"></jsp:include>
+	</div>
 
 	<div class="outer">
 		<div class="wrap">
@@ -437,10 +391,5 @@ ul, li {
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="/tayotayo/resources/js/scripts.js"></script>
 </body>
 </html>

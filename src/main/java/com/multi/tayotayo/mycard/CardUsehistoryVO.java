@@ -10,6 +10,10 @@ public class CardUsehistoryVO {
 	private Date charge_day;
 	private String mcard_num;
 	private String station_name;
+	private boolean refunded;
+	private Long transaction_id;
+	
+	
 	public int getPayment_amount() {
 		return payment_amount;
 	}
@@ -53,11 +57,25 @@ public class CardUsehistoryVO {
 	public void setStation_name(String station_name) {
 		this.station_name = station_name;
 	}
+	
+	public boolean isRefunded() {
+		return refunded;
+	}
+	public void setRefunded(boolean refunded) {
+		this.refunded = refunded;
+	}
+	
+	public Long getTransaction_id() {
+		return transaction_id;
+	}
+	public void setTransaction_id(Long transaction_id) {
+		this.transaction_id = transaction_id;
+	}
 	@Override
 	public String toString() {
 		return "CardUsehistoryVO [payment_amount=" + payment_amount + ", payment_point=" + payment_point
 				+ ", charge_amount=" + charge_amount + ", charge_time=" + charge_time + ", charge_day=" + charge_day
-				+ ", mcard_num=" + mcard_num + ", station_name=" + station_name + "]";
+				+ ", mcard_num=" + mcard_num + ", station_name=" + station_name + ", refunded=" + refunded
+				+ ", transaction_id=" + transaction_id + "]";
 	}
-	
 }
