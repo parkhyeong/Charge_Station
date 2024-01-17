@@ -24,4 +24,8 @@ public class CardUsehistoryDAO {
 	public void processPayment(Map<String, Object> paramMap) {
         my.insert("cardusehistory.processPayment", paramMap);
     }
+	
+	public void refundCard(String card_num, Long transactionId) {
+		 my.update("cardusehistory.refundCard", transactionId);
+	}
 }

@@ -4,11 +4,11 @@
 	<insert id="create" parameterType="reviewVO">
 		INSERT INTO review_board
 		(r_title, r_content, r_writer, r_like, r_time,
-		r_rank, r_statid)
+		r_rank, r_statid, r_photo)
 		VALUES
 		(#{r_title}, #{r_content}, #{r_writer}, #{r_like}, now(),
 		#{r_rank},
-		#{r_statid})
+		#{r_statid}, #{r_photo})
 	</insert>
 
 	<select id="list" resultType="reviewVO" parameterType="map">
@@ -62,8 +62,7 @@
 		WHERE r2.r_no BETWEEN #{start} AND #{end} AND r2.r_num IS NOT NULL
 	</select>
 
-	<!-- ) r2 WHERE r2.r_no BETWEEN #{start} AND #{end} AND r2.r_num IS NOT 
-		NULL -->
+
 
 	<select id="searchTotalCount" parameterType="reviewVO"
 		resultType="int">
@@ -90,7 +89,7 @@
 		ROW_NUMBER() OVER(ORDER BY r_num DESC)
 		as r_no,
 		r_num, r_statid, r_title, r_content, r_writer, r_like, r_time,
-		r_rank
+		r_rank, r_photo
 		FROM
 		review_board
 		) r
@@ -128,9 +127,54 @@
 		r_title, r_statid, r_content, r_writer, r_like, r_time, r_rank
 		FROM
 		review_board
-		where r_statid = #{reviewVO.r_statid}
+		where r_statid = #{r_statid}
 		) r2
 		WHERE r2.r_no BETWEEN 1 AND 5 AND
 		r2.r_num IS NOT NULL
 	</select>
+	<!-- 좋아요 처리 -->
+    <insert id="likeReviewPost" parameterType="map">
+        UPDATE review_board
+        SET r_like = r_like + 1
+        WHERE r_num = #{r_num}
+    </insert>
+
+    <!-- 좋아요 수 가져오기 -->
+    <select id="getLikeCount" parameterType="map" resultType="int">
+        SELECT r_like
+        FROM review_board
+        WHERE r_num = #{r_num}
+    </select>
+    
+    <!-- 충전소 이용 내역에서 리뷰 작성 -->
+     <insert id="insertPaymentReview" parameterType="reviewVO">
+        INSERT INTO review_board (r_title, r_writer, r_statid, r_content, r_time, r_rank, r_like)
+        VALUES (#{r_title}, #{r_writer}, #{r_statid}, #{r_content}, now(), '5', 0)
+    </insert>
+    
+    <!-- 리뷰 평균 계산 데모 -->
+	<select id="chargeIdAvg" parameterType="String" resultType="double">
+		select 
+		round(avg(r_rank), 1) as avg
+		from review_board 
+		where r_statId LIKE CONCAT('%', #{r_statid}, '%')
+	</select>
+	
+	<!-- 충전소 상세정보 페이지용, 리뷰 별점 평균(전체 기간) -->
+	<select id="rankAverageAll" parameterType="reviewVO" resultType="double">
+        SELECT AVG(r_rank) AS average
+        FROM review_board
+        where r_statid = #{r_statid}
+    </select>
+    
+	<!-- 충전소 상세정보 페이지용, 리뷰 별점 평균(최근 1달) -->
+	<select id="rankAverageRecent" parameterType="reviewVO" resultType="double">
+        SELECT AVG(r_rank) AS average
+        FROM review_board
+        where r_statid = #{r_statid}
+        	<![CDATA[
+        	AND r_time >= DATE_SUB(NOW(), INTERVAL 1 MONTH)
+			AND r_time <= NOW()
+			]]>
+    </select>
 </mapper>

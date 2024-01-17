@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	String c_memberid = "root";
-session.setAttribute("c_memberid", c_memberid);
-%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +12,6 @@ session.setAttribute("c_memberid", c_memberid);
 <meta name="author" content="" />
 <title>전기차 타요타요 - 회원카드 조회</title>
 <!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
 <style>
 .subPage {
 	background-color: #f4f4f4;
@@ -233,51 +228,9 @@ session.setAttribute("c_memberid", c_memberid);
 
 </head>
 <body>
-	<!-- Responsive navbar-->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
-			<a class="navbar-brand" href="#">전기차 타요타요</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/tayotayo/index.jsp">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="managementDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">관리
-							및 조회</a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="managementDropdown">
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initMemberCardAction.jsp">회원카드 관리</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/initBillSeachAction.jsp">충전요금 조회</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/mycard/payAction.jsp">요금 결제</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="#">Something else
-									here</a></li>
-						</ul></li>
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" id="communityDropdown" href="#"
-						role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							커뮤니티 </a>
-						<ul class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="communityDropdown">
-							<li><a class="dropdown-item" href="#">공지 게시판</a></li>
-							<li><a class="dropdown-item"
-								href="/tayotayo/review/initReviewBoard.jsp">리뷰 게시판</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div id="top">
+		<jsp:include page="../header.jsp"></jsp:include>
+	</div>
 
 	<div class="subPage" id="subPage">
 		<div class="pageBox">
@@ -384,20 +337,13 @@ session.setAttribute("c_memberid", c_memberid);
 		</div>
 	</div>
 
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- jQuery -->
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<!-- iamport.payment.js -->
 	<script type="text/javascript"
 		src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 
-	<!-- Core theme JS-->
-	<script src="/tayotayo/resources/js/scripts.js"></script>
 	<script>
-	var c_memberid = "<c:out value='${c_memberid}'/>";
-	console.log(c_memberid);
+	var member_id = "<c:out value='${member_id}'/>";
+	console.log(member_id);
 	<%-- function checkLogin() {
         var loggedIn = '<%=session.getAttribute("c_memberId") != null%>
 		';
@@ -407,7 +353,7 @@ session.setAttribute("c_memberid", c_memberid);
 		} --%>
 		// 멤버쉽 카드 리스트 불러오기
 		function getMembershipList() {
-			var c_memberid = "<c:out value='${c_memberid}'/>";
+			var c_memberid = "<c:out value='${member_id}'/>";
 			$.ajax({
 				type : "GET",
 				url : "getMembershipList",

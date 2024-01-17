@@ -73,4 +73,12 @@
 		SELECT
 		card_balance, card_point FROM membership WHERE card_num = #{cardNum}
 	</select>
+	
+	<!-- 멤버십 카드 환불 처리 -->
+    <update id="refundCard">
+        UPDATE membership
+        SET card_balance = card_balance + #{payment_amount},
+            card_point = card_point + #{payment_point}
+        WHERE card_num = #{card_num};
+    </update>
 </mapper>

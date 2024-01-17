@@ -2,8 +2,6 @@ package com.multi.tayotayo.review;
 
 import java.util.Date;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class ReviewVO {
 	private int r_no;
 	private int r_num;
