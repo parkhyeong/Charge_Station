@@ -146,6 +146,8 @@
                 <!-- 검색, 초기화 버튼 -->
                 <button id="search-btn">검색하기</button>
                 <button id="reset-btn">초기화하기</button><hr>
+               <button id="submit-my-btn-distance">충전소 추천하기</button><hr>
+            
 
             </div>
             <!-- 토글 버튼 -->
@@ -208,7 +210,62 @@
                 averageCenter: true, // 개별 마커의 평균 위치를 사용하여 클러스터링
                 minLevel: 5
             });
-          
+            
+            // 사용자 위치 변수
+            var userLat;
+            var userLon;
+            
+         // page 로딩 시 시작
+            $.ajax({
+                url: "select2",
+                success: function (response) {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            function (position) {
+                                var userLat = position.coords.latitude; // 위도
+                                var userLon = position.coords.longitude; // 경도
+                                console.log(userLat);
+                                console.log(userLon);
+
+                                // 사용자 위치에 마커 찍기
+                                var userMarker = new kakao.maps.Marker({
+                                    position: new kakao.maps.LatLng(userLat, userLon),
+                                    image: markerImageSucc
+                                });
+
+                                // 페이지 이동
+                                map.panTo(new kakao.maps.LatLng(userLat, userLon));
+
+                                // 지도에 마커 추가
+                                userMarker.setMap(map);
+                            },
+                            function (error) {
+                                // 위치를 가져오는 데 문제가 있는 경우
+                                console.error(`위치 정보를 가져오는 데 실패했습니다. 오류: ${error.message}`);
+
+                                // 사용자 위치에 마커 찍기
+                                var userMarker = new kakao.maps.Marker({
+                                    position: new kakao.maps.LatLng(37.547733817408, 127.08016373868),
+                                    image: markerImageSucc
+                                });
+
+                                // 페이지 이동
+                                map.panTo(new kakao.maps.LatLng(37.547733817408, 127.08016373868));
+
+                                // 지도에 마커 추가
+                                userMarker.setMap(map);
+                            }
+                        );
+                    } else {
+                        // Geolocation API를 사용할 수 없는 경우
+                        console.error('브라우저에서 Geolocation API를 지원하지 않습니다.');
+                    }
+                }
+            });
+
+
+
+
          // 목록 리스트 클릭 함수
             $(document).on('click', '#result-list a', function(event) {
                 event.preventDefault(); // 현재 페이지로 새로고침하지 않고 지정한 기능만 구현하게 만드는 코드
@@ -337,14 +394,14 @@
             $('#reset-btn').click(function() {
                 var resultlist = $('#result-list');
                 resultlist.empty();
-                location.href = "MainPage2.jsp";
+                location.href = "MainPage.jsp";
             });
 
          // 데이터 불러오기 및 표시 // 마커찍기
             $.ajax({
                 url: "select2",
                 success: function (response) {
-                    var markers = [];  // 이 부분을 수정: 매번 마커를 저장할 배열을 새로 만듭니다.
+                    var markers = []; 
                     
                     $(response).each(function (i, json) {
                         	if (json.stat == "2") {
@@ -410,7 +467,7 @@
             });
             
             
-            // 지도레벨 확대 LOCK
+          /*   // 지도레벨 확대 LOCK
             kakao.maps.event.addListener(map, 'zoom_changed', function () {
                 var currentLevel = map.getLevel();
                 if (currentLevel > 5) {
@@ -423,7 +480,46 @@
                 if (currentLevel > 5) {
                     map.setLevel(5);
                 }
-            });
+            });  */
+            
+         
+		        
+		        
+		     // 내 주변 검색(1km)
+   				$('#submit-my-btn-distance').click(function() {
+					
+					$.ajax({
+						url: "myLocationFindRecommand",
+						data: {
+							es_lat: userLat,
+							es_lon: userLon
+						},
+						success: function(response) {
+							    console.log("Server response:", response);
+							var resultDiv = $('result-list');
+
+				            // 이전 검색 결과 초기화
+				            resultDiv.html('');
+
+				            // 검색 결과를 하나씩 추가
+				            for (let i = 0; i < response.length; i++) {
+				                console.log(response[i]);
+				                // 결과를 추가하는 부분
+				                resultDiv.append(
+				                    '<div class="result-item"><input type="hidden" class="location-info" data-lat="' + response[i].es_lat + '" data-lon="' + response[i].es_lon + '" data-name="' + response[i].es_statNm + '" data-statid="' + response[i].es_statId + '" data-stat="' + response[i].stat + '">' +
+				                    '<a href="#" class="result-link text-decoration-none">' + response[i].es_statNm + '</a>' +
+				                   	response[i].distance + 'km' +
+				                    '</div>'
+				                );
+				            }//for
+
+						}//success
+					})//ajax
+					
+				})//submit-my-btn-distance
+		
+		  
+		
             
             //API데이터 불러오기
             function apiDetailRequest(es_statId) {
