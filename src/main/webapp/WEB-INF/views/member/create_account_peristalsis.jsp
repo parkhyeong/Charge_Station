@@ -12,6 +12,8 @@
 <meta charset="UTF-8">
 <title>타요타요 회원가입</title>
 
+<jsp:include page="/header.jsp"></jsp:include>
+
 <style type="text/css">
 html {
     height: 100%;

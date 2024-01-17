@@ -7,9 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>타요타요 로그인</title>
-<!-- jquery -->
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+<jsp:include page="/header.jsp"></jsp:include>
+
 <style type="text/css">
 	:root {
   --color-white: #ffffff;
@@ -70,7 +70,6 @@ button {
   text-decoration: none;
 }
 
-
 img {
   display: block;
   width: 370px;
@@ -78,8 +77,7 @@ img {
 
 }
 
-
-.container {
+.container2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,7 +87,7 @@ img {
   padding: 0 2rem;
   margin: 0 auto;
 }
-
+<!--
 .ion-logo-apple {
   font-size: 1.65rem;
   line-height: inherit;
@@ -108,7 +106,7 @@ img {
   margin-right: 0.5rem;
   color: var(--color-blue);
 }
-
+-->
 .text {
   font-family: inherit;
   line-height: inherit;
@@ -246,13 +244,14 @@ img {
 <script type="text/javascript">
 
 $(function() {
+
 	$('#login').click(function(){
 		  let member_id = $('#member_id').val();
 		  let pw = $('#password').val();
 
 		  $.ajax({
 			type: "post",
-			url: "login",
+			url: "${pageContext.request.contextPath}/member/login",
 			data: {
 				member_id: member_id,
 			  	pw:pw
@@ -260,7 +259,8 @@ $(function() {
 			success: function(data){
 				if (data == 1){
 					alert('로그인 성공')
-					location.href="/tayotayo/mainpage/MainPage.jsp"
+					location.href="${pageContext.request.contextPath}/mainpage/MainPage.jsp"
+					
 				}
 				else {
 					alert('아이디 또는 비밀번호가 틀렸습니다.')
@@ -274,33 +274,93 @@ $(function() {
 	})
 })//$
 
-</script>
+$(document).ready(function(){
+	// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+    var idkey = getCookie("idkey");
+    $("#member_id").val(idkey); 
+     
+    // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+    if($("#member_id").val() != ""){ 
+        $("#checkId").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+    }
+     
+    $("#checkId").change(function(){ // 체크박스에 변화가 있다면,
+        if($("#checkId").is(":checked")){ // ID 저장하기 체크했을 때,
+            setCookie("idkey", $("#id").val(), 7); // 7일 동안 쿠키 보관
+        }else{ // ID 저장하기 체크 해제 시,
+            deleteCookie("idkey");
+        }
+    });
+     
+    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+    $("#member_id").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+        if($("#checkId").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+            setCookie("idkey", $("#member_id").val(), 7); // 7일 동안 쿠키 보관
+        }
+    });
+});
 
+// 쿠키 저장하기 
+function setCookie(cookieName, value, exdays) {
+	var exdate = new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var cookieValue = escape(value)
+			+ ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+	document.cookie = cookieName + "=" + cookieValue;
+}
+
+// 쿠키 삭제
+function deleteCookie(cookieName) {
+	var expireDate = new Date();
+	expireDate.setDate(expireDate.getDate() - 1);
+	document.cookie = cookieName + "= " + "; expires="
+			+ expireDate.toGMTString();
+}
+ 
+// 쿠키 가져오기
+function getCookie(cookieName) {
+	cookieName = cookieName + '=';
+	var cookieData = document.cookie;
+	var start = cookieData.indexOf(cookieName);
+	var cookieValue = '';
+	if (start != -1) { // 쿠키가 존재하면
+		start += cookieName.length;
+		var end = cookieData.indexOf(';', start);
+		if (end == -1) // 쿠키 값의 마지막 위치 인덱스 번호 설정 
+			end = cookieData.length;
+		cookieValue = cookieData.substring(start, end);
+	}
+	return unescape(cookieValue);
+}
+</script>
 </head>
 
 <body>
 
-
-
 <main class="main">
-  <div class="container">
+  <div class="container2">
     <section class="wrapper">
       <div class="heading">
         <h1 class="text text-large">Login</h1>
       </div>
       
-      <div action="login" method="post" name="signin" class="form">
+      <div class="form">
         <div class="input-control">
           <label for="id" class="input-label" hidden>ID</label>
-          <input type="text"  id="member_id" class="input-field" name="member_id" placeholder="ID" required>
+          <input type="text"  id="member_id" class="input-field" name="member_id" value=""placeholder="ID" required>
         </div>
         <div class="input-control">
           <label for="password" class="input-label" hidden>Password</label>
-          <input type="password"id="password" class="input-field" name="pw" placeholder="Password" required>
+          <input type="password"id="password" class="input-field" name="pw" placeholder="Password" value="" required>
         </div>
+        
+        <input type="checkbox" class="save_id" name="checkId" id="checkId">
+		<label for="saveId">아이디 저장</label>
+        
+        
         <div class="input-control">
-          <a href="#" class="text text-links">ID/PW 찾기</a>
-          <a href="create_account.jsp" class="text text-links">회원가입</a>
+          <a href="${pageContext.request.contextPath}/member/pw_find.jsp" class="text text-links">ID/PW 찾기</a>
+          <a href="${pageContext.request.contextPath}/member/create_account.jsp" class="text text-links">회원가입</a>
           <Button type="button" id ="login" class="input-submit">로그인</Button>
         </div>
         

@@ -20,4 +20,8 @@
 	<update id="member_id_update" parameterType="socialVO">
 		UPDATE social SET member_id = #{member_id} WHERE id = #{id}
 	</update>
+	
+	<delete id="delete" parameterType="socialVO">
+		DELETE FROM social WHERE id = #{id}
+	</delete>
 </mapper>

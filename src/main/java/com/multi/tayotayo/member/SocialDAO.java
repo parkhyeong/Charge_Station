@@ -28,4 +28,8 @@ public class SocialDAO {
 	public void member_id_update(SocialVO socialVO) {
 		my.update("social.member_id_update", socialVO);
 	}
+
+	public void delete(SocialVO socialVO) {
+		my.delete("social.delete", socialVO);
+	}
 }
