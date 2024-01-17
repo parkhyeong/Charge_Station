@@ -37,4 +37,8 @@ public class SocialService {
 		socialdao.member_id_update(socialVO);
 	}
 
+	public void delete(SocialVO socialVO) {
+		socialdao.delete(socialVO);
+	}
+
 }

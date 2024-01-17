@@ -12,6 +12,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Page</title>
+
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	
 <style>
 body {
 	font-family: 'Arial', sans-serif;
@@ -60,24 +64,57 @@ footer {
 	margin-left: 5px;
 }
 </style>
+
+<script>
+$(function(){
+	$('#socialpwchange').click(function(){
+		if ('${type}'=='naver'){
+			window.open('https://nid.naver.com/user2/help/myInfo?m=viewChangePasswd&lang=ko_KR');
+			
+		}
+		else if('${type}'=='kakao'){
+			window.open('https://accounts.kakao.com/weblogin/find_password?continue=https%3A%2F%2Faccounts.kakao.com%2Fweblogin%2Faccount%2Finfo')
+		}
+		else if('${type}'=='google'){
+			window.open('https://myaccount.google.com/signinoptions/password?continue=https://myaccount.google.com/personal-info?hl%3Dko&pli=1&rapt=AEjHL4MEH8eK26Lz24Suh2fr1nFnRh59SmQklXf4CGo46JOrFCXYKG7_Z7yUyG-snL0JIug8zRsr9pWvbga6yeqeiZBD1m_hZXY1pVA2szufe83sAhqcZ5w')
+		}
+		
+	})
+	
+	
+	
+	
+})
+
+
+</script>
 </head>
 <body>
 
 	<jsp:include page="/header.jsp"></jsp:include>
-	
 	<h1 style="text-align: center; margin-top: 15px; margin-bottom: 20px;">MyPage</h1>
 	<section>
 		<h2>기본 정보</h2>
 		<div class="mb-3">
+
 			<label for="exampleFormControlInput1" class="form-label"
-				style="margin-top: 10px;">ID: </label> <label
+				style="margin-top: 10px;">소셜로그인 </label> <label
+				for="exampleFormControlInput1" class="form-label">${type}</label> 
+			
+			<br>
+			 
+			<label
+				for="exampleFormControlInput1" class="form-label"
+				style="margin-top: 10px;">타요타요 연동ID: </label> <label
 				for="exampleFormControlInput1" class="form-label">${result.member_id}</label>
+
+
 		</div>
 		<div class="mb-3">
 			<label for="exampleFormControlInput1" class="form-label">이름</label>
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#nameModal">수정</button>
-			<input type="text" class="form-control"
+			<input type="text" class="form-control" id="exampleFormControlInput1"
 				placeholder="-" value="${result.name}" disabled>
 		</div>
 
@@ -85,7 +122,7 @@ footer {
 			<label for="exampleFormControlInput1" class="form-label">닉네임</label>
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#nicknameModal">수정</button>
-			<input type="text" class="form-control"
+			<input type="text" class="form-control" id="exampleFormControlInput1"
 				placeholder="-" value="${result.nickname}" disabled>
 		</div>
 
@@ -99,7 +136,8 @@ footer {
 			<label for="exampleFormControlInput1" class="form-label">이메일</label>
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#emailModal">수정</button>
-			<input type="email" class="form-control" placeholder="-"
+			<input type="email" class="form-control"
+				id="exampleFormControlInput1" placeholder="-"
 				value="${result.email}" disabled>
 		</div>
 
@@ -107,7 +145,8 @@ footer {
 			<label for="exampleFormControlInput1" class="form-label">휴대전화</label>
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#telModal">수정</button>
-			<input type="tel" class="form-control" placeholder="-" value="${result.tel}" disabled>
+			<input type="tel" class="form-control" id="exampleFormControlInput1"
+				placeholder="-" value="${result.tel}" disabled>
 		</div>
 	</section>
 
@@ -115,29 +154,23 @@ footer {
 		<h2>개인 정보</h2>
 
 		<div class="mb-3">
-			<button class="btn btn-outline-primary" data-bs-toggle="modal"
-				data-bs-target="#pwModal">비밀번호 변경</button>
+			<button id="socialpwchange"class="btn btn-outline-primary">${type} 비밀번호 변경</button>
 		</div>
 	</section>
 	<section>
 		<h2>내 게시글</h2>
-		<div class="mb-3">
-			<jsp:include page="myreviewlist.jsp"></jsp:include>
-		</div>
+		<div class="mb-3"></div>
 	</section>
 
 	<section>
 		<h2>내 댓글</h2>
-		<div class="mb-3">
-		버그냐
-			<jsp:include page="myreplylist.jsp"></jsp:include>
-		</div>
+
 	</section>
 
 	<div style="text-align: center;">
 		<button type="button" class="btn btn-outline-danger"
 			style="margin-right: 480px; margin-top: 10px;" data-bs-toggle="modal"
-			data-bs-target="#deleteModal">계정탈퇴</button>
+			data-bs-target="#deleteModal">계정연동취소</button>
 	</div>
 	<br>
 	<br>
@@ -163,7 +196,7 @@ footer {
 
 						<div class="mb-3">
 							<label for="recipient-name" class="col-form-label">이름</label> <input
-								type="hidden" class="form-control"
+								type="hidden" class="form-control" id="member_id"
 								value="${result.member_id}" name="member_id"> <input
 								type="text" class="form-control" id="nametext"
 								value="${result.name}" name="name">
@@ -196,9 +229,9 @@ footer {
 
 						<div class="mb-3">
 							<label for="recipient-name" class="col-form-label">닉네임</label> <input
-								type="hidden" class="form-control"
+								type="hidden" class="form-control" id="member_id"
 								value="${result.member_id}" name="member_id"> <input
-								type="text" class="form-control"
+								type="text" class="form-control" id="recipient-name"
 								value="${result.nickname}" name="nickname">
 						</div>
 					</div>
@@ -229,9 +262,9 @@ footer {
 
 						<div class="mb-3">
 							<label for="recipient-name" class="col-form-label">이메일</label> <input
-								type="hidden" class="form-control"
+								type="hidden" class="form-control" id="member_id"
 								value="${result.member_id}" name="member_id"> <input
-								type="email" class="form-control" 
+								type="text" class="form-control" id="recipient-name"
 								value="${result.email}" name="email">
 						</div>
 					</div>
@@ -263,9 +296,9 @@ footer {
 
 						<div class="mb-3">
 							<label for="recipient-name" class="col-form-label">휴대전화</label> <input
-								type="hidden" class="form-control"
+								type="hidden" class="form-control" id="member_id"
 								value="${result.member_id}" name="member_id"> <input
-								type="text" class="form-control"
+								type="text" class="form-control" id="recipient-name"
 								value="${result.tel}" name="tel">
 						</div>
 					</div>
@@ -281,56 +314,6 @@ footer {
 	</div>
 
 
-
-
-	<div class="modal fade" id="pwModal" tabindex="-1"
-		aria-labelledby="pwModalLabel" aria-hidden="true"
-		style="display: none;">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="pwModalLabel">비밀번호 변경</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<form action="pwupdate" method="post" accept-charset="utf-8">
-					<div class="modal-body">
-						<input type="hidden" class="form-control"
-							value="${result.member_id}" name="member_id">
-
-						<div class="mb-3">
-							<label for="recipient-name" class="col-form-label">현재
-								비밀번호</label> <input type="password" class="form-control"
-								name="pw">
-						</div>
-
-						<div class="mb-3">
-							<label for="recipient-name" class="col-form-label">새 비밀번호</label>
-
-							<input type="password" class="form-control"
-								name="pw_1">
-						</div>
-
-						<div class="mb-3">
-							<label for="recipient-name" class="col-form-label">새 비밀번호
-								확인</label> <input type="password" class="form-control"
-								name="pw_2">
-						</div>
-
-
-
-					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">닫기</button>
-						<button type="submit" class="btn btn-primary">변경하기</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<div class="modal" tabindex="-1" id="deleteModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -339,13 +322,13 @@ footer {
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form action="delete" method="post" accept-charset="utf-8">
+				<form action="${pageContext.request.contextPath}/social/delete" method="post" accept-charset="utf-8">
 					<div class="modal-body">
 						<p>
 							계정을 탈퇴하시겠습니까?<br> 탈퇴한 계정은 복구가 불가능 합니다.
 						</p>
-						<input type="hidden" class="form-control"
-							value="${result.member_id}" name="member_id">
+						<input type="hidden" class="form-control" id="social_id"
+							value="${social_id}" name="id">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
+<jsp:include page="/header.jsp"></jsp:include>
 
 <head>
 <script type="text/javascript"
@@ -76,7 +77,7 @@ img {
 }
 
 
-.container {
+.container2 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -240,6 +241,7 @@ img {
 
 </style>
 <script type="text/javascript">
+alert("연동이 되지않은 계정입니다.\n타요타요계정과 연동이 필요합니다.");
 $(function() {
 	$('#login').click(function(){
 		  let member_id = $('#member_id').val();
@@ -254,8 +256,29 @@ $(function() {
 			},
 			success: function(data){
 				if (data == 1){
-					alert('로그인 성공')
-					location.href="/tayotayo/mainpage/MainPage.jsp"
+					 $.ajax({
+						type : "post",
+						url : "social_memberid_update",
+						data : {
+							member_id : member_id,
+							pw : pw,
+							id : '${social.id}',
+							type : '${social.type}'
+						},
+						success : function(data) {
+							if (data==1){
+							alert('계정이 연동되었습니다.\n로그인 성공')
+							location.href = "/tayotayo/mainpage/MainPage.jsp"
+							}
+							else {
+								alert('로그인 실패')
+							}
+						},
+						error : function(request, status, error) {
+							alert('오류')
+						}
+						
+					 });
 				}
 				else {
 					alert('아이디 또는 비밀번호가 틀렸습니다.')
@@ -272,7 +295,6 @@ $(function() {
 
 
 function goPost(){
-	alert('${social.id}')
 	const form = document.createElement('form'); // form 태그 생성
 	form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
 	form.setAttribute('action', 'creat_account_peristalsis'); // 전송할 url 지정
@@ -301,10 +323,10 @@ function goPost(){
 </head>
 <body>
 <main class="main">
-  <div class="container">
+  <div class="container2">
     <section class="wrapper">
       <div class="heading">
-        <h1 class="text text-large">타요타요 계정연동<br> 로그인</h1>
+        <h1 class="text text-large">${social.type} 타요타요 계정연동<br> 로그인</h1>
       </div>
       
       <div class="form">

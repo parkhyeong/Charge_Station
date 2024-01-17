@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class SocialController {
@@ -20,7 +21,7 @@ public class SocialController {
 	MemberController memberController;
 	
 
-	// 소셜 등록
+	// 소셜 등록됐는지 안됐는지 확인
 	@RequestMapping(value = "member/socialinsert", method = RequestMethod.POST)
 	public String insert(SocialVO socialVO, Model model, HttpSession session) {
 		model.addAttribute("social", socialVO);
@@ -33,23 +34,25 @@ public class SocialController {
 			String member_id_confirm = socialservice.member_id_select(socialVO);
 			session.setAttribute("member_id", member_id_confirm);
 			session.setAttribute("type", socialVO.getType());
-
+			session.setAttribute("social_id", socialVO.getId());
+			
 			System.out.println(member_id_confirm + " 세션저장 " + "로그인 성공");
 			System.out.println(socialVO.getType() + " 소셜로그인");
 
-			return "redirect:/mainpage/MainPage.jsp";
+			return "member/social_login_success";
 		}
 	}
+	
 
 	// 소셜 등록
 	@RequestMapping(value = "member/social_memberid_update", method = RequestMethod.POST)
-	public String social_memberid_update(SocialVO socialVO, String member_id, String pw, Model model, HttpSession session) {
+	@ResponseBody
+	public int social_memberid_update(SocialVO socialVO, String member_id, String pw, Model model, HttpSession session) {
 		try {
 			System.out.println(socialVO);
 			System.out.println(member_id);
 			System.out.println(pw);
 
-			model.addAttribute("social", socialVO);
 			
 			// 계정연동진행
 			// member_id 확인
@@ -65,23 +68,23 @@ public class SocialController {
 
 			} else {
 				System.out.println("연동아이디가 틀렸습니다.");
-				System.out.println("잘됨");
 				model.addAttribute("msg" ,"연동아이디가 틀렸습니다.");
-				return "member/social_memberid_confirm";
+				return 0;
 			}
 
 			// 현재 연동된 member로그인 세션 찾기
 			String member_id_confirm = socialservice.member_id_select(socialVO);
 			session.setAttribute("member_id", member_id_confirm);
 			session.setAttribute("type", socialVO.getType());
-
+			session.setAttribute("social_id", socialVO.getId());
+			
 			System.out.println(member_id_confirm + " 세션저장 " + "로그인 성공");
 			System.out.println(socialVO.getType() + " 소셜로그인");
 
-			return "redirect:/mainpage/MainPage.jsp";
+			return 1;
 		} catch (Exception e) {
 			System.out.println("sql 실패");
-			return "member/social_memberid_confirm";
+			return 0;
 		}
 
 	}
@@ -91,7 +94,7 @@ public class SocialController {
 	public boolean login(MemberVO memberVO) {
 		System.out.println(memberVO);
 
-		int result = memberservice.login(memberVO);
+		int result = memberservice.slogin(memberVO);
 
 		System.out.println(result);
 		if (result == 0) { // 연동실패
@@ -104,15 +107,12 @@ public class SocialController {
 	
 	//소셜로그인후 계정연동하기위한 타요타요 로그인
 	@RequestMapping(value = "member/login_peristalsis", method = RequestMethod.POST)
+	@ResponseBody
 	public int login_peristalsis(MemberVO memberVO) {
-		int result = memberservice.login(memberVO);
+		int result = memberservice.slogin(memberVO);
 		System.out.println(result);
 		
-		if (result == 0) {
-			return 0;
-		} else {
-			return 1;
-		}
+		return result; //숫자0 이면 연동실패, 1 연동성공
 		
 	}
 	
@@ -139,4 +139,20 @@ public class SocialController {
 		model.addAttribute("social", socialVO);
 		return "member/social_memberid_confirm";
 	}
+	
+	// 소셜id 삭제(소셜 연동 취소)
+		@RequestMapping(value = "social/delete", method = RequestMethod.POST)
+		public String social_delete(SocialVO socialVO, HttpSession session) {
+
+			try {
+				socialservice.delete(socialVO);
+				session.invalidate(); //세션끊기
+				return "redirect:/mainpage/MainPage.jsp";
+			} catch (Exception e) {
+				System.out.println("sql 실패");
+				return "redirect:/member/mypage";
+			}
+			
+		}
+		
 }
