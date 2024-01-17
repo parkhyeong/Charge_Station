@@ -9,8 +9,8 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>전기차 타요타요</title>
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
+
+
 <style>
 #map-container {
     position: relative;
@@ -88,39 +88,7 @@
 </style>
 </head>
 <body>
-    <!-- Responsive navbar-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">전기차 타요타요</a>
-            <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active"
-                        aria-current="page" href="/tayotayo/index.jsp">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-                    <li class="nav-item dropdown"><a
-                        class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">관리
-                            및 조회</a>
-                        <ul class="dropdown-menu dropdown-menu-end"
-                            aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item"
-                                href="/tayotayo/mycard/initMemberCardAction.jsp">회원카드 관리</a></li>
-                            <li><a class="dropdown-item" href="#">충전요금 조회</a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#">Something else
-                                    here</a></li>
-                        </ul></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+<jsp:include page="../header.jsp"></jsp:include>
     <!-- Map Container -->
     <div id="map-container">
         <!-- 지도 컨테이너 -->
@@ -176,11 +144,8 @@
     <!-- Bootstrap core JS-->
     <script type="text/javascript"
         src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5675f8f4dffbfd2b726b7b6393fd2b78&libraries=clusterer"></script>
-
     <!-- Your custom scripts -->
     <script>
         
