@@ -26,18 +26,19 @@ public class ChargersDAO {
 
 	// 전체 충전소 목록 + 페이징
 	public List<ChargersVO> select_all_p(PageVO pageVO) {
-		return my.selectList("chargers.select_all", pageVO);
+		return my.selectList("chargers.select_all_p", pageVO);
 	}
 	
-	// 필터링 검색 목록
+	// 필터링 + 키워드 검색 목록
 	public List<ChargersVO> selectWithFilters(ChargersVO chargersVO) {
 		return my.selectList("chargers.selectWithFilters", chargersVO);
 	}
 	
-
-	public List<ChargersVO> selectlist(String es_statNm) {
-		return my.selectList("chargers.selectlist", es_statNm);
-	}
+	/*
+	 * 키워드 검색
+	 * public List<ChargersVO> selectlist(String es_statNm) { return
+	 * my.selectList("chargers.selectlist", es_statNm); }
+	 */
 
 	
 	//현준님 코드

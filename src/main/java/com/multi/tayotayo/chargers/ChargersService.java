@@ -11,15 +11,15 @@ public class ChargersService {
 	@Autowired
 	private ChargersDAO chargersDao;
 	
-	// 필터링 검색 목록
+	// 필터링 검색 + 키워드 목록
 	public List<ChargersVO> selectWithFilters(ChargersVO chargersVO) {
         return chargersDao.selectWithFilters(chargersVO);
     }
 
-
-	public List<ChargersVO> selectlist(String es_statNm) {
-		return chargersDao.selectlist(es_statNm);
-	}
+	/*
+	 * public List<ChargersVO> selectlist(String es_statNm) { 
+	 * return chargersDao.selectlist(es_statNm); }
+	 */
 
 	public ChargersVO selectStation(ChargersVO chargersVo) {
 		return chargersDao.selectStation(chargersVo);
