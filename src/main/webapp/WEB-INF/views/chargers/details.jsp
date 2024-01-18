@@ -5,6 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	.table-info {
+		width: 110px;
+	}
+</style>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bc000838267eca6928506435ba12fcc9"></script>
 <script type="text/javascript">
@@ -284,35 +289,35 @@
 			<h2 id="statNm"></h2>
 			<table class="table">
 				<tr>
-					<td>충전기 타입</td>
+					<td class="table-info">충전기 타입</td>
 					<td id="chgerType"></td>
 				</tr>
 				<tr>
-					<td>주소</td>
+					<td class="table-info">주소</td>
 					<td id="addr"></td>
 				</tr>
 				<tr>
-					<td>전화번호</td>
+					<td class="table-info">전화번호</td>
 					<td id="busiCall"></td>
 				</tr>
 				<tr>
-					<td>운영기관</td>
+					<td class="table-info">운영기관</td>
 					<td id="busiNm"></td>
 				</tr>
 				<tr>
-					<td>주차비</td>
+					<td class="table-info">주차비</td>
 					<td id="parkingFree"></td>
 				</tr>
 				<tr>
-					<td>충전요금</td>
+					<td class="table-info">충전요금</td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>영업시간</td>
+					<td class="table-info">영업시간</td>
 					<td id="useTime"></td>
 				</tr>
 				<tr>
-					<td>이용자제한</td>
+					<td class="table-info">이용자제한</td>
 					<td id="limit"></td>
 				</tr>
 			</table>
