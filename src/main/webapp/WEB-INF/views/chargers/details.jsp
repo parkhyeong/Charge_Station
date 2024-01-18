@@ -74,11 +74,11 @@
 				$('#busiCall').append(statInfo.busiCall)
 				$('#busiNm').append(statInfo.busiNm)
 				if(statInfo.parkingFree == 'Y'){
-					$('#parkingFree').append('유료')
+					$('#parkingFree').append('<span class="badge bg-danger">유료</span>')
 				} else if(statInfo.parkingFree == 'N'){
-					$('#parkingFree').append('무료')
+					$('#parkingFree').append('<span class="badge bg-success">무료</span>')
 				} else {
-					$('#parkingFree').append('현장확인바람')
+					$('#parkingFree').append('<span class="badge bg-secondary">현장확인바람</span>')
 				}
 				$('#useTime').append(statInfo.useTime)
 				if(statInfo.limitYn == 'N'){
@@ -324,7 +324,7 @@
 		</div>
 		
 		<!-- 충전기 상태정보 div 영역 -->
-		<div class="container mt-5">
+		<div class="container mt-5 d-grid">
 			<h2>충전기 상태정보</h2>
 			<h6 id="active">충전 가능한 충전기 갯수 : </h6>
 			<h6>충전기 위치 : 
@@ -362,8 +362,10 @@
 			</h2>
 			<h6 id="allRank">전체 별점 : </h6>
 			<h6 id="recentRank">최근 1달 별점 : </h6>
-			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviews('${chargersVo.es_statId}', 'recent')">최근순</button> 
-			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviews('${chargersVo.es_statId}', 'like')">좋아요순</button>
+			<div class="btn-group container-fluid px-0">
+				<button id="reviewRecentBtn" type="button" class="btn btn-outline-success col-6" onClick="loadReviews('${chargersVo.es_statId}', 'recent')">최근순</button> 
+				<button id="reviewLikedBtn"type="button" class="btn btn-outline-primary col-6" onClick="loadReviews('${chargersVo.es_statId}', 'like')">좋아요순</button>
+			</div>
 			<table class="table table-striped">
 				<thead>
 						<tr>
