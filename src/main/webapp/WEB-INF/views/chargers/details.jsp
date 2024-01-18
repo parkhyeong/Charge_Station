@@ -5,8 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bc000838267eca6928506435ba12fcc9"></script>
 <script type="text/javascript">
@@ -18,6 +16,7 @@
 	    
 	    // 페이지가 로딩중일 때 보여줄 연출 처리
 	    $('#chargersInfo').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
+	    $('#reviews').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
 		
 	    // 충전소ID를 통해 충전기 정보 획득
 		$.ajax({
@@ -174,6 +173,10 @@
 			success: function(json) {
 				$('#allRank').append(json.All)
 				$('#recentRank').append(json.Recent)
+			},
+			error: function(request, status, error) {
+				$('#allRank').append('-')
+				$('#recentRank').append('-')
 			}
 		})
 	})
@@ -190,27 +193,34 @@
 			success: function(json) {
 				reviewList = json.reviewList
 				
+				reviewBtnProp(type)
+				$('#reviews').empty()
+				$('#reviews').append('<tr><td colspan="5" style="text-align: center;">첫 리뷰 작성자가 되어보세요</td></tr>')
+				reviewBtnProp('none')
+				
 				reviewHTML = '<tr>'
 				
-				for(let i = 0; i < reviewList.length; i++) {
-					reviewHTML += '<td>' + reviewList[i].r_rank + '</td>'
-					reviewHTML += '<td>' + reviewList[i].r_like + '</td>'
+				if(reviewList.length > 0) {
+					for(let i = 0; i < reviewList.length; i++) {
+						reviewHTML += '<td>' + reviewList[i].r_rank + '</td>'
+						reviewHTML += '<td>' + reviewList[i].r_like + '</td>'
+						
+						title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
+								+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
+						
+						reviewHTML += '<td>' + title + '</td>'
+						reviewHTML += '<td>' + reviewList[i].r_writer + '</td>'
+						
+						var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
+						reviewHTML += '<td>' + formattedDate + '</td>'
+						reviewHTML += '</tr>'
+					}					
 					
-					title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
-							+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
+					$('#reviews').empty()
+					$('#reviews').append(reviewHTML)
 					
-					reviewHTML += '<td>' + title + '</td>'
-					reviewHTML += '<td>' + reviewList[i].r_writer + '</td>'
-					
-					var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
-					reviewHTML += '<td>' + formattedDate + '</td>'
-					reviewHTML += '</tr>'
+					reviewBtnProp(type)
 				}
-				
-				$('#reviews').empty()
-				$('#reviews').append(reviewHTML)
-				
-				reviewBtnProp(type)
 			}
 		})
 	}
@@ -222,6 +232,9 @@
 			$('#reviewLikedBtn').prop("disabled", false)
 		} else if(type == 'like') {
 			$('#reviewRecentBtn').prop("disabled", false)
+			$('#reviewLikedBtn').prop("disabled", true)
+		} else if(type == 'none') {
+			$('#reviewRecentBtn').prop("disabled", true)
 			$('#reviewLikedBtn').prop("disabled", true)
 		}
 	}
@@ -254,8 +267,9 @@
 </script>
 </head>
 <body>
-
-	<jsp:include page="/header.jsp"></jsp:include>
+	<div id="top">
+		<jsp:include page="/header.jsp"></jsp:include>
+	</div>
 
 	<div class="container mt-5">
 		<h4>테스트용 페이지 이동 버튼</h4>
@@ -328,7 +342,7 @@
 				</tbody>
 			</table>
 			<button type="button" class="btn btn-outline-danger"
-				onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">
+				onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${chargersVo.es_statId}&es_statNm=${chargersVo.es_statNm }'">
 				선불결제
 			</button>
 		</div>
@@ -337,14 +351,14 @@
 		<div class="container mt-5">
 			<h2>리뷰목록 
 				<button type="button" class="btn btn-danger"
-					onClick="location.href='${pageContext.request.contextPath}/review/initReviewBoardInsert.jsp?es_statId=${param.es_statId}'">
+					onClick="location.href='${pageContext.request.contextPath}/review/initReviewBoardInsert.jsp?es_statId=${chargersVo.es_statId}&es_statNm=${chargersVo.es_statNm }'">
 					리뷰 작성하기
 				</button>
 			</h2>
 			<h6 id="allRank">전체 별점 : </h6>
 			<h6 id="recentRank">최근 1달 별점 : </h6>
-			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviews('${param.es_statId}', 'recent')">최근순</button> 
-			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviews('${param.es_statId}', 'like')">좋아요순</button>
+			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviews('${chargersVo.es_statId}', 'recent')">최근순</button> 
+			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviews('${chargersVo.es_statId}', 'like')">좋아요순</button>
 			<table class="table table-striped">
 				<thead>
 						<tr>
