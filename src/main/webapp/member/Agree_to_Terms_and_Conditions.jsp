@@ -50,7 +50,8 @@ section {
 	<section>
 		<form action="create_account.jsp" method="get" id="form1">
 			<div id="d1">
-				<h2 align="center" style="margin-top: 40px;">회원가입을 환영합니다.</h2>
+				<h2 align="center" style="margin-top: 40px; width: 546px;">
+				회원가입을 환영합니다.</h2>
 				<br />
 				<br />
 				<tr>
