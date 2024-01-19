@@ -258,7 +258,7 @@ ul, li {
 
 			$.each(filteredPosts, function(index, post) {
 				var row = $("<tr>").appendTo(tbody);
-				$("<td>").text(post.r_statid).appendTo(row);
+				$("<td>").text(post.r_statNm).appendTo(row);
 				$("<td>").html(
 						"<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + post.r_no
 								+ "&r_num=" + post.r_num
