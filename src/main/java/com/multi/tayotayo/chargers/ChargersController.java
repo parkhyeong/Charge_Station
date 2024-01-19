@@ -96,6 +96,8 @@ public class ChargersController {
 	// 충전소 상세정보 페이지
 	@RequestMapping("/details")
 	public void details(ChargersVO chargersVo, Model model) {
+		chargersVo = chargersService.selectStation(chargersVo);
+		
 		model.addAttribute("chargersVo", chargersVo);
 	}
 	
