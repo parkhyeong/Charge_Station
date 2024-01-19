@@ -14,7 +14,7 @@ public class DataController {
 
     @Autowired
     DataService dataService;
-
+ 
     @RequestMapping("/insert")
     @ResponseBody
     public void insert(DataVO dataVO) {
