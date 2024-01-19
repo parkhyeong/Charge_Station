@@ -273,7 +273,7 @@ h2, h3 {
 						$("#postRank").text(result.r_rank);
 						$("#postWriter").text(result.r_writer);
 						$("#postTime").text(formattedPostTime);
-						$("#postStation").text(result.r_statid);
+						$("#postStation").text(result.r_statNm);
 						$("#title").val(result.r_title);
 						$("#contents").val(result.r_content);
 

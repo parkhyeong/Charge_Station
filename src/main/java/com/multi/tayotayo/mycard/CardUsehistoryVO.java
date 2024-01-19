@@ -12,6 +12,7 @@ public class CardUsehistoryVO {
 	private String station_name;
 	private boolean refunded;
 	private Long transaction_id;
+	private String es_statNm;
 	
 	
 	public int getPayment_amount() {
@@ -71,11 +72,18 @@ public class CardUsehistoryVO {
 	public void setTransaction_id(Long transaction_id) {
 		this.transaction_id = transaction_id;
 	}
+	
+	public String getEs_statNm() {
+		return es_statNm;
+	}
+	public void setEs_statNm(String es_statNm) {
+		this.es_statNm = es_statNm;
+	}
 	@Override
 	public String toString() {
 		return "CardUsehistoryVO [payment_amount=" + payment_amount + ", payment_point=" + payment_point
 				+ ", charge_amount=" + charge_amount + ", charge_time=" + charge_time + ", charge_day=" + charge_day
 				+ ", mcard_num=" + mcard_num + ", station_name=" + station_name + ", refunded=" + refunded
-				+ ", transaction_id=" + transaction_id + "]";
+				+ ", transaction_id=" + transaction_id + ", es_statNm=" + es_statNm + "]";
 	}
 }

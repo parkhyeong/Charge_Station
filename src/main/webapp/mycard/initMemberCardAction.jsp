@@ -1,6 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
+<%@ page import="java.io.IOException"%>
+
+<%
+	HttpSession sessionMembership = request.getSession(false);
+if (sessionMembership == null || sessionMembership.getAttribute("member_id") == null) {
+%>
+<script>
+	alert('로그인 후 멤버쉽 카드 신청이 가능합니다.');
+	window.location.href = '/tayotayo/member/login.jsp';
+</script>
+<%
+	return;
+}
+%>
 
 
 <!DOCTYPE html>
@@ -111,12 +126,11 @@
 	cursor: pointer;
 	margin-left: 90%;
 }
+
 .btn_agree_next:hover {
-	
 	background-color: #fff;
 	color: #212529;
 	border: 1px solid #212529;
-	
 }
 </style>
 
@@ -402,14 +416,6 @@
 	<script>
 		var member_id = "<c:out value='${member_id}'/>";
 		console.log(member_id);
-		function checkLogin() {
-			if (!memberid_id) {
-				alert('로그인 후 멤버쉽 카드 신청이 가능합니다.');
-				return false;
-			}
-			return true;
-		}
-
 		// 우편 정보 찾기
 		function DaumPostcode() {
 			new daum.Postcode(
