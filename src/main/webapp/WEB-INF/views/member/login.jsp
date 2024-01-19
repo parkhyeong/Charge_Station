@@ -6,7 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+    <link rel="icon" href="${pageContext.request.contextPath}/resources/img/charge_station.png"/> 
+    <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/resources/img/charge_station.png"/> 
+    
 <title>타요타요 로그인</title>
+
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 <jsp:include page="/header.jsp"></jsp:include>
 
@@ -360,7 +366,7 @@ function getCookie(cookieName) {
         
         <div class="input-control">
           <a href="${pageContext.request.contextPath}/member/pw_find.jsp" class="text text-links">ID/PW 찾기</a>
-          <a href="${pageContext.request.contextPath}/member/create_account.jsp" class="text text-links">회원가입</a>
+          <a href="${pageContext.request.contextPath}/member/Agree_to_Terms_and_Conditions.jsp" class="text text-links">회원가입</a>
           <Button type="button" id ="login" class="input-submit">로그인</Button>
         </div>
         
@@ -372,11 +378,12 @@ function getCookie(cookieName) {
         <span class="striped-line"></span>
       </div>
       <div class="method">
-        <%@ include file="naver_login.jsp" %><br>
+        <%@ include file="/member/naver_login.jsp" %><br>
 
-		<%@ include file="kakao_login.jsp" %><br>
+		<%@ include file="/member/kakao_login.jsp" %><br>
 
-        <%@ include file="google_login.jsp" %><br>
+		<%@ include file="/member/google_login.jsp" %><br>
+
 
       </div>
     </section>

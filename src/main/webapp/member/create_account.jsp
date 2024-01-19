@@ -23,7 +23,7 @@ body {
     margin: 0;
     height: 100%;
     background: #f5f6f7;
-    font-family: Dotum,'돋움',Helvetica,sans-serif;
+   
 }
 #logo {
     width: 240px;
@@ -273,7 +273,7 @@ section {
                 
                 <!-- MOBILE -->
                 <div>
-                    <h3 class="join_title"><label for="phoneNo">휴대전화</label></h3>
+                    <h3 class="join_title"><label for="phoneNo">휴대전화</label><span> ( - 제외)</span></h3>
                     <span class="box int_mobile">
                         <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력" name="tel" required>
                     </span>
@@ -302,6 +302,7 @@ section {
             <!-- section -->
 
         </div> 
+    
          <script>
          var id = document.querySelector('#id');
 		
@@ -581,13 +582,6 @@ section {
 
      	
      	function doAction(){
-     		console.log(idok);
-     		console.log(passok);
-     		console.log(cpassok);
-     		console.log(nameok);
-     		console.log(nicknameok);
-     		console.log(telok);
-     		console.log(emailok);
      		
      		if (idok == 1 && passok == 1 && cpassok == 1 && nameok == 1 && nicknameok == 1 && telok==1 && emailok==1) {
     			return true;
