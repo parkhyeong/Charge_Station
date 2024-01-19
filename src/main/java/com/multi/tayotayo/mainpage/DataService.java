@@ -28,5 +28,5 @@ public class DataService {
  // 내 주변 검색
  	public List<JoinVO> myLocationFindRecommand(JoinVO joinVO) {
  		return dao.myLocationFindRecommand(joinVO);
- 	}
+ 	} 
 }

@@ -767,7 +767,7 @@ body {
         					statMap.set(statList[i].stat, statMap.get(statList[i].stat) + 1);
         					
         				}
-        				
+        				 
         				
         				modalTitle.empty();
         				modalBody.empty();
