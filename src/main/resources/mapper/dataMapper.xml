@@ -60,5 +60,4 @@
 		ORDER BY distance
 	</select>
 
-
 </mapper>

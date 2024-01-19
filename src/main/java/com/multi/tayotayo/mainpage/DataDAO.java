@@ -35,4 +35,3 @@ public class DataDAO {
 	 		return my.selectList("data.myLocationFindRecommand", joinVO);
 	 	}
 }
- 

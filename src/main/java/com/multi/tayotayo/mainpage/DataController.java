@@ -47,7 +47,7 @@ public class DataController {
         }
 
         System.out.println(list.size());
-        return list; 
+        return list;
     }
 }
 
