@@ -25,13 +25,13 @@
 
 				const responsePayload = parseJwt(response.credential);
 
-				console.log("ID: " + responsePayload.sub);
-				console.log('Full Name: ' + responsePayload.name);
-				console.log('Given Name: ' + responsePayload.given_name);
-				console.log('Family Name: ' + responsePayload.family_name);
-				console.log("Image URL: " + responsePayload.picture);
-				console.log("Email: " + responsePayload.email);
-				console.log("전화번호: " + responsePayload.mobile);
+				//console.log("ID: " + responsePayload.sub);
+				//console.log('Full Name: ' + responsePayload.name);
+				//console.log('Given Name: ' + responsePayload.given_name);
+				//console.log('Family Name: ' + responsePayload.family_name);
+				//console.log("Image URL: " + responsePayload.picture);
+				//console.log("Email: " + responsePayload.email);
+				//console.log("전화번호: " + responsePayload.mobile);
 
 				const form = document.createElement('form'); // form 태그 생성
 				form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
@@ -40,7 +40,7 @@
 				let social = document.createElement('input'); //<input>
 				social.setAttribute('type', 'hidden');
 				social.setAttribute('name', 'id');
-				social.setAttribute('value', responsePayload.sub);
+				social.setAttribute('value', responsePayload.email);
 
 				let social2 = document.createElement('input');
 				social2.setAttribute('type', 'hidden');

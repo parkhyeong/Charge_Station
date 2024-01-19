@@ -29,7 +29,6 @@ body {
 	margin: 0;
 	height: 100%;
 	background: #f5f6f7;
-	font-family: Dotum, '돋움', Helvetica, sans-serif;
 }
 
 #logo {
@@ -329,7 +328,7 @@ section {
 			</span>
 		</div>
 
-		<br> <input class="btn btn-primary" type="button" value="인증번호 전송"
+		<br> <input class="join_title" type="button" value="인증번호 전송"
 			id="email_auth_btn" style="padding-top: 9px; padding-bottom: 8px;">
 		<br>
 

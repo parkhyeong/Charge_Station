@@ -6,15 +6,11 @@
 
 <meta charset="utf-8" />
 
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
 <style>
 .outer {
 	width: 800px;
 	margin: auto;
 }
-
-
 
 ul, li {
 	margin: 0;
@@ -25,12 +21,13 @@ ul, li {
 	border-bottom: 1px solid #212529;
 }
 
-.board_list {
+.board_list, .board_list2  {
 	margin: 20px 30px;
 	min-height: 300px;
 }
 
-.board_list>ul {
+
+.board_list2>ul {
 	border-bottom: 1px solid #f3f5f7;
 	height: 50px;
 	line-height: 50px;
@@ -39,11 +36,11 @@ ul, li {
 	list-style: none;
 }
 
-.board_list>ul.last {
+.board_list2>ul.last {
 	border: 0;
 }
 
-.board_list>ul>li {
+.board_list2>ul>li {
 	text-align: center;
 }
 
@@ -166,6 +163,15 @@ ul, li {
 	font-size: 14px;
 	background-color: #fff;
 }
+
+.board_list board_list2 table thead tr th {
+    color: white;
+}
+
+.board_list2 table thead tr th{
+    color: white;
+}
+
 </style>
 
 <script type="text/javascript"
@@ -196,7 +202,6 @@ ul, li {
 						},
 						dataType : "json",
 						success : function(result) {
-							
 							console.log("Received search data:", result);
 							numPages = result.numPages;
 							console.log("Number of pages:", numPages);
@@ -217,7 +222,7 @@ ul, li {
 
 		function displayData(posts) {
 
-			$(".board_list").empty();
+			$(".board_list2").empty();
 			var table = $("<table>").addClass("table");
 			var thead = $("<thead>").addClass("board_header").appendTo(table);
 			var tbody = $("<tbody>").appendTo(table);
@@ -271,7 +276,7 @@ ul, li {
 				$("<td>").text(post.r_rank).appendTo(row);
 			});
 
-			$(".board_list").html(table);
+			$(".board_list2").html(table);
 		}
 
 		function renderPaginationButtons() {
@@ -305,7 +310,7 @@ ul, li {
 			<div class="board_area">
 				<div class="board_title">
 				</div>
-				<div class="board_list"></div>
+				<div class="board_list2"></div>
 			</div>
 			<!-- 페이징 부분 -->
 			<div class="pagination">
@@ -320,9 +325,3 @@ ul, li {
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="/tayotayo/resources/js/scripts.js"></script>
