@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DataDAO {
-
+ 
     @Autowired
     SqlSessionTemplate my;
 
