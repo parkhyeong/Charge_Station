@@ -25,7 +25,7 @@ public class SocialController {
 	@RequestMapping(value = "member/socialinsert", method = RequestMethod.POST)
 	public String insert(SocialVO socialVO, Model model, HttpSession session) {
 		model.addAttribute("social", socialVO);
-		System.out.println(socialVO);
+		//System.out.println(socialVO);
 		
 		// 아이디 중복검사 true면 insert
 		if (socialservice.socialidConfirm(socialVO)) {

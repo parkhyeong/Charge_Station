@@ -144,7 +144,6 @@ public class MemberService {
 	
 	//개수에 맞게 댓글 조회
 	public Map<String, Object> getSearchListWithPagination(int page, int pageSize, ReplyVO replyVO) {
-		System.out.println("서비스까지옴?");
 		int start = 1 + (page - 1) * pageSize;
 		int end = page * pageSize;
 
@@ -156,7 +155,6 @@ public class MemberService {
 		result.put("numPages", totalPages);
 		result.put("posts", searchList);
 
-		System.out.println(searchList);
 		return result;
 	}
 

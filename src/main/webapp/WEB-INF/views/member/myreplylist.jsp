@@ -6,9 +6,6 @@
 
 <meta charset="utf-8" />
 
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
-
 <style>
 .outer {
 	width: 800px;
@@ -167,6 +164,10 @@ ul, li {
 	font-size: 14px;
 	background-color: #fff;
 }
+
+.board_list table thead tr th {
+    color: white;
+}
 </style>
 
 <script type="text/javascript"
@@ -196,7 +197,6 @@ ul, li {
 						},
 						dataType : "json",
 						success : function(result) {
-							
 							console.log("Received search data:", result);
 							numPages = result.numPages;
 							console.log("Number of pages:", numPages);
@@ -316,9 +316,3 @@ ul, li {
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="/tayotayo/resources/js/scripts.js"></script>

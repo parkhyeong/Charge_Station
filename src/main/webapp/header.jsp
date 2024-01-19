@@ -26,6 +26,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>전기차 타요타요</title>
+    
 <!-- Core theme CSS (includes Bootstrap)-->
 </head>
 <body>
@@ -87,9 +88,9 @@
 						if (session.getAttribute("member_id") == null) {
 					%>
 					<li class="nav-item"><a class="nav-link"
-						href="<%=pageContext.getServletContext().getContextPath()%>/member/login.jsp">로그인</a></li>
+						href="<%=pageContext.getServletContext().getContextPath()%>/member/login_form">로그인</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="<%=pageContext.getServletContext().getContextPath()%>/member/create_account.jsp">회원가입</a></li>
+						href="<%=pageContext.getServletContext().getContextPath()%>/member/Agree_to_Terms_and_Conditions.jsp">회원가입</a></li>
 
 
 
