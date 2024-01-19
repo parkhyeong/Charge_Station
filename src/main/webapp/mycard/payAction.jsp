@@ -173,6 +173,11 @@ session.setAttribute("es_statNm", es_statNm);
 					<button class="btn_search1" onclick="resetFields()">초기화</button>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="6"
+					style="text-align: center; color: gray; font-size: 12px;">충전
+					하고 싶은 금액을 입력하세요.</td>
+			</tr>
 		</table>
 		<br> <br>
 		<table align="center">
@@ -189,6 +194,9 @@ session.setAttribute("es_statNm", es_statNm);
 		</table>
 		<br> <br>
 		<div class="container text-end mx-1">
+			<img
+				src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/충전.png"
+				style="max-width: 5%; height: auto;">
 			<button class="btn_search" onclick="charge()">결제하기</button>
 			<button class="btn_search" onclick="goBack()">취소하기</button>
 		</div>
@@ -216,10 +224,9 @@ session.setAttribute("es_statNm", es_statNm);
 
 			getUsePointCardInformation(cardNum);
 			
-			 var chargingTime = parseFloat($("#chargingTime").text());
-	         var chargingAmount = parseFloat($("#chargingAmount").text());
-	         var statId = "<%=session.getAttribute("statId")%>
-		";
+			var chargingTime = parseFloat($("#chargingTime").text());
+	        var chargingAmount = parseFloat($("#chargingAmount").text());
+	        var statId = "<%=session.getAttribute("statId")%>";
 
 			console.log("Card Number:", cardNum);
 			console.log("Charge Amount:", chargeAmountInput);
