@@ -62,10 +62,10 @@ public class ChargersController {
 		System.out.println(list.size());
 
 		model.addAttribute("count", count);
-		model.addAttribute("pages", pages);
+		model.addAttribute("pages", pages); 
 		model.addAttribute("select_all", list);
 		
-		 model.addAttribute("pageVO", pageVO); // PageVO 객체를 Model에 추가
+		 model.addAttribute("pageVO", pageVO); // PageVO 객체를 Model에 추가??
 
 		return "chargers/select_all"; // views/chargers/select_all.jsp
 	}

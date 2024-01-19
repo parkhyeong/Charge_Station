@@ -17,7 +17,7 @@
 				<td>${vo.row_no}</td>
 				<td>${vo.es_statNm}</td>
 				<td>${vo.es_addr}</td>
-				<td>충전기 정보</td>
+				<td>충전 가능 : ${vo.stat_count} 대</td>
 			</tr>
 		</c:forEach>
 	</tbody>
