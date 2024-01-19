@@ -10,7 +10,7 @@ if (sessionPayment == null || sessionPayment.getAttribute("member_id") == null) 
 %>
 <script>
 	alert('로그인 후 리뷰 작성이 가능합니다.');
-	window.location.href = '/tayotayo/member/login.jsp';
+	window.location.href = '${pageContext.request.contextPath}/member/login_form';
 </script>
 <%
 	return;

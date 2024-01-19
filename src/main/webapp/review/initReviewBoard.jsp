@@ -300,6 +300,7 @@ ul, li {
 				filterAndDisplayByRating(selectedRating);
 			}
 		});
+		
 		$(document).on("click", "#ratingFilter option[value='']", function() {
 			loadReviewList(currentPage);
 		});

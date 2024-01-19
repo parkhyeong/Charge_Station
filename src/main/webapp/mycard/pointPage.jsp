@@ -9,7 +9,7 @@ if (sessionPayAction == null || sessionPayAction.getAttribute("member_id") == nu
 %>
 <script>
 	alert('로그인 후 포인트 조회가 가능합니다.');
-	window.location.href = '/tayotayo/member/login.jsp';
+	window.location.href = '${pageContext.request.contextPath}/member/login_form';
 </script>
 <%
 	return;

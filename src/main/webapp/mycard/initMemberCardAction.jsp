@@ -10,7 +10,7 @@ if (sessionMembership == null || sessionMembership.getAttribute("member_id") == 
 %>
 <script>
 	alert('로그인 후 멤버쉽 카드 신청이 가능합니다.');
-	window.location.href = '/tayotayo/member/login.jsp';
+	window.location.href = '${pageContext.request.contextPath}/member/login_form';
 </script>
 <%
 	return;
