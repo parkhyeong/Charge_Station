@@ -5,8 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<style type="text/css">
+	.table-info {
+		width: 110px;
+	}
+</style>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bc000838267eca6928506435ba12fcc9"></script>
 <script type="text/javascript">
@@ -18,6 +21,7 @@
 	    
 	    // 페이지가 로딩중일 때 보여줄 연출 처리
 	    $('#chargersInfo').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
+	    $('#reviews').append('<tr><td colspan="6"><span class="spinner-border spinner-border-sm"></span>로딩중</td></tr>')
 		
 	    // 충전소ID를 통해 충전기 정보 획득
 		$.ajax({
@@ -70,11 +74,11 @@
 				$('#busiCall').append(statInfo.busiCall)
 				$('#busiNm').append(statInfo.busiNm)
 				if(statInfo.parkingFree == 'Y'){
-					$('#parkingFree').append('유료')
+					$('#parkingFree').append('<span class="badge bg-danger">유료</span>')
 				} else if(statInfo.parkingFree == 'N'){
-					$('#parkingFree').append('무료')
+					$('#parkingFree').append('<span class="badge bg-success">무료</span>')
 				} else {
-					$('#parkingFree').append('현장확인바람')
+					$('#parkingFree').append('<span class="badge bg-secondary">현장확인바람</span>')
 				}
 				$('#useTime').append(statInfo.useTime)
 				if(statInfo.limitYn == 'N'){
@@ -174,6 +178,10 @@
 			success: function(json) {
 				$('#allRank').append(json.All)
 				$('#recentRank').append(json.Recent)
+			},
+			error: function(request, status, error) {
+				$('#allRank').append('-')
+				$('#recentRank').append('-')
 			}
 		})
 	})
@@ -190,27 +198,34 @@
 			success: function(json) {
 				reviewList = json.reviewList
 				
+				reviewBtnProp(type)
+				$('#reviews').empty()
+				$('#reviews').append('<tr><td colspan="5" style="text-align: center;">첫 리뷰 작성자가 되어보세요</td></tr>')
+				reviewBtnProp('none')
+				
 				reviewHTML = '<tr>'
 				
-				for(let i = 0; i < reviewList.length; i++) {
-					reviewHTML += '<td>' + reviewList[i].r_rank + '</td>'
-					reviewHTML += '<td>' + reviewList[i].r_like + '</td>'
+				if(reviewList.length > 0) {
+					for(let i = 0; i < reviewList.length; i++) {
+						reviewHTML += '<td>' + reviewList[i].r_rank + '</td>'
+						reviewHTML += '<td>' + reviewList[i].r_like + '</td>'
+						
+						title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
+								+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
+						
+						reviewHTML += '<td>' + title + '</td>'
+						reviewHTML += '<td>' + reviewList[i].r_writer + '</td>'
+						
+						var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
+						reviewHTML += '<td>' + formattedDate + '</td>'
+						reviewHTML += '</tr>'
+					}					
 					
-					title = "<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=" + reviewList[i].r_no
-							+ "&r_num=" + reviewList[i].r_num + "'>" + reviewList[i].r_title + "</a>"
+					$('#reviews').empty()
+					$('#reviews').append(reviewHTML)
 					
-					reviewHTML += '<td>' + title + '</td>'
-					reviewHTML += '<td>' + reviewList[i].r_writer + '</td>'
-					
-					var formattedDate = new Date(reviewList[i].r_time).toISOString().split('T')[0];
-					reviewHTML += '<td>' + formattedDate + '</td>'
-					reviewHTML += '</tr>'
+					reviewBtnProp(type)
 				}
-				
-				$('#reviews').empty()
-				$('#reviews').append(reviewHTML)
-				
-				reviewBtnProp(type)
 			}
 		})
 	}
@@ -222,6 +237,9 @@
 			$('#reviewLikedBtn').prop("disabled", false)
 		} else if(type == 'like') {
 			$('#reviewRecentBtn').prop("disabled", false)
+			$('#reviewLikedBtn').prop("disabled", true)
+		} else if(type == 'none') {
+			$('#reviewRecentBtn').prop("disabled", true)
 			$('#reviewLikedBtn').prop("disabled", true)
 		}
 	}
@@ -254,8 +272,9 @@
 </script>
 </head>
 <body>
-
-	<jsp:include page="/header.jsp"></jsp:include>
+	<div id="top">
+		<jsp:include page="/header.jsp"></jsp:include>
+	</div>
 
 	<div class="container mt-5">
 		<h4>테스트용 페이지 이동 버튼</h4>
@@ -270,42 +289,42 @@
 			<h2 id="statNm"></h2>
 			<table class="table">
 				<tr>
-					<td>충전기 타입</td>
+					<td class="table-info">충전기 타입</td>
 					<td id="chgerType"></td>
 				</tr>
 				<tr>
-					<td>주소</td>
+					<td class="table-info">주소</td>
 					<td id="addr"></td>
 				</tr>
 				<tr>
-					<td>전화번호</td>
+					<td class="table-info">전화번호</td>
 					<td id="busiCall"></td>
 				</tr>
 				<tr>
-					<td>운영기관</td>
+					<td class="table-info">운영기관</td>
 					<td id="busiNm"></td>
 				</tr>
 				<tr>
-					<td>주차비</td>
+					<td class="table-info">주차비</td>
 					<td id="parkingFree"></td>
 				</tr>
 				<tr>
-					<td>충전요금</td>
+					<td class="table-info">충전요금</td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>영업시간</td>
+					<td class="table-info">영업시간</td>
 					<td id="useTime"></td>
 				</tr>
 				<tr>
-					<td>이용자제한</td>
+					<td class="table-info">이용자제한</td>
 					<td id="limit"></td>
 				</tr>
 			</table>
 		</div>
 		
 		<!-- 충전기 상태정보 div 영역 -->
-		<div class="container mt-5">
+		<div class="container mt-5 d-grid">
 			<h2>충전기 상태정보</h2>
 			<h6 id="active">충전 가능한 충전기 갯수 : </h6>
 			<h6>충전기 위치 : 
@@ -328,7 +347,7 @@
 				</tbody>
 			</table>
 			<button type="button" class="btn btn-outline-danger"
-				onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${param.es_statId}'">
+				onClick="location.href='${pageContext.request.contextPath}/mycard/payAction.jsp?statId=${chargersVo.es_statId}&es_statNm=${chargersVo.es_statNm }'">
 				선불결제
 			</button>
 		</div>
@@ -337,14 +356,16 @@
 		<div class="container mt-5">
 			<h2>리뷰목록 
 				<button type="button" class="btn btn-danger"
-					onClick="location.href='${pageContext.request.contextPath}/review/initReviewBoardInsert.jsp?es_statId=${param.es_statId}'">
+					onClick="location.href='${pageContext.request.contextPath}/review/initReviewBoardInsert.jsp?es_statId=${chargersVo.es_statId}&es_statNm=${chargersVo.es_statNm }'">
 					리뷰 작성하기
 				</button>
 			</h2>
 			<h6 id="allRank">전체 별점 : </h6>
 			<h6 id="recentRank">최근 1달 별점 : </h6>
-			<button id="reviewRecentBtn" type="button" class="btn btn-outline-success" onClick="loadReviews('${param.es_statId}', 'recent')">최근순</button> 
-			<button id="reviewLikedBtn"type="button" class="btn btn-outline-info" onClick="loadReviews('${param.es_statId}', 'like')">좋아요순</button>
+			<div class="btn-group container-fluid px-0">
+				<button id="reviewRecentBtn" type="button" class="btn btn-outline-success col-6" onClick="loadReviews('${chargersVo.es_statId}', 'recent')">최근순</button> 
+				<button id="reviewLikedBtn"type="button" class="btn btn-outline-primary col-6" onClick="loadReviews('${chargersVo.es_statId}', 'like')">좋아요순</button>
+			</div>
 			<table class="table table-striped">
 				<thead>
 						<tr>
