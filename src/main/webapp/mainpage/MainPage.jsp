@@ -9,8 +9,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>전기차 타요타요</title>
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/styles.css" rel="stylesheet" />
+
 <style>
 
 #map-container {
@@ -223,8 +222,6 @@ body {
     <!-- Bootstrap core JS-->
     <script type="text/javascript"
         src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5675f8f4dffbfd2b726b7b6393fd2b78&libraries=clusterer"></script>
 
@@ -370,11 +367,13 @@ body {
 
                 // 마커 지도에 추가
                 marker.setMap(map);
+                apiDetailRequest(es_statId);
 
                 // 마커에 인포윈도우 추가
                 var iwContent = '<div style="padding:5px;">' + es_statNm + '</div>';
                 var infowindow = new kakao.maps.InfoWindow({
                     content: iwContent
+                    
                 });
 
                 // 마커 클릭 이벤트
