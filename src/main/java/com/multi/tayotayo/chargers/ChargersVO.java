@@ -17,8 +17,17 @@ public class ChargersVO {
 	private double es_lat;		// 위도
 	private double es_lon;		// 경도
 	private int row_no; //정렬 값 ROW_NUMBER() over(order by es_statNm)
+	private int stat_count; //stat이 2인 개수 --> 충전가능한 충전기 개수
 	
 	
+	public int getStat_count() {
+		return stat_count;
+	}
+
+	public void setStat_count(int stat_count) {
+		this.stat_count = stat_count;
+	}
+
 	public int getRow_no() {
 		return row_no;
 	}
@@ -153,8 +162,11 @@ public class ChargersVO {
 				+ ", es_statNm=" + es_statNm + ", es_faciL=" + es_faciL + ", es_faciS=" + es_faciS + ", es_dvcL="
 				+ es_dvcL + ", es_dvcS=" + es_dvcS + ", es_bnm=" + es_bnm + ", es_busiNm=" + es_busiNm + ", es_output="
 				+ es_output + ", es_chgerType=" + es_chgerType + ", es_limit=" + es_limit + ", es_lat=" + es_lat
-				+ ", es_lon=" + es_lon + ", row_no=" + row_no + "]";
+				+ ", es_lon=" + es_lon + ", row_no=" + row_no + ", stat_count=" + stat_count + "]";
 	}
+
+ 
+
 
 
 

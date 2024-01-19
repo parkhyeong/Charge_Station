@@ -20,62 +20,91 @@
 		where es2.row_no between 1 and 20
 	</select>
 
-	<!-- 전체 목록 조회 + 페이징 -->
+	<!-- 전체 목록 조회 + 페이징 충전소 정보만 -->
+	<!-- <select id="select_all_p" parameterType="pageVO" resultType="chargersVO"> 
+		select * 
+		from 
+		(select ROW_NUMBER() over(order by es_statNm) as row_no, es.* 
+		from e_station es) es2 
+		where es2.row_no between ${start} and ${end} 
+		</select> -->
+
+
+	<!-- 전체 목록 조회 + 페이징 충전기 정보도 -->
 	<select id="select_all_p" parameterType="pageVO"
 		resultType="chargersVO">
 		select *
 		from
-		(select
-		ROW_NUMBER() over(order by es_statNm) as row_no, es.*
-		from e_station es) es2
-		where es2.row_no between ${start} and ${end}
+		(SELECT es2.*, COUNT(CASE WHEN s.stat = 2 THEN 1 END) AS stat_count
+			FROM
+			(SELECT ROW_NUMBER() OVER(ORDER BY es_statNm) AS row_no, es.*
+			FROM e_station es ) es2
+		LEFT JOIN status s ON es2.es_statId = s.statId
+		GROUP BY es2.es_statId ) e
+		WHERE e.row_no between ${start} and ${end}
 	</select>
-	
-	<!-- 필터링 검색 + 키워드 목록 조회 row_no 가 안뜸.-->
-	<!-- <select id="selectWithFilters" parameterType="chargersVO"
+
+<select id="selectWithFilters" parameterType="chargersVO"
 		resultType="chargersVO">
-		SELECT * 
-		from
-		(select
-		ROW_NUMBER() over(order by es_statNm) as row_no, es.*
-		from e_station
-		es)
-		WHERE
-		필터 검색조건 1개라도 있으면
-		필터링 검색 choose when otherwise
-		<if test="es_gungoo != null and es_gungoo != ''"> es_gungoo LIKE #{es_gungoo} 
-			AND </if> <if test="es_faciL != null and es_faciL != ''"> es_faciL LIKE #{es_faciL} 
-			AND </if> <if test="es_dvcL != null and es_dvcL != ''"> es_dvcL LIKE #{es_dvcL} 
-			</if>
-		es_gungoo LIKE #{es_gungoo} AND es_faciL LIKE #{es_faciL} AND es_dvcL
-		LIKE #{es_dvcL}
 		
-		키워드 검색 choose when otherwise
-		<if test="es_statNm != null and es_statNm != ''">
-			AND es_statNm like
-			CONCAT('%',#{es_statNm},'%')
-		</if>
-	</select> -->
-	
-	<select id="selectWithFilters" parameterType="chargersVO"
-		resultType="chargersVO">
-		select * 
+		SELECT es2.*, COUNT(CASE WHEN s.stat = 2 THEN 1 END) AS stat_count
 		from
-		(select	ROW_NUMBER() over(order by es_statNm) as row_no, es.*
-		from e_station es
+		(select ROW_NUMBER() over(order by es_statNm) as row_no, es.*
+		from
+		e_station es
 		WHERE
 		<!-- 필터 검색 -->
 		es_gungoo LIKE #{es_gungoo} AND es_faciL LIKE #{es_faciL} AND es_dvcL
 		LIKE #{es_dvcL}
-		
+
 		<!-- 키워드 검색 choose when otherwise -->
 		<if test="es_statNm != null and es_statNm != ''">
 			AND es_statNm like
 			CONCAT('%',#{es_statNm},'%')
 		</if>
 		) es2
+		LEFT JOIN status s ON es2.es_statId = s.statId
+		GROUP BY es2.es_statId 
 	</select>
+
+
+	<!-- <select id="selectWithFilters" parameterType="chargersVO"
+		resultType="chargersVO">
+		
+		select *
+		from
+		(select ROW_NUMBER() over(order by es_statNm) as row_no, es.*
+		from
+		e_station es
+		WHERE
+		필터 검색
+		es_gungoo LIKE #{es_gungoo} AND es_faciL LIKE #{es_faciL} AND es_dvcL
+		LIKE #{es_dvcL}
+
+		키워드 검색 choose when otherwise
+		<if test="es_statNm != null and es_statNm != ''">
+			AND es_statNm like
+			CONCAT('%',#{es_statNm},'%')
+		</if>
+		) es2
+	</select> -->
+
+	<!-- 필터링 검색 + 키워드 목록 조회 row_no 가 안뜸. -->
+	<!-- WHERE 필터 검색조건 1개라도 있으면 필터링 검색 choose when otherwise 
+	<if test="es_gungoo != null and es_gungoo != ''"> 
+	es_gungoo LIKE #{es_gungoo} AND </if> 
+	<if test="es_faciL != null and es_faciL != ''"> 
+	es_faciL LIKE #{es_faciL} AND </if> 
+	<if test="es_dvcL != null and es_dvcL != ''"> 
+	es_dvcL LIKE #{es_dvcL} </if> 
 	
+	es_gungoo LIKE #{es_gungoo} AND es_faciL LIKE #{es_faciL} AND es_dvcL LIKE #{es_dvcL} 
+		
+		키워드 검색 choose when otherwise 
+		<if test="es_statNm != null and es_statNm != ''"> 
+		AND es_statNm like CONCAT('%',#{es_statNm},'%') </if> 
+		</select> -->
+
 
 	<!-- 현준님 코드 -->
 	<select id="station" parameterType="chargersVO"
