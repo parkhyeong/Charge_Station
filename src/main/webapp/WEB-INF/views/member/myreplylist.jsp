@@ -206,7 +206,6 @@ ul, li {
 				            });
 
 				            displayData(filteredPosts);
-
 				            renderPaginationButtons();
 						},
 						error : function(xhr, status, error) {
@@ -257,10 +256,9 @@ ul, li {
 				var row = $("<tr>").appendTo(tbody);
 				$("<td>").text(post.rr_ori_review).appendTo(row);
 				$("<td>").html(
-						"<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=3"
+						"<a href='${pageContext.request.contextPath}/review/initReviewBoardDetail.jsp?r_no=0"
 								+ "&r_num=" + post.rr_ori_review
-								+ "' class='post-link' data-post-id='"
-								+ 3 + "'>" + post.rr_content + "</a>")
+								+ "' class='post-link'>" + post.rr_content + "</a>")
 						.appendTo(row);
 				var formattedDate = new Date(post.rr_time).toISOString().split(
 						'T')[0];
@@ -271,26 +269,38 @@ ul, li {
 		}
 
 		function renderPaginationButtons() {
-			$(".pagination").empty();
-			if (numPages > 1) {
-				for (var i = 1; i <= numPages; i++) {
-					$("<a>").attr("href", "#").data("page", i).text(i)
-							.appendTo(".pagination");
-				}
-			}
-			$(".pagination a[data-page='" + currentPage + "']").addClass(
-					"current");
-		}
+	        $(".pagination").empty();
+	        if (numPages > 1) {
+	        	var totalPages = numPages;
+	            var currentPageGroup = Math.ceil(currentPage / 10);
+	            var startPage = (currentPageGroup - 1) * 10 + 1;
+	            var endPage = Math.min(currentPageGroup * 10, totalPages);
 
-		$(document).on("click", ".pagination a", function(e) {
-			e.preventDefault();
-			currentPage = $(this).data("page");
-			console.log("Requested page:", currentPage);
-			if ($("form[name=search-form]").length > 0) {
-				getSearchList(currentPage);
-			} else {
-				getSearchList(currentPage);
-			}
+	            if (currentPageGroup > 1) {
+	                $("<a>").attr("href", "#").data("page", startPage - 1).text("<").addClass("prev").appendTo(".pagination");
+	            }
+
+	            for (var i = startPage; i <= endPage; i++) {
+	                $("<a>").attr("href", "#").data("page", i).text(i).appendTo(".pagination");
+	            }
+
+	            if (endPage < totalPages) {
+	                $("<a>").attr("href", "#").data("page", endPage + 1).text(">").addClass("next").appendTo(".pagination");
+	            }
+	        }
+	        $(".pagination a[data-page='" + currentPage + "']").addClass("current");
+	    }
+
+		$(document).on("click", ".pagination a", function (e) {
+		    e.preventDefault();
+		    var requestedPage = $(this).data("page");
+		    if (requestedPage !== currentPage && requestedPage >= 1 && requestedPage <= numPages) {
+		        currentPage = requestedPage;
+		        console.log("Requested page:", currentPage);
+		        getSearchList(currentPage);
+		        renderPaginationButtons();
+		        $(".pagination a.prev, .pagination a.next").remove();
+		    }
 		});
 
 		 getSearchList(currentPage);
@@ -303,12 +313,15 @@ ul, li {
 				</div>
 				<div class="board_list"></div>
 			</div>
+			
 			<!-- 페이징 부분 -->
 			<div class="pagination">
+				<a href="#" class="prev" data-page="1">&lt;</a>
 				<c:if test="${numPages > 1}">
 					<c:forEach begin="1" end="${numPages}" var="pageNum">
 						<a href="#" data-page="${pageNum}">${pageNum}</a>
 					</c:forEach>
+					<a href="#" class="next" data-page="${numPages}">&gt;</a>
 				</c:if>
 			</div>
 			

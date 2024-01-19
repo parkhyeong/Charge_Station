@@ -36,7 +36,7 @@ body {
 	<h1 id="title">회원가입이 완료되었습니다.</h1>
 	<div id="desc">이 페이지를 닫고, 게임으로 돌아가주세요.</div>
 	<a
-		href="/tayotayo/member/login.jsp"
+		href="${pageContext.request.contextPath}/member/login_form"
 		class="MyView-module__link_login___HpHMW"><i
 		class="MyView-module__naver_logo____Y442"><span class="blind">타요타요</span></i>로그인</a>
 </body>

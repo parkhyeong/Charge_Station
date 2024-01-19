@@ -4,5 +4,5 @@
 
 <script>
     alert("<%= request.getAttribute("fail") %>\n비밀번호 변경 실패");
-    location.href = "mypage";
+    location.href = "${pageContext.request.contextPath}/member/mypage";
 </script>
