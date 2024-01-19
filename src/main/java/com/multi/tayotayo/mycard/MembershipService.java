@@ -78,7 +78,7 @@ public class MembershipService {
 
 	// 멤버쉽 카드 충전소 결제
 	public void updateCardSubtract(String cardNum, int chargeAmountInput, int pointInput,
-	                                double chargingTime, float chargingAmount, String statId) {
+	                                double chargingTime, float chargingAmount, String statId, String es_statNm) {
 	    try {
 	        Map<String, Object> paramMap = new HashMap<>();
 	        paramMap.put("cardNum", cardNum);
@@ -87,6 +87,7 @@ public class MembershipService {
 	        paramMap.put("chargingTime", chargingTime);
 	        paramMap.put("chargingAmount", chargingAmount);
 	        paramMap.put("statId", statId);
+	        paramMap.put("es_statNm", es_statNm);
 	        
 	        membershipDAO.updateCardSubtract(paramMap);
 

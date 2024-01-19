@@ -4,11 +4,11 @@
 	<insert id="create" parameterType="reviewVO">
 		INSERT INTO review_board
 		(r_title, r_content, r_writer, r_like, r_time,
-		r_rank, r_statid, r_photo)
+		r_rank, r_statid, r_photo, r_statNm)
 		VALUES
 		(#{r_title}, #{r_content}, #{r_writer}, #{r_like}, now(),
 		#{r_rank},
-		#{r_statid}, #{r_photo})
+		#{r_statid}, #{r_photo}, #{r_statNm})
 	</insert>
 
 	<select id="list" resultType="reviewVO" parameterType="map">
@@ -16,7 +16,7 @@
 		from (
 		select ROW_NUMBER() over(order by r_num desc) as r_no,
 		r_num,
-		r_title, r_statid, r_content, r_writer, r_like, r_time, r_rank
+		r_title, r_statNm, r_content, r_writer, r_like, r_time, r_rank
 		FROM
 		review_board r
 		)
@@ -36,7 +36,7 @@
 		resultType="reviewVO">
 		SELECT * FROM ( SELECT ROW_NUMBER() OVER(ORDER BY r_num DESC) as r_no,
 		r_num,
-		r_title, r_statid, r_content, r_writer, r_like, r_time, r_rank
+		r_title, r_statNm, r_content, r_writer, r_like, r_time, r_rank
 		FROM
 		review_board
 		<where>
@@ -54,7 +54,7 @@
 				</when>
 				<when
 					test="reviewVO != null and reviewVO.type != null and reviewVO.type.equals('stationName')"> AND
-					r_statid = #{reviewVO.keyword}
+					r_statNm = #{reviewVO.keyword}
 				</when>
 			</choose>
 		</where>
@@ -76,7 +76,7 @@
 				</when>
 				<when test="type != null and type.equals('writer')"> AND r_writer = #{keyword} </when>
 				<when test="type != null and type.equals('stationName')">
-					AND r_statid = #{keyword}
+					AND r_statNm = #{keyword}
 				</when>
 			</choose>
 		</where>
@@ -88,7 +88,7 @@
 		SELECT
 		ROW_NUMBER() OVER(ORDER BY r_num DESC)
 		as r_no,
-		r_num, r_statid, r_title, r_content, r_writer, r_like, r_time,
+		r_num, r_statNm, r_title, r_content, r_writer, r_like, r_time,
 		r_rank, r_photo
 		FROM
 		review_board

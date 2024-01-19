@@ -56,13 +56,13 @@ ul, li {
 }
 
 .outer .wrap .board_list table thead tr th {
-    color: white;
+	color: white;
 }
 
 .board_header {
-    background: #212529;
-    color: white;
-    font-weight: bold;
+	background: #212529;
+	color: white;
+	font-weight: bold;
 }
 
 .onmouseover {
@@ -326,7 +326,6 @@ ul, li {
 			$("<th>").text("글번호").appendTo(headerRow);
 			$("<th>").text("충전소명").appendTo(headerRow);
 			$("<th>").text("제목").appendTo(headerRow);
-			$("<th>").text("내용").appendTo(headerRow);
 			$("<th>").text("작성자").appendTo(headerRow);
 			$("<th>").text("좋아요").appendTo(headerRow);
 			$("<th>").text("작성일").appendTo(headerRow);
@@ -345,7 +344,7 @@ ul, li {
 				} else if (searchType === "writer") {
 					return post.r_writer === searchKeyword;
 				} else if (searchType === "stationName") {
-					return post.r_statid === searchKeyword;
+					return post.r_statNm === searchKeyword;
 				}
 				return true;
 			});
@@ -366,14 +365,13 @@ ul, li {
 			$.each(filteredPosts, function(index, post) {
 				var row = $("<tr>").appendTo(tbody);
 				$("<td>").text(post.r_no).appendTo(row);
-				$("<td>").text(post.r_statid).appendTo(row);
+				$("<td>").text(post.r_statNm).appendTo(row);
 				$("<td>").html(
 						"<a href='initReviewBoardDetail.jsp?r_no=" + post.r_no
 								+ "&r_num=" + post.r_num
 								+ "' class='post-link' data-post-id='"
-								+ post.r_no + "'>" + post.r_title.substring(0, 6) + "</a>")
+								+ post.r_no + "'>" + post.r_title + "</a>")
 						.appendTo(row);
-				$("<td>").text(post.r_content.substring(0, 20)).appendTo(row);
 				$("<td>").text(post.r_writer).appendTo(row);
 				$("<td>").text(post.r_like).appendTo(row);
 				var formattedDate = new Date(post.r_time).toISOString().split(
@@ -386,27 +384,45 @@ ul, li {
 		}
 
 		function renderPaginationButtons() {
-			$(".pagination").empty();
-			if (numPages > 1) {
-				for (var i = 1; i <= numPages; i++) {
-					$("<a>").attr("href", "#").data("page", i).text(i)
-							.appendTo(".pagination");
-				}
-			}
-			$(".pagination a[data-page='" + currentPage + "']").addClass(
-					"current");
-		}
+	        $(".pagination").empty();
+	        if (numPages > 1) {
+	            var totalPages = numPages;
+	            var currentPageGroup = Math.ceil(currentPage / 10);
+	            var startPage = (currentPageGroup - 1) * 10 + 1;
+	            var endPage = Math.min(currentPageGroup * 10, totalPages);
 
-		$(document).on("click", ".pagination a", function(e) {
-			e.preventDefault();
-			currentPage = $(this).data("page");
-			console.log("Requested page:", currentPage);
-			if ($("form[name=search-form]").length > 0) {
-				getSearchList(currentPage);
-			} else {
-				loadReviewList(currentPage);
-			}
-		});
+	            if (currentPageGroup > 1) {
+	                $("<a>").attr("href", "#").data("page", startPage - 1).text("<").addClass("prev").appendTo(".pagination");
+	            }
+
+	            for (var i = startPage; i <= endPage; i++) {
+	                $("<a>").attr("href", "#").data("page", i).text(i).appendTo(".pagination");
+	            }
+
+	            if (endPage < totalPages) {
+	                $("<a>").attr("href", "#").data("page", endPage + 1).text(">").addClass("next").appendTo(".pagination");
+	            }
+	        }
+	        $(".pagination a[data-page='" + currentPage + "']").addClass("current");
+	    }
+
+	    $(document).on("click", ".pagination a", function (e) {
+	        e.preventDefault();
+	        var requestedPage = $(this).data("page");
+	        if (requestedPage === currentPage || requestedPage < 1 || requestedPage > numPages) {
+	            return;
+	        }
+	        currentPage = requestedPage;
+	        console.log("Requested page:", currentPage);
+	        if ($("form[name=search-form]").length > 0) {
+	            getSearchList(currentPage);
+	        } else {
+	            loadReviewList(currentPage);
+	        }
+	        renderPaginationButtons();
+
+	        $(".pagination a.prev, .pagination a.next").remove();
+	    });
 
 		$(document)
 				.on(
@@ -421,20 +437,23 @@ ul, li {
 									"form[name=search-form] input[name=keyword]")
 									.val();
 
-						    if (searchType === "" && (searchKeyword.trim() === "")) {
-						        alert("카테고리와 검색어를 입력해주세요.");
-						        return;
-						    }
+							if (searchType === ""
+									&& (searchKeyword.trim() === "")) {
+								alert("카테고리와 검색어를 입력해주세요.");
+								return;
+							}
 
-						    if (searchType === "" && (searchKeyword.trim() !== "")) {
-						        alert("카테고리를 선택해주세요.");
-						        return;
-						    }
+							if (searchType === ""
+									&& (searchKeyword.trim() !== "")) {
+								alert("카테고리를 선택해주세요.");
+								return;
+							}
 
-						    if (searchType !== "" && (searchKeyword.trim() === "")) {
-						        alert("검색어를 입력해주세요.");
-						        return;
-						    }
+							if (searchType !== ""
+									&& (searchKeyword.trim() === "")) {
+								alert("검색어를 입력해주세요.");
+								return;
+							}
 							getSearchList(1);
 						});
 
@@ -457,10 +476,12 @@ ul, li {
 			</div>
 			<!-- 페이징 부분 -->
 			<div class="pagination">
+				<a href="#" class="prev" data-page="1">&lt;</a>
 				<c:if test="${numPages > 1}">
 					<c:forEach begin="1" end="${numPages}" var="pageNum">
 						<a href="#" data-page="${pageNum}">${pageNum}</a>
 					</c:forEach>
+					<a href="#" class="next" data-page="${numPages}">&gt;</a>
 				</c:if>
 			</div>
 			<div class="search_area">
@@ -472,10 +493,7 @@ ul, li {
 						<option value="writer">작성자</option>
 						<option value="stationName">충전소명</option>
 					</select> <input type="text" name="keyword" value=""></input> <input
-						type="submit" class="btn_search" value="검색하기"></input> <input
-						type="button"
-						onclick="window.location.href='initReviewBoardInsert.jsp'"
-						class="btn_search" value="작성하기"></input>
+						type="submit" class="btn_search" value="검색하기"></input>
 				</form>
 			</div>
 		</div>
