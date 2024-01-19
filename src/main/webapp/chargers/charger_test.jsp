@@ -11,10 +11,5 @@
 테스트
 </a>
 
-
-<!-- <a href="selectlist?es_statNm=xxx">
-테스트2
-</a> -->
-
 </body>
 </html>
