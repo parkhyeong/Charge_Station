@@ -21,11 +21,10 @@ ul, li {
 	border-bottom: 1px solid #212529;
 }
 
-.board_list, .board_list2  {
+.board_list2 {
 	margin: 20px 30px;
 	min-height: 300px;
 }
-
 
 .board_list2>ul {
 	border-bottom: 1px solid #f3f5f7;
@@ -78,7 +77,6 @@ ul, li {
 	font-weight: bold;
 }
 
-
 .select {
 	width: 150px;
 	height: 30px;
@@ -106,7 +104,6 @@ ul, li {
 	outline: none;
 }
 
-
 .input {
 	width: 170px;
 	height: 35px;
@@ -116,7 +113,7 @@ ul, li {
 	cursor: pointer;
 }
 
-.pagination {
+.pagination2 {
 	height: 40px;
 	line-height: 50px;
 	display: flex;
@@ -126,7 +123,7 @@ ul, li {
 	margin: auto;
 }
 
-.pagination a {
+.pagination2 a {
 	text-decoration: none;
 	color: #212529;
 	width: 30px;
@@ -146,7 +143,7 @@ ul, li {
 	border: 1px solid #ccc;
 }
 
-.pagination a.current_page {
+.pagination2 a.current_page {
 	border-bottom: 2px solid #212529;
 	font-weight: bold;
 }
@@ -165,40 +162,39 @@ ul, li {
 }
 
 .board_list board_list2 table thead tr th {
-    color: white;
+	color: white;
 }
 
-.board_list2 table thead tr th{
-    color: white;
+.board_list2 table thead tr th {
+	color: white;
 }
-
 </style>
 
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-	
+
 <script type="text/javascript">
 
 	$(function() {
 
-		var currentPage = 1; // 초기 페이지
-		var pageSize = 5; // 페이지당 표시할 게시물 수
-		var numPages; // 전체 페이지 수
-		var table;
+		var currentPage2 = 1; // 초기 페이지
+		var pageSize2 = 5; // 페이지당 표시할 게시물 수
+		var numPages2; // 전체 페이지 수
+		var table2;
 
 
-		function getSearchList(page) {
-			var searchType = "writer";
-			var searchKeyword = "${member_id}";
+		function getSearchList2(page) {
+			var searchType2 = "writer";
+			var searchKeyword2 = "${member_id}";
 
 			$.ajax({
 						type : 'GET',
 						url : "${pageContext.request.contextPath}/review/getSearchList",
 						data : {
 							page : page,
-							pageSize : pageSize,
-							type : searchType,
-							keyword : searchKeyword
+							pageSize : pageSize2,
+							type : searchType2,
+							keyword : searchKeyword2
 						},
 						dataType : "json",
 						success : function(result) {
@@ -207,12 +203,12 @@ ul, li {
 							console.log("Number of pages:", numPages);
 
 							var filteredPosts = result.posts.filter(function(post) {
-				                return post.r_writer === searchKeyword;
+				                return post.r_writer === searchKeyword2;
 				            });
 
-				            displayData(filteredPosts);
+				            displayData2(filteredPosts);
 
-				            renderPaginationButtons();
+				            renderPaginationButtons2();
 						},
 						error : function(xhr, status, error) {
 							console.error("Ajax 요청 중 에러 발생:", status, error);
@@ -220,7 +216,7 @@ ul, li {
 					});
 		}
 
-		function displayData(posts) {
+		function displayData2(posts) {
 
 			$(".board_list2").empty();
 			var table = $("<table>").addClass("table");
@@ -236,18 +232,18 @@ ul, li {
 
 			var searchType = $("form[name=search-form] select[name=type]")
 					.val();
-			var searchKeyword = $("form[name=search-form] input[name=keyword]")
+			var searchKeyword2 = $("form[name=search-form] input[name=keyword]")
 					.val();
 
 			var filteredPosts = posts.filter(function(post) {
 				if (searchType === "title") {
-					return post.r_title.includes(searchKeyword);
+					return post.r_title.includes(searchKeyword2);
 				} else if (searchType === "content") {
-					return post.r_content.includes(searchKeyword);
+					return post.r_content.includes(searchKeyword2);
 				} else if (searchType === "writer") {
-					return post.r_writer === searchKeyword;
+					return post.r_writer === searchKeyword2;
 				} else if (searchType === "stationName") {
-					return post.r_statid === searchKeyword;
+					return post.r_statid === searchKeyword2;
 				}
 				return true;
 			});
@@ -255,9 +251,9 @@ ul, li {
 			console.log("Filtered Posts Length:", filteredPosts.length);
 
 
-			var startIndex = (currentPage - 1) * pageSize;
+			var startIndex = (currentPage2 - 1) * pageSize2;
 			var endIndex = Math
-					.min(startIndex + pageSize, filteredPosts.length);
+					.min(startIndex + pageSize2, filteredPosts.length);
 			var paginatedPosts = filteredPosts.slice(startIndex, endIndex);
 
 			$.each(filteredPosts, function(index, post) {
@@ -279,49 +275,69 @@ ul, li {
 			$(".board_list2").html(table);
 		}
 
-		function renderPaginationButtons() {
-			$(".pagination").empty();
-			if (numPages > 1) {
-				for (var i = 1; i <= numPages; i++) {
-					$("<a>").attr("href", "#").data("page", i).text(i)
-							.appendTo(".pagination");
-				}
-			}
-			$(".pagination a[data-page='" + currentPage + "']").addClass(
-					"current");
-		}
+		function renderPaginationButtons2() {
+	        $(".pagination2").empty();
+	        if (numPages > 1) {
+	            var totalPages = numPages;
+	            var currentPageGroup = Math.ceil(currentPage2 / 10);
+	            var startPage = (currentPageGroup - 1) * 10 + 1;
+	            var endPage = Math.min(currentPageGroup * 10, totalPages);
 
-		$(document).on("click", ".pagination a", function(e) {
-			e.preventDefault();
-			currentPage = $(this).data("page");
-			console.log("Requested page:", currentPage);
-			if ($("form[name=search-form]").length > 0) {
-				getSearchList(currentPage);
-			} else {
-				getSearchList(currentPage);
-			}
-		});
+	            if (currentPageGroup > 1) {
+	                $("<a>").attr("href", "#").data("page", startPage - 1).text("<").addClass("prev").appendTo(".pagination2");
+	            }
 
-		 getSearchList(currentPage);
+	            for (var i = startPage; i <= endPage; i++) {
+	                $("<a>").attr("href", "#").data("page", i).text(i).appendTo(".pagination2");
+	            }
+
+	            if (endPage < totalPages) {
+	                $("<a>").attr("href", "#").data("page", endPage + 1).text(">").addClass("next").appendTo(".pagination2");
+	            }
+	        }
+	        $(".pagination2 a[data-page='" + currentPage2 + "']").addClass("current");
+	    }
+
+	    $(document).on("click", ".pagination2 a", function (e) {
+	        e.preventDefault();
+	        var requestedPage = $(this).data("page");
+	        if (requestedPage === currentPage2 || requestedPage < 1 || requestedPage > numPages) {
+	            return;
+	        }
+	        currentPage2 = requestedPage;
+	        console.log("Requested page:", currentPage2);
+	        if ($("form[name=search-form]").length > 0) {
+	            getSearchList2(currentPage2);
+	        } else {
+	        	getSearchList2(currentPage2);
+	        }
+	        renderPaginationButtons2();
+
+	        $(".pagination2 a.prev, .pagination2 a.next").remove();
+	    });
+	    
+
+		 getSearchList2(currentPage2);
 	});
 </script>
 
-		<div class="wrap">
-			<div class="board_area">
-				<div class="board_title">
-				</div>
-				<div class="board_list2"></div>
-			</div>
-			<!-- 페이징 부분 -->
-			<div class="pagination">
+<div class="wrap">
+	<div class="board_area">
+		<div class="board_title"></div>
+		<div class="board_list2"></div>
+	</div>
+	<!-- 페이징 부분 -->
+			<div class="pagination2">
+				<a href="#" class="prev" data-page="1">&lt;</a>
 				<c:if test="${numPages > 1}">
 					<c:forEach begin="1" end="${numPages}" var="pageNum">
 						<a href="#" data-page="${pageNum}">${pageNum}</a>
 					</c:forEach>
+					<a href="#" class="next" data-page="${numPages}">&gt;</a>
 				</c:if>
 			</div>
-			
-		</div>
 
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+</div>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
