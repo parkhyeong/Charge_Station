@@ -35,7 +35,7 @@ public class MailController {
 		int checkNum = random.nextInt(888888) + 111111;
 
 		/* 이메일 보내기 */
-        String setFrom = "ghd_5427@naver.com";
+        String setFrom = "rnjsghd97@naver.com";
         String toMail = memberVO.getEmail();
         String title = "타요타요 인증 이메일 입니다.";
         String content = 
@@ -81,7 +81,7 @@ public class MailController {
 		int checkNum = random.nextInt(888888) + 111111;
 
 		/* 이메일 보내기 */
-        String setFrom = "ghd_5427@naver.com";
+        String setFrom = "rnjsghd97@naver.com";
         String toMail = memberVO.getEmail();
         String title = "타요타요 인증 이메일 입니다.";
         String content = 

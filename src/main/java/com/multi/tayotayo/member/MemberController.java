@@ -28,7 +28,7 @@ public class MemberController {
 	MemberService memberservice;
 	
 	@Autowired
-	MemberDAO dao;
+	MemberDAOinterface dao;
 	
 	@Autowired
 	ReviewService reviewservice;
