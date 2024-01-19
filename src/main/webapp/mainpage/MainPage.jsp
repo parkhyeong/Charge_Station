@@ -242,7 +242,7 @@ body {
             };
         	 // 지도에 원 선언
     		var circle;
-        	 
+        	  
             //map 생성
             var map = new kakao.maps.Map(container, options);
            
