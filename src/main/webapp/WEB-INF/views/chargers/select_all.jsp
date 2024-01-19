@@ -13,7 +13,7 @@
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
 	$(function() {
-		$('.pages').click(function() {
+/* 		$('.pages').click(function() {
 			$.ajax({
 				url : "charger_table",//list1?page=9
 				data : {
@@ -25,22 +25,22 @@
 					$('#result').html(table)
 				}
 			})
-		})
-	})
+		})  */
+	}) 
 	
-	/*  function loadPage(page) {
-        $.ajax({
-            url: "charger_table",
-            data: {
-                page: page
-            },
-            success: function(table) {
-            	alert(table);
-                $('#result').html(table);
-            }
-        });
-    } */
-	
+loadPage(1);
+	 function loadPage(page) {
+	    $.ajax({
+	        url: "charger_table",
+	        data: {
+	            page: page
+	        },
+	        success: function(table) {
+	        	alert(table);
+	            $('#result').html(table);
+	        }
+	    });
+	} 
 </script>
 <style>
 #search_div {
@@ -48,19 +48,25 @@
 	text-align: center;
 }
 
-.search-input {
-	padding: 5px;
-	width: 20%;
-	margin: 0 auto;
-	display: block;
+.search-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	margin-bottom: 10px;
 }
+
+  .search-input {
+	padding: 5px;
+	width: 100%; /* 수정: 20%에서 100%로 변경 */
+	margin: 0 ;
+} 
+
 
 .search-btn {
 	background-color: #28a745;
 	color: #fff;
-	padding: 5px 10px;
-	margin-right: 5px;
+	/* padding: 5px 10px;
+	margin-right: 5px; */
 	border: none;
 	border-radius: 3px;
 	cursor: pointer;
@@ -68,76 +74,79 @@
 </style>
 </head>
 <body>
+<br> 전체 페이지 수 : ${pages}개
 
 	<div id="search_div">
 		<!-- 키워드 검색  -->
-		<div>
+		<br> 전체 페이지 수 : ${pages}개
+		<div class="search-container">
 			<input type="text" id="keyword" placeholder="검색하기" width="600px">
+			<!-- 검색 버튼 -->
+			<button id="search-btn">검색하기</button>
 		</div>
 
 		<!-- 필터링   검색-->
 		<!-- 군/구 필터링 -->
-		<div>
-			<select class="search-input" id="location-category">
-				<option value="%">군/구 선택</option>
-				<option value="강남구">강남구</option>
-				<option value="강동구">강동구</option>
-				<option value="강북구">강북구</option>
-				<option value="강서구">강서구</option>
-				<option value="관악구">관악구</option>
-				<option value="광진구">광진구</option>
-				<option value="구로구">구로구</option>
-				<option value="금천구">금천구</option>
-				<option value="노원구">노원구</option>
-				<option value="도봉구">도봉구</option>
-				<option value="동대문구">동대문구</option>
-				<option value="동작구">동작구</option>
-				<option value="마포구">마포구</option>
-				<option value="서대문구">서대문구</option>
-				<option value="서초구">서초구</option>
-				<option value="성동구">성동구</option>
-				<option value="성북구">성북구</option>
-				<option value="송파구">송파구</option>
-				<option value="양천구">양천구</option>
-				<option value="양천구">영등포구</option>
-				<option value="용산구">용산구</option>
-				<option value="은평구">은평구</option>
-				<option value="종로구">종로구</option>
-				<option value="중구">중구</option>
-				<option value="중랑구">중랑구</option>
-			</select>
+		<div class="search-container">
+			<div>
+				<select class="search-input" id="location-category">
+					<option value="%">군/구 선택</option>
+					<option value="강남구">강남구</option>
+					<option value="강동구">강동구</option>
+					<option value="강북구">강북구</option>
+					<option value="강서구">강서구</option>
+					<option value="관악구">관악구</option>
+					<option value="광진구">광진구</option>
+					<option value="구로구">구로구</option>
+					<option value="금천구">금천구</option>
+					<option value="노원구">노원구</option>
+					<option value="도봉구">도봉구</option>
+					<option value="동대문구">동대문구</option>
+					<option value="동작구">동작구</option>
+					<option value="마포구">마포구</option>
+					<option value="서대문구">서대문구</option>
+					<option value="서초구">서초구</option>
+					<option value="성동구">성동구</option>
+					<option value="성북구">성북구</option>
+					<option value="송파구">송파구</option>
+					<option value="양천구">양천구</option>
+					<option value="양천구">영등포구</option>
+					<option value="용산구">용산구</option>
+					<option value="은평구">은평구</option>
+					<option value="종로구">종로구</option>
+					<option value="중구">중구</option>
+					<option value="중랑구">중랑구</option>
+				</select>
+			</div>
+
+			<!-- 충전소 분류 필터링 -->
+			<div>
+				<select class="search-input" id="charging-station-category">
+					<option value="%">충전소 분류</option>
+					<option value="공공시설">공공시설</option>
+					<option value="공동주택시설">공동주택시설</option>
+					<option value="관광시설">관광시설</option>
+					<option value="교육문화시설">교육문화시설</option>
+					<option value="근린생활시설">근린생활시설</option>
+					<option value="기타시설">기타시설</option>
+					<option value="상업시설">상업시설</option>
+					<option value="주차시설">주차시설</option>
+					<option value="차량정비시설">차량정비시설</option>
+					<option value="휴게시설">휴게시설</option>
+				</select>
+			</div>
+
+			<!-- 충전기 타입 필터링 -->
+			<div>
+				<select class="search-input" id="charging-type">
+					<option value="%">충전기 타입</option>
+					<option value="급속">급속 충전</option>
+					<option value="완속">완속 충전</option>
+				</select>
+			</div>
+
 		</div>
 
-		<!-- 충전소 분류 필터링 -->
-		<div>
-			<select class="search-input" id="charging-station-category">
-				<option value="%">충전소 분류</option>
-				<option value="공공시설">공공시설</option>
-				<option value="공동주택시설">공동주택시설</option>
-				<option value="관광시설">관광시설</option>
-				<option value="교육문화시설">교육문화시설</option>
-				<option value="근린생활시설">근린생활시설</option>
-				<option value="기타시설">기타시설</option>
-				<option value="상업시설">상업시설</option>
-				<option value="주차시설">주차시설</option>
-				<option value="차량정비시설">차량정비시설</option>
-				<option value="휴게시설">휴게시설</option>
-			</select>
-		</div>
-
-		<!-- 충전기 타입 필터링 -->
-		<div>
-			<select class="search-input" id="charging-type">
-				<option value="%">충전기 타입</option>
-				<option value="급속">급속 충전</option>
-				<option value="완속">완속 충전</option>
-			</select>
-		</div>
-
-
-
-		<!-- 검색 버튼 -->
-		<button id="search-btn">검색하기</button>
 
 	</div>
 	<!-- search_div -->
@@ -164,56 +173,52 @@
 						<td>${vo.row_no}</td>
 						<td>${vo.es_statNm}</td>
 						<td>${vo.es_addr}</td>
-						<td>충전기정보</td>
+						<td>충전 가능 : ${vo.stat_count} 대</td>
 				</c:forEach>
 
 			</tbody>
 		</table>
 	</div>
 
-	<!-- 페이지 번호  -->
-	<br> 전체 페이지 수 : ${pages}개
-	<%
-		int pages = (int) request.getAttribute("pages");//int(작은) <--Ogject(큰)
-	for (int p = 1; p <= pages; p++) {
-	%>
-	<button style="background: pink;" class="pages"><%=p%></button>
-	<%
-		}
-	%>
-
-	<!-- 이전/다음 버튼 이용 -->
-	<!-- 페이지 번호 -->
-	<%-- <br> 전체 페이지 수 : ${pages}개
-
-	<%
+<br><br><br>
+<%
 		int pages = (int) request.getAttribute("pages");
-
+  %>
+  
+  <%
 	// 현재 페이지 번호를 파라미터로 받아옴
 	PageVO pageVO = (PageVO) request.getAttribute("pageVO");
 	int currentPage = pageVO.getPage(); //pageVO.page가 아닌이유?
 			
 	// 시작 페이지와 끝 페이지를 계산
-	int startPage = Math.max(currentPage - 5, 1); //10개로 변경할까?
-	int endPage = Math.min(currentPage + 5, pages);
+	int startPage = currentPage;
+	//int startPage = Math.max(currentPage - 5, 1); //10개로 변경할까? //1
+	int endPage = Math.min(currentPage + 5, pages); //6
 
-	int prevPage = Math.max(startPage - 1, 1);
-	int nextPage = Math.min(endPage + 1, pages);
+	int prevPage = Math.max(startPage - 1, 1); //1
+	int nextPage = Math.min(endPage + 1, pages); //7
 	%>
-
-	<button style="background: pink;" class="pages" onclick="loadPage(1)">처음</button>
-	<button style="background: pink;" class="pages"
-		onclick="loadPage(<%=prevPage%>)">이전</button>
-
+	<center>
+	<div>
+	<a href="select_all_p?page=1">
+		<button style="background: pink;" class="pages">처음</button>
+	</a>
+	<a href="select_all_p?page=<%= prevPage %>">
+			<button style="background: pink;" class="pages">이전</button>
+	</a>
 	<c:forEach begin="<%=startPage%>" end="<%=endPage%>" var="p">
-		<button style="background: pink;" class="pages"	onclick="loadPage(<%=currentPage%>)">${p}</button>
+		<button style="background: pink;" class="pages"	onclick="loadPage(${p})">${p}</button>
 	</c:forEach>
+	<a href="select_all_p?page=<%= nextPage %>">
+		<button style="background: pink;" class="pages">다음</button>
+	</a>
+	<a href="select_all_p?page=<%= pages %>">
+		<button style="background: pink;" class="pages">마지막</button>
+	</a>
 
-	<button style="background: pink;" class="pages"
-		onclick="loadPage(<%=nextPage%>)">다음</button>
-	<button style="background: pink;" class="pages"
-		onclick="loadPage(<%=pages%>)">마지막</button> --%>
-
+</div></center>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	
 
 	<!-- 스크립트 -->
 	<script>
