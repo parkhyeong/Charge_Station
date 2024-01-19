@@ -1,9 +1,11 @@
+<%@page import="com.multi.tayotayo.chargers.PageVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
+<jsp:include page="/header.jsp"></jsp:include>
 <meta charset="UTF-8">
 <title>전기차 타요타요</title>
 <script src="https://code.jquery.com/jquery-3.7.1.js"
@@ -25,6 +27,20 @@
 			})
 		})
 	})
+	
+	/*  function loadPage(page) {
+        $.ajax({
+            url: "charger_table",
+            data: {
+                page: page
+            },
+            success: function(table) {
+            	alert(table);
+                $('#result').html(table);
+            }
+        });
+    } */
+	
 </script>
 <style>
 #search_div {
@@ -53,13 +69,12 @@
 </head>
 <body>
 
-
 	<div id="search_div">
 		<!-- 키워드 검색  -->
 		<div>
 			<input type="text" id="keyword" placeholder="검색하기" width="600px">
 		</div>
-		
+
 		<!-- 필터링   검색-->
 		<!-- 군/구 필터링 -->
 		<div>
@@ -109,7 +124,7 @@
 				<option value="휴게시설">휴게시설</option>
 			</select>
 		</div>
-		
+
 		<!-- 충전기 타입 필터링 -->
 		<div>
 			<select class="search-input" id="charging-type">
@@ -125,7 +140,7 @@
 		<button id="search-btn">검색하기</button>
 
 	</div>
-	<!-- search_div --> 
+	<!-- search_div -->
 
 
 	<hr color="blue">
@@ -167,6 +182,37 @@
 		}
 	%>
 
+	<!-- 이전/다음 버튼 이용 -->
+	<!-- 페이지 번호 -->
+	<%-- <br> 전체 페이지 수 : ${pages}개
+
+	<%
+		int pages = (int) request.getAttribute("pages");
+
+	// 현재 페이지 번호를 파라미터로 받아옴
+	PageVO pageVO = (PageVO) request.getAttribute("pageVO");
+	int currentPage = pageVO.getPage(); //pageVO.page가 아닌이유?
+			
+	// 시작 페이지와 끝 페이지를 계산
+	int startPage = Math.max(currentPage - 5, 1); //10개로 변경할까?
+	int endPage = Math.min(currentPage + 5, pages);
+
+	int prevPage = Math.max(startPage - 1, 1);
+	int nextPage = Math.min(endPage + 1, pages);
+	%>
+
+	<button style="background: pink;" class="pages" onclick="loadPage(1)">처음</button>
+	<button style="background: pink;" class="pages"
+		onclick="loadPage(<%=prevPage%>)">이전</button>
+
+	<c:forEach begin="<%=startPage%>" end="<%=endPage%>" var="p">
+		<button style="background: pink;" class="pages"	onclick="loadPage(<%=currentPage%>)">${p}</button>
+	</c:forEach>
+
+	<button style="background: pink;" class="pages"
+		onclick="loadPage(<%=nextPage%>)">다음</button>
+	<button style="background: pink;" class="pages"
+		onclick="loadPage(<%=pages%>)">마지막</button> --%>
 
 
 	<!-- 스크립트 -->
@@ -196,7 +242,6 @@
 			})//ajax
 
 		})//#search-btn
-
 	</script>
 </body>
 </html>

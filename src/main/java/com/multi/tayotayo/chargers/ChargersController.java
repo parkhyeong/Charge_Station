@@ -29,10 +29,11 @@ public class ChargersController {
 
 	@Autowired
 	ChargersDAO chargersdao;
-
+	
 	/*
-	 * @GetMapping("select") public List<ChargersVO> selectChargers() { return
-	 * ChargersService.select(); }
+	 * //이거 맞나요?
+	 * 
+	 * @Autowired PageVO pageVO;
 	 */
 
 
@@ -48,12 +49,13 @@ public class ChargersController {
 	// 전체 충전소 list paging
 	@RequestMapping("/select_all_p")
 	public String select_all_p(PageVO pageVO, Model model) {// 전체 리스트
+	    
 		pageVO.setStartEnd();// page, start, end get
 
-		int count = chargersdao.count();
+		int count = chargersdao.count(); 
 		int pages = count / 20;
 		if (count % 20 != 0) {
-			pages += 1;
+			pages += 1; //pages : 전체 페이지 갯수
 		}
 
 		List<ChargersVO> list = chargersdao.select_all_p(pageVO);
@@ -62,14 +64,23 @@ public class ChargersController {
 		model.addAttribute("count", count);
 		model.addAttribute("pages", pages);
 		model.addAttribute("select_all", list);
+		
+		 model.addAttribute("pageVO", pageVO); // PageVO 객체를 Model에 추가
 
 		return "chargers/select_all"; // views/chargers/select_all.jsp
 	}
 	
+	//ajax 호출 시 불러올 테이블
+		@RequestMapping("/charger_table")
+		public void charger_table(PageVO pageVO, Model model) { //start, end
+			pageVO.setStartEnd();
+			List<ChargersVO> list = chargersdao.select_all_p(pageVO);
+			model.addAttribute("select_all", list);
+		}
+	
 	//필터링 검색 + 키워드 검색
 	@RequestMapping("/selectWithFilters")
 	public void selectWithFilters(ChargersVO chargersVO, Model model) {
-		System.out.println("selectWithFilters");	
 		System.out.println(chargersVO);
 		
 		List<ChargersVO> list = chargersService.selectWithFilters(chargersVO);
@@ -78,15 +89,7 @@ public class ChargersController {
 	
 	}
 
-	/*
-	 * //키워드 검색
-	 * 
-	 * @RequestMapping("selectlist") public List<ChargersVO>
-	 * selectlistChargers(String es_statNm) { List<ChargersVO> list =
-	 * chargersService.selectlist(es_statNm); return list;
-	 * 
-	 * }
-	 */
+	
 	
 //	현준님 코드
 	

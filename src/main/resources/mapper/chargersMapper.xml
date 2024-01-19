@@ -75,18 +75,6 @@
 		</if>
 		) es2
 	</select>
-
-
-<!-- 	 키워드 검색 후 충전소명으로 목록 조회 
-	<select id="selectlist" parameterType="String"
-		resultType="chargersVO">
-		select *
-		from e_station
-		where es_statNm like
-		CONCAT('%',#{keyword},'%')
-		where es2.row_no between ${start} and ${end}
-	</select> -->
-
 	
 
 	<!-- 현준님 코드 -->
