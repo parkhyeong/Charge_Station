@@ -27,8 +27,8 @@ public class MemberDAO implements MemberDAOinterface {
 	@Override
 	public MemberVO one(String member_id) {
 		MemberVO result = my.selectOne("member.one", member_id);
-		System.out.println("result 결과 전");
-		System.out.println(result);
+		//System.out.println("result 결과 전");
+		//System.out.println(result);
 		return result;
 	}
 	

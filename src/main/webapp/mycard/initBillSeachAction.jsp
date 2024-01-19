@@ -1,7 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
+<%@ page import="java.io.IOException"%>
 
+<%
+	HttpSession sessionPayment = request.getSession(false);
+if (sessionPayment == null || sessionPayment.getAttribute("member_id") == null) {
+%>
+<script>
+	alert('로그인 후 이용 요금 조회가 가능합니다.');
+	window.location.href = '/tayotayo/member/login.jsp';
+</script>
+<%
+	return;
+}
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -266,7 +280,7 @@
 						<tr>
 							<th scope="col">이력</th>
 							<th scope="col">결제날짜</th>
-							<th scope="col">총전소명</th>
+							<th scope="col">충전소명</th>
 							<th scope="col">충전시간</th>
 							<th scope="col">충전량(kWh)<br>
 							</th>
@@ -348,6 +362,8 @@
 											success : function(cardInfoList) {
 												console.log("카드정보:",
 														cardInfoList);
+												console.log("카드번호:",
+														selectedCardNum);
 
 												var tableBody = $("#cardInfoTableBody");
 												tableBody.empty();
@@ -360,7 +376,7 @@
 											        var newRow = $("<tr>")
 											        	.append($("<td>").text(cardInfo.transaction_id))
 											            .append($("<td>").text(formattedChargeDay))
-											            .append($("<td>").text(cardInfo.station_name))
+											            .append($("<td>").text(cardInfo.es_statNm))
 											            .append($("<td>").text(cardInfo.charge_time))
 											            .append($("<td>").text(cardInfo.charge_amount))
 											            .append($("<td>").text(cardInfo.payment_amount))
@@ -397,17 +413,14 @@
 									    });
 									}
 
-							function handleRefund(selectedCardNum, transactionId, station_name, charge_time, charge_amount, payment_amount, payment_point) {
+							function handleRefund(selectedCardNum, transactionId, payment_amount, payment_point) {
 							    if (confirm("정말로 환불하시겠습니까?")) {
 							        $.ajax({
 							            type: "POST",
 							            url: "refundEndpoint",
 							            data: {
-							                card_num: selectedCardNum,
+							            	card_num: selectedCardNum,
 							                transactionId: transactionId,
-							                station_name: station_name,
-							                charge_time: charge_time,
-							                charge_amount: charge_amount,
 							                payment_amount: payment_amount,
 							                payment_point: payment_point
 							            },

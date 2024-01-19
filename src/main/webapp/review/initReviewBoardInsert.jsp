@@ -1,6 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
+<%@ page import="java.io.IOException"%>
+
+<%
+	HttpSession sessionPayment = request.getSession(false);
+if (sessionPayment == null || sessionPayment.getAttribute("member_id") == null) {
+%>
+<script>
+	alert('로그인 후 리뷰 작성이 가능합니다.');
+	window.location.href = '/tayotayo/member/login.jsp';
+</script>
+<%
+	return;
+}
+%>
+<%
+String es_statId = request.getParameter("es_statId");
+session.setAttribute("es_statId", es_statId);
+String es_statNm = request.getParameter("es_statNm");
+session.setAttribute("es_statNm", es_statNm);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,16 +155,16 @@
 						<div class="content">
 							<br>
 							<h5>
-								<span class="title_span">&nbsp;</span> 작성자
+								<span class="title_span">&nbsp;</span> 작성자 : 
 								<c:out value="${member_id}" />
 							</h5>
 							<input type="hidden" name="r_writer"
 								value="<c:out value='${member_id}' />">
 							<h5>
 
-								<span class="title_span">&nbsp;</span> 충전소 아이디 ${es_statid}
+								<span class="title_span">&nbsp;</span> 충전소 명 : ${es_statNm}
 							</h5>
-							<input type="hidden" name="es_statid" value="${es_statid}">
+							<input type="hidden" name="es_statid" value="${es_statNm}">
 							<div>
 								<h5>
 									<span class="title_span">&nbsp;</span> 별점
@@ -196,14 +217,17 @@
 <script>
 	var member_id = "<c:out value='${member_id}'/>";
 	console.log(member_id);
-	var es_statid = "<c:out value='${es_statid}'/>";
-	console.log(es_statid);
+	var es_statId ="<c:out value='${es_statId}'/>";
+	console.log(es_statId);
+	var es_statNm ="<c:out value='${es_statNm}'/>";
+	console.log(es_statNm);
 	function validateForm() {
 		var title = document.getElementsByName("r_title")[0].value.trim();
 		var content = document.getElementsByName("r_content")[0].value.trim();
 		var userId = document.getElementsByName("r_writer")[0].value.trim();
 		var rating = document.getElementsByName("r_rank")[0].value.trim();
-		var es_statid = document.getElementsByName("es_statid")[0].value.trim();
+		var es_statId = document.getElementsByName("es_statId")[0].value.trim();
+		var es_statNm = document.getElementsByName("es_statNm")[0].value.trim();
 
 		if (title === "" || content === "" || userId === "" || rating === "") {
 			alert("제목과 내용, 별점을 모두 입력해주세요.");
@@ -215,7 +239,8 @@
 	        r_content: r_content,
 	        r_writer: r_writer,
 	        r_rank: r_rank,
-	        r_statid: es_statid  
+	        r_statid: es_statId,
+	        r_statNm: es_statNm
 	    });
 
 	    return true;

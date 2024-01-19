@@ -5,17 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.multi.tayotayo.review.ReviewVO;
@@ -32,7 +29,18 @@ public class MemberController {
 	
 	@Autowired
 	ReviewService reviewservice;
-
+	
+	@RequestMapping(value = "member/login_form", method = RequestMethod.GET)
+	public String login_form(HttpSession session, Model model) {
+		String member_id = (String)session.getAttribute("member_id");
+		if (member_id == null) { //로그인안했을경우 로그인화면으로 이동
+			return "member/login"; 
+		}
+		else {
+			return "redirect:/mainpage/MainPage.jsp";
+		}
+	}
+	
 	// 로그인
 	@RequestMapping(value = "member/login", method = RequestMethod.POST)
 	@ResponseBody
@@ -61,20 +69,33 @@ public class MemberController {
 	//마이페이지
 	@RequestMapping(value = "member/mypage", method = RequestMethod.GET)
 	public String mypage(HttpSession session, Model model) {
+		
 		String member_id = (String)session.getAttribute("member_id");
+		String social_id = (String) session.getAttribute("social_id");
+		
+		if (member_id == null) { //로그인안했을경우 로그인화면으로 이동
+			return "member/login_empty_fail"; //로그인 안함- 로그인창으로 이동
+		}
+		
 		String type=(String)session.getAttribute("type");
 		MemberVO result= dao.one(member_id); //member 테이블 조회
 		//List<MemberVO> result2 = dao.myreviewlist(member_id);
 		model.addAttribute("result",result);
 		model.addAttribute("type",type);
 		model.addAttribute("member_id",member_id);
-
+		model.addAttribute("social_id", social_id);
+		
+		//내 게시물 목록 --> MODEL 
+		//내 댓글 목록 --> MODEL
+		
 		if (type.equals("naver") || type.equals("kakao") || type.equals("google")) {
-			String social_id = (String) session.getAttribute("social_id");
-			model.addAttribute("social_id", social_id);
+
+
 			return "member/social_mypage"; //소셜 마이페이지로 이동
 		}
 		return "member/mypage"; //타요타요 마이페이지로 이동
+		
+
 	}
 
 	// 로그아웃
@@ -320,7 +341,5 @@ public class MemberController {
 
 			return result;
 		}
-		
-		
 		
 }

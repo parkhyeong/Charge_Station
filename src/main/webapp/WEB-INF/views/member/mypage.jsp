@@ -12,54 +12,211 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>My Page</title>
-<style>
-body {
-	font-family: 'Arial', sans-serif;
-	background-color: #f0f0f0;
-	margin: 0;
-	padding: 0;
+
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+	
+<link href="${pageContext.request.contextPath}/resources/css/mypage.css" rel="stylesheet" type="text/css" />
+
+<script>
+
+idok = 0;
+passok = 0; 
+cpassok = 0; 
+nameok = 0;
+nicknameok = 0; 
+telok = 0;
+emailok = 0; 
+
+function checkName() {
+	let userName = $('#name');
+	let error = $('.error_next_box');
+	let namePattern = /[a-zA-Z가-힣]/;
+
+ if(userName.val() === "") {
+     error[0].innerHTML = "필수 정보입니다.";
+     error[0].style.display = "block";
+     nameok = 0
+ } else if(!namePattern.test(userName.val()) || userName.val().indexOf(" ") > -1) {
+     error[0].innerHTML = "한글과 영문 대 소문자를 사용하세요. (특수기호, 공백 사용 불가)";
+     error[0].style.display = "block";
+     nameok = 0
+ } else {
+     error[0].style.display = "none";
+     nameok = 1
+ }
 }
 
-header {
-	background-color: #333;
-	color: #fff;
-	padding: 20px;
-	text-align: center;
+function checknickName() {
+	var nickName = $('#nickname');
+	let error = $('.error_next_box');
+	
+ $.ajax({
+		type : "post",/* 전송 방식 */
+		url : "nicknameConfirm", /* 컨트롤러 사용할 때. 내가 보낼 데이터의 주소. */
+		data : {
+			"nickname" : nickName.val()
+		},
+
+		success : function(data) {
+			if('${result.nickname}'==nickName.val()){
+				data = 1
+			}
+			if (data == 0) {
+				 //ajax가 제대로 안됐을 때 .
+              error[1].innerHTML = "닉네임이 이미 존재합니다.";
+              error[1].style.display = "block";
+				nicknameok = 0 //불가 
+			}
+		},
+		error : function() {
+             error[1].innerHTML = "오류가 발생했습니다.";
+             error[1].style.display = "block";
+             nicknameok = 0 //불가 
+		}
+	})
+	
+ var namePattern = /[a-zA-Z가-힣0-9]/;
+ if(nickName.val() === "") {
+     error[1].innerHTML = "필수 정보입니다.";
+     error[1].style.display = "block";
+     nicknameok = 0 //불가 
+ } else if(!namePattern.test(nickName.val()) || nickName.val().indexOf(" ") > -1) {
+     error[1].innerHTML = "한글과 영문 대 소문자, 숫자를 사용하세요. (특수기호, 공백 사용 불가)";
+     error[1].style.display = "block";
+     nicknameok = 0 //불가 
+ } else {
+     error[1].style.display = "none";
+     nicknameok = 1 //가능 
+ }
 }
 
-section {
-	max-width: 800px;
-	margin: 20px auto;
-	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	width: 590px;
+
+function isEmailCorrect() {
+	let email = $('#email');
+	let error = $('.error_next_box');
+	
+	 $.ajax({
+			type : "post",/* 전송 방식 */
+			url : "emailConfirm", /* 컨트롤러 사용할 때. 내가 보낼 데이터의 주소. */
+			data : {
+				"email" : email.val()
+			},
+
+			success : function(data) {
+				if('${result.email}'==email.val()){
+					data = 1
+				}
+				
+				if (data == 0) {
+					
+	               error[2].innerHTML = "이미 등록된 이메일 입니다.";
+	               error[2].style.display = "block";
+					emailok = 0 //불가 
+				}
+			},
+			error : function() {
+	              error[2].innerHTML = "오류가 발생했습니다.";
+	              error[2].style.display = "block";
+	              emailok = 0 //불가 
+			}
+		})
+		
+	 var emailPattern = /[a-z0-9]{2,}@[a-z0-9-]{2,}\.[a-z0-9]{2,}/;
+
+	 if(email.val() === ""){ 
+	     error[2].innerHTML = "필수 정보입니다.";
+	     error[2].style.display = "block";
+	     emailok = 0 //불가 
+	 } else if(!emailPattern.test(email.val())) {
+	     error[2].innerHTML = "잘못된 이메일 형식입니다.";
+	     error[2].style.display = "block";
+	     emailok = 0 //불가 
+	 } else {
+	     error[2].style.display = "none"; 
+	     emailok = 1 //가능 
+			 
+	 }
+	 
+}
+	
+	
+function checkPhoneNum() {
+	let mobile = $('#tel');
+	let error = $('.error_next_box');
+ $.ajax({
+		type : "post",/* 전송 방식 */
+		url : "telConfirm", /* 컨트롤러 사용할 때. 내가 보낼 데이터의 주소. */
+		data : {
+			"tel" : mobile.val()
+		},
+
+		success : function(data) {
+			if('${result.tel}'==mobile.val()){
+				data = 1
+			}
+			
+			if (data == 0) {
+				 //ajax가 제대로 안됐을 때 .
+               error[3].innerHTML = "이미 등록된 휴대전화 입니다.";
+               error[3].style.display = "block";
+               telok = 0 //불가 
+			}
+		},
+		error : function() {
+              error[3].innerHTML = "오류가 발생했습니다.";
+              error[3].style.display = "block";
+             telok = 0 //불가
+		}
+	})
+	
+ var isPhoneNum = /([01]{2})([01679]{1})([0-9]{3,4})([0-9]{4})/;
+
+ if(mobile.val() === "") {
+     error[3].innerHTML = "필수 정보입니다.";
+     error[3].style.display = "block";
+     telok = 0 //불가 
+		
+ } else if(!isPhoneNum.test(mobile.val())) {
+     error[3].innerHTML = "형식에 맞지 않는 번호입니다.";
+     error[3].style.display = "block";
+     telok = 0 //불가 
+		
+ } else {
+     error[3].style.display = "none";
+     telok = 1 //가능
+		 
+ }
+ 
 }
 
-h1 {
-	color: #333;
+function namesaveconfirm(){
+	if(nameok == 0){
+	return false;
+	}
 }
 
-p {
-	line-height: 1.6;
-	color: #555;
+function nicknamesaveconfirm(){
+	if(nicknameok == 0){
+	return false;
+	}
 }
 
-footer {
-	background-color: #333;
-	color: #fff;
-	text-align: center;
-	padding: 10px;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
+function emailsaveconfirm(){
+	if(emailok == 0){
+	return false;
+	}
 }
 
-.tt {
-	margin-bottom: 5px;
-	margin-left: 5px;
+function telsaveconfirm(){
+	if(telok == 0){
+	return false;
+	}
 }
-</style>
+
+</script>
+
+
 </head>
 <body>
 
@@ -78,7 +235,7 @@ footer {
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#nameModal">수정</button>
 			<input type="text" class="form-control"
-				placeholder="-" value="${result.name}" disabled>
+				placeholder="-" value="${result.name}" style="width:auto;" disabled>
 		</div>
 
 		<div class="mb-3">
@@ -86,7 +243,7 @@ footer {
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#nicknameModal">수정</button>
 			<input type="text" class="form-control"
-				placeholder="-" value="${result.nickname}" disabled>
+				placeholder="-" value="${result.nickname}" style="width:auto;" disabled>
 		</div>
 
 	</section>
@@ -96,18 +253,18 @@ footer {
 	<section>
 		<h2>연락처 정보</h2>
 		<div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label">이메일</label>
+			<label for="exampleFormControlInput1" class="form-label">본인확인 이메일</label>
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#emailModal">수정</button>
 			<input type="email" class="form-control" placeholder="-"
-				value="${result.email}" disabled>
+				value="${result.email}" style="width:auto;" disabled>
 		</div>
 
 		<div class="mb-3">
-			<label for="exampleFormControlInput1" class="form-label">휴대전화</label>
+			<label for="exampleFormControlInput1" class="form-label">본인확인 휴대전화</label>
 			<button class="btn btn-outline-primary tt" data-bs-toggle="modal"
 				data-bs-target="#telModal">수정</button>
-			<input type="tel" class="form-control" placeholder="-" value="${result.tel}" disabled>
+			<input type="tel" class="form-control" placeholder="-" value="${result.tel}" style="width:auto;" disabled>
 		</div>
 	</section>
 
@@ -129,7 +286,6 @@ footer {
 	<section>
 		<h2>내 댓글</h2>
 		<div class="mb-3">
-		버그냐
 			<jsp:include page="myreplylist.jsp"></jsp:include>
 		</div>
 	</section>
@@ -158,15 +314,16 @@ footer {
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form action="nameupdate" method="post" accept-charset="utf-8">
+				<form action="nameupdate" method="post" accept-charset="utf-8" onsubmit="return namesaveconfirm()">
 					<div class="modal-body">
 
 						<div class="mb-3">
 							<label for="recipient-name" class="col-form-label">이름</label> <input
 								type="hidden" class="form-control"
 								value="${result.member_id}" name="member_id"> <input
-								type="text" class="form-control" id="nametext"
-								value="${result.name}" name="name">
+								type="text" class="form-control" id="name"
+								value="${result.name}" name="name" onkeyup="checkName()">
+								<span class="error_next_box"></span>
 						</div>
 					</div>
 
@@ -191,7 +348,7 @@ footer {
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form action="nicknameupdate" method="post" accept-charset="utf-8">
+				<form action="nicknameupdate" method="post" accept-charset="utf-8" onsubmit= "return nicknamesaveconfirm()">
 					<div class="modal-body">
 
 						<div class="mb-3">
@@ -199,7 +356,8 @@ footer {
 								type="hidden" class="form-control"
 								value="${result.member_id}" name="member_id"> <input
 								type="text" class="form-control"
-								value="${result.nickname}" name="nickname">
+								value="${result.nickname}" name="nickname" id="nickname" onkeyup="checknickName()">
+								<span class="error_next_box"></span>
 						</div>
 					</div>
 
@@ -224,15 +382,16 @@ footer {
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form action="emailupdate" method="post" accept-charset="utf-8">
+				<form action="emailupdate" method="post" accept-charset="utf-8" onsubmit= "return emailsaveconfirm()">
 					<div class="modal-body">
 
 						<div class="mb-3">
 							<label for="recipient-name" class="col-form-label">이메일</label> <input
 								type="hidden" class="form-control"
 								value="${result.member_id}" name="member_id"> <input
-								type="email" class="form-control" 
-								value="${result.email}" name="email">
+								type="email" class="form-control" id="email"
+								value="${result.email}" name="email" onkeyup="isEmailCorrect()">
+								<span class="error_next_box"></span>
 						</div>
 					</div>
 
@@ -258,15 +417,16 @@ footer {
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
-				<form action="telupdate" method="post" accept-charset="utf-8">
+				<form action="telupdate" method="post" accept-charset="utf-8" onsubmit= "return telsaveconfirm()">
 					<div class="modal-body">
 
 						<div class="mb-3">
 							<label for="recipient-name" class="col-form-label">휴대전화</label> <input
 								type="hidden" class="form-control"
-								value="${result.member_id}" name="member_id"> <input
-								type="text" class="form-control"
-								value="${result.tel}" name="tel">
+								value="${result.member_id}" name="member_id"> <input id="tel"
+								type="tel" class="form-control"
+								value="${result.tel}" name="tel" onkeyup="checkPhoneNum()">
+								<span class="error_next_box"></span>
 						</div>
 					</div>
 
@@ -361,4 +521,6 @@ footer {
 	<footer> &copy; 2024 tayotayo </footer>
 
 </body>
+
 </html>
+

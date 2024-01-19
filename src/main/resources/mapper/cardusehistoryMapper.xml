@@ -37,8 +37,8 @@
 	</select>
 	
 	<insert id="processPayment" parameterType="cardusehistoryVO">
-        INSERT INTO card_usehistory (charge_time, charge_amount, station_name, payment_amount, payment_point, charge_day, mcard_num)
-        VALUES (#{chargingTime}, #{chargingAmount}, #{statId}, #{chargeAmountInput}, #{pointInput}, NOW(), #{cardNum})
+        INSERT INTO card_usehistory (charge_time, charge_amount, station_name, payment_amount, payment_point, charge_day, mcard_num, es_statNm)
+        VALUES (#{chargingTime}, #{chargingAmount}, #{statId}, #{chargeAmountInput}, #{pointInput}, NOW(), #{cardNum}, #{es_statNm})
     </insert>
     
     <update id="refundCard">
