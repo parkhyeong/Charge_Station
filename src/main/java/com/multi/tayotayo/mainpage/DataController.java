@@ -36,6 +36,7 @@ public class DataController {
     @RequestMapping("/myLocationFindRecommand")
     @ResponseBody
     public List<JoinVO> myLocationFindRecommand(JoinVO joinVO) {
+    	System.out.println(joinVO);
         List<JoinVO> list = dataService.myLocationFindRecommand(joinVO);
 
         // 리스트가 비어있는 경우에 대한 처리 추가
