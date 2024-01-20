@@ -67,7 +67,7 @@
 				} else if(statInfo.chgerType = '08') {
 					chgerType = 'DC콤보(완속)'
 				}
-				$('#chgerType').append(chgerType)
+				$('#chgerType').append('<span class="badge bg-success">' + chgerType + '</span> <span class="badge bg-primary">' + statInfo.output + ' kw</span>')
 				
 				
 				$('#addr').append(statInfo.addr)
