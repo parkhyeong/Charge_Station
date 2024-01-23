@@ -275,11 +275,6 @@
 	<div id="top">
 		<jsp:include page="/header.jsp"></jsp:include>
 	</div>
-
-	<div class="container mt-5">
-		<h4>테스트용 페이지 이동 버튼</h4>
-		<button type="button" class="btn btn-primary" onclick="location.href='${pageContext.request.contextPath}/chargers/details_test.jsp'">테스트페이지로 복귀</button>
-	</div>
 	
 	<!-- 메인 div 영역 -->
 	<div id="body" class="container mt-5">
