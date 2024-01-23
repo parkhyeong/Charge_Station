@@ -192,7 +192,7 @@ ul, li {
 	$(function() {
 
 		var currentPage = 1; // 초기 페이지
-		var pageSize = 10; // 페이지당 표시할 게시물 수
+		var pageSize = 20; // 페이지당 표시할 게시물 수
 		var numPages; // 전체 페이지 수
 		var table;
 
