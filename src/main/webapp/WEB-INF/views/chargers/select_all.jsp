@@ -13,22 +13,10 @@
 	crossorigin="anonymous"></script>
 <script type="text/javascript">
 	$(function() {
-/* 		$('.pages').click(function() {
-			$.ajax({
-				url : "charger_table",//list1?page=9
-				data : {
-					page : $(this).text()
-				//page : 2, page : 3지금 액션한 버튼의 text 값을 가져와라.
-				},
-				success : function(table) {
-					alert(table);
-					$('#result').html(table)
-				}
-			})
-		})  */
+	//	loadPage(1);
 	}) 
 	
-loadPage(1);
+
 	 function loadPage(page) {
 	    $.ajax({
 	        url: "charger_table",
@@ -36,7 +24,6 @@ loadPage(1);
 	            page: page
 	        },
 	        success: function(table) {
-	        	alert(table);
 	            $('#result').html(table);
 	        }
 	    });
@@ -53,36 +40,66 @@ loadPage(1);
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 10px;
+	height: 34px;
 }
 
-  .search-input {
+.search-input {
 	padding: 5px;
 	width: 100%; /* 수정: 20%에서 100%로 변경 */
-	margin: 0 ;
-} 
-
-
-.search-btn {
-	background-color: #28a745;
+	margin: 10px 9px;
+	height: 34px;
+}
+.search-box{
+	width: 500px;
+	height: 34px;
+	box-sizing: border-box;
+}
+#search-btn {
+	background-color: gray;
 	color: #fff;
-	/* padding: 5px 10px;
-	margin-right: 5px; */
+	padding: 5px 10px;
+	margin: 10px;
 	border: none;
 	border-radius: 3px;
 	cursor: pointer;
+	height: 34px;
+}
+
+
+#result_table tr:nth-child(odd) {
+	background-color: #f2f2f2;
+}
+
+.pases {
+	border: none;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+.pages:hover {
+	color: #2e9cdf;
+}
+
+.pages:active {
+	background: #2e9cdf; /* 다르게 표시할 색상으로 수정 가능 */
+	color: white;
+	font-weight: bold;
+	text-decoration: underline;
 }
 </style>
 </head>
 <body>
-<br> 전체 페이지 수 : ${pages}개
+	<br>
 
 	<div id="search_div">
 		<!-- 키워드 검색  -->
-		<br> 전체 페이지 수 : ${pages}개
 		<div class="search-container">
-			<input type="text" id="keyword" placeholder="검색하기" width="600px">
+			<input type="text" class="search-box" id="keyword" placeholder="검색어를 입력하세요" width="1500px">
 			<!-- 검색 버튼 -->
-			<button id="search-btn">검색하기</button>
+			<!-- <button id="search-btn">검색하기</button> -->
 		</div>
 
 		<!-- 필터링   검색-->
@@ -144,8 +161,8 @@ loadPage(1);
 					<option value="완속">완속 충전</option>
 				</select>
 			</div>
-
-		</div>
+			<button id="search-btn"> 검색하기</button>
+		</div> <!--search-container 끝  -->
 
 
 	</div>
@@ -155,10 +172,11 @@ loadPage(1);
 	<hr color="blue">
 
 	<!-- 결과 화면  -->
+	<%-- <br> 전체 페이지 수 : ${pages}개 --%>
 	<div id="result">
-		<table id="result_table" border="1" width="900px" align="center">
+		<table id="result_table" border="1" width="1200px" align="center">
 			<thead>
-				<tr>
+				<tr style ="font-weight: bold; background: white;">
 					<td>번호</td>
 					<td>충전소명</td>
 					<td>충전소 주소</td>
@@ -180,45 +198,65 @@ loadPage(1);
 		</table>
 	</div>
 
-<br><br><br>
-<%
+	<br>
+	<br>
+	<br>
+	<%
 		int pages = (int) request.getAttribute("pages");
-  %>
-  
-  <%
-	// 현재 페이지 번호를 파라미터로 받아옴
-	PageVO pageVO = (PageVO) request.getAttribute("pageVO");
-	int currentPage = pageVO.getPage(); //pageVO.page가 아닌이유?
-			
-	// 시작 페이지와 끝 페이지를 계산
-	int startPage = currentPage;
-	//int startPage = Math.max(currentPage - 5, 1); //10개로 변경할까? //1
-	int endPage = Math.min(currentPage + 5, pages); //6
+	%>
 
-	int prevPage = Math.max(startPage - 1, 1); //1
-	int nextPage = Math.min(endPage + 1, pages); //7
+	<%
+		// 현재 페이지 번호를 파라미터로 받아옴
+	PageVO pageVO = (PageVO) request.getAttribute("pageVO");
+	int currentPage = pageVO.getPage(); //pageVO.page가 아닌이유? //2
+
+	// 시작 페이지와 끝 페이지를 계산
+	//int startPage = currentPage;//2
+	int startPage = Math.max(currentPage - 4, 1); //10개로 변경할까? //1
+	int endPage = Math.min(currentPage + 4, pages); //11
+
+	int prevPage = Math.max(startPage - 1, 1); //
+	int nextPage = Math.min(endPage + 1, pages); //
 	%>
 	<center>
-	<div>
-	<a href="select_all_p?page=1">
-		<button style="background: pink;" class="pages">처음</button>
-	</a>
-	<a href="select_all_p?page=<%= prevPage %>">
-			<button style="background: pink;" class="pages">이전</button>
-	</a>
-	<c:forEach begin="<%=startPage%>" end="<%=endPage%>" var="p">
-		<button style="background: pink;" class="pages"	onclick="loadPage(${p})">${p}</button>
-	</c:forEach>
-	<a href="select_all_p?page=<%= nextPage %>">
-		<button style="background: pink;" class="pages">다음</button>
-	</a>
-	<a href="select_all_p?page=<%= pages %>">
-		<button style="background: pink;" class="pages">마지막</button>
-	</a>
+		<div class="pasing">
+			<a href="select_all_p?page=1">
+				<button class="pages">처음</button>
+			</a> 
+			<a href="select_all_p?page=<%=prevPage%>">
+				<button class="pages">이전</button>
+			</a>
+			<c:forEach begin="<%=startPage%>" end="<%=endPage%>" var="p">
+			 <button class="pages" onclick="loadPage(${p})">${p}</button>
+			</c:forEach>
+			<a href="select_all_p?page=<%=nextPage%>">
+				<button class="pages">다음</button>
+			</a> 
+			<a href="select_all_p?page=<%=pages%>">
+				<button class="pages">마지막</button>
+			</a>
 
-</div></center>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	
+		</div>
+	</center>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+
 
 	<!-- 스크립트 -->
 	<script>
