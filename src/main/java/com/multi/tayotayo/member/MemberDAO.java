@@ -13,7 +13,7 @@ import com.multi.tayotayo.review.ReviewVO;
 
 
 @Repository
-public class MemberDAO {
+public class MemberDAO{ 
 	@Autowired
 	SqlSessionTemplate my;
 	

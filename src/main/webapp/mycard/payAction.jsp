@@ -9,14 +9,14 @@ if (sessionPayAction == null || sessionPayAction.getAttribute("member_id") == nu
 %>
 <script>
 	alert('로그인 후 결제가 가능합니다.');
-	window.location.href = '/tayotayo/member/login.jsp';
+	window.location.href = '${pageContext.request.contextPath}/member/login_form';
 </script>
 <%
 	return;
 }
 %>
 <%
-String statId = request.getParameter("statId");
+	String statId = request.getParameter("statId");
 session.setAttribute("statId", statId);
 String es_statNm = request.getParameter("es_statNm");
 session.setAttribute("es_statNm", es_statNm);
@@ -104,7 +104,6 @@ session.setAttribute("es_statNm", es_statNm);
 	font-weight: bold;
 	margin-right: 10px;
 }
-
 </style>
 </head>
 <body>
@@ -124,8 +123,8 @@ session.setAttribute("es_statNm", es_statNm);
 		<table align="center">
 			<tr>
 				<td class="stat-id-container"><span class="stat-id-label">충전소
-						아이디</span> <%=statId%>  <span class="stat-id-label"> 충전소
-						이름 </span> <%=es_statNm%> </td>
+						아이디</span> <%=statId%> <span class="stat-id-label"> 충전소 이름 </span> <%=es_statNm%>
+				</td>
 			</tr>
 		</table>
 		<br> <br>
@@ -149,26 +148,38 @@ session.setAttribute("es_statNm", es_statNm);
 		<br>
 		<table align="center">
 			<tr>
-				<td>충전시간 <span id="chargingTime">0</span>시간
-					<div
-						style="border-left: 1px solid #000; height: 20px; display: inline-block; margin: 0 10px;"></div>
+				<td colspan="6" style="text-align: center;"><img
+					src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/계산하기.png"
+					style="max-width: 10%; height: auto;">
+					<h4 style="display: inline-block; margin-right: 10px;">충전량
+						계산하기</h4></td>
+			</tr>
+			<tr style="text-align: center;">
+				<td>충전시간: <span id="chargingTime">0</span>시간
 				</td>
-				<td>충전량 <span id="chargingAmount">0</span>KW
-					<div
-						style="border-left: 1px solid #000; height: 20px; display: inline-block; margin: 0 10px;"></div>
+			</tr>
+			<tr style="text-align: center;">
+				<td>충전량: <span id="chargingAmount">0</span>KW
 				</td>
-				<td>총 금액 <input type="text" id="TotlePriceInput"
+			</tr>
+			<tr style="text-align: center;">
+				<td>총 금액: <input type="text" id="TotlePriceInput"
 					style="width: 70px; border-radius: 5px;">원
-					<div
-						style="border-left: 1px solid #000; height: 20px; display: inline-block; margin: 0 10px;"></div>
 				</td>
-				<td colspan="3">
+			</tr>
+			<tr>
+				<td colspan="6" style="text-align: center;">
 					<button class="btn_search1" onclick="calculateAndFill()">계산하기</button>
 					<button class="btn_search1" onclick="resetFields()">초기화</button>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="6"
+					style="text-align: center; color: gray; font-size: 12px;">충전
+					하고 싶은 금액을 입력하세요.</td>
+			</tr>
 		</table>
-		<br><br>
+		<br> <br>
 		<table align="center">
 			<tr>
 				<td>사용할 금액 <input type="text" id="chargeAmountInput"
@@ -183,6 +194,9 @@ session.setAttribute("es_statNm", es_statNm);
 		</table>
 		<br> <br>
 		<div class="container text-end mx-1">
+			<img
+				src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/충전.png"
+				style="max-width: 5%; height: auto;">
 			<button class="btn_search" onclick="charge()">결제하기</button>
 			<button class="btn_search" onclick="goBack()">취소하기</button>
 		</div>
@@ -210,9 +224,9 @@ session.setAttribute("es_statNm", es_statNm);
 
 			getUsePointCardInformation(cardNum);
 			
-			 var chargingTime = parseFloat($("#chargingTime").text());
-	         var chargingAmount = parseFloat($("#chargingAmount").text());
-	         var statId = "<%=session.getAttribute("statId")%>";
+			var chargingTime = parseFloat($("#chargingTime").text());
+	        var chargingAmount = parseFloat($("#chargingAmount").text());
+	        var statId = "<%=session.getAttribute("statId")%>";
 
 			console.log("Card Number:", cardNum);
 			console.log("Charge Amount:", chargeAmountInput);

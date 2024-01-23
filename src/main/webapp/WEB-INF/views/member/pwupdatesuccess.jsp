@@ -3,5 +3,5 @@
 <!DOCTYPE html>
 <script>
     alert("비밀번호 변경 성공");
-    location.href = "mypage";
+    location.href = "${pageContext.request.contextPath}/member/mypage";
 </script>

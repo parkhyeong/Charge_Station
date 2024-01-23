@@ -129,6 +129,6 @@ public class JoinVO {
 				+ ", es_lon=" + es_lon + ", distance=" + distance + "]";
 	}
 	
-	
+	 
 	
 }

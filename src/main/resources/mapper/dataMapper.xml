@@ -19,7 +19,7 @@
         JOIN e_station es ON es.es_statId = s.statId
     </select>
 
-    <select id="selectlist" parameterType="String" resultType="mainpageVO">
+    <select id="selectlist" parameterType="String" resultType="joinVO">
         SELECT *
         FROM 
         (
@@ -31,7 +31,7 @@
         WHERE es_statNm LIKE CONCAT('%',#{keyword},'%')
     </select>
 
-	<select id="myLocationFindRecommand" parameterType="joinVO" resultType="dataVO">
+	<select id="myLocationFindRecommand" parameterType="joinVO" resultType="joinVO">
 		SELECT 
 		    es_statId, es_statNm, es_lat, es_lon, es_gungoo, es_addr, stat,
 		    ROUND(
@@ -59,5 +59,5 @@
 		    ) &lt; 500
 		ORDER BY distance
 	</select>
-
+ 
 </mapper>

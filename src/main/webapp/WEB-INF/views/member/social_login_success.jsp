@@ -3,5 +3,5 @@
 <!DOCTYPE html>
 <script>
     alert("${social.type} 로그인 성공");
-    location.href="/tayotayo/mainpage/MainPage.jsp"
+    location.href="${pageContext.request.contextPath}/mainpage/MainPage.jsp"
 </script>
