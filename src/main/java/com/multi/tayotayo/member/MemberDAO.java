@@ -101,6 +101,12 @@ public class MemberDAO{
 		return my.selectOne("member.id_find_to_email",memberVO);
 	}
 	
+	//전화번호로 내정보찾기
+	public MemberVO id_find_to_tel(MemberVO memberVO) {
+		return my.selectOne("member.id_find_to_tel",memberVO);
+	}
+	
+	
 	//내댓글 개수
 	public int getSearchTotalCount(ReplyVO replyVO) {
 		return my.selectOne("member.replysearchTotalCount", replyVO);

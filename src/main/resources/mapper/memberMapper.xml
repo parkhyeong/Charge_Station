@@ -89,6 +89,12 @@
 		SELECT * FROM member WHERE email = #{email}
 	</select>
 	
+			<!-- 비밀번호 검사 확인하기 -->
+	<select id="id_find_to_tel" parameterType="memberVO"
+		resultType="memberVO">
+		SELECT * FROM member WHERE tel = #{tel}
+	</select>
+	
 	<select id="replysearchTotalCount" parameterType="replyVO"
 		resultType="int">
 		SELECT COUNT(*) FROM review_reply where rr_writer=#{rr_writer}
