@@ -4,6 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="${pageContext.request.contextPath}/resources/img/charge_station.png"/> 
+    <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/resources/img/charge_station.png"/> 
 <title>Insert title here</title>
 <script src="/close.22460a56.js"></script>
 <link type="text/css" rel="stylesheet" href="/close.e820ceb4.css">

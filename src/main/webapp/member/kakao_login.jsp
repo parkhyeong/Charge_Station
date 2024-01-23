@@ -6,8 +6,37 @@
 <meta charset="UTF-8">
 <title>카카오 로그인</title>
 </head>
+<style>
+.type_responsive .btn_g {
+    overflow: hidden;
+    height: auto;
+    min-height: 45px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.btn_g.highlight {
+    background-color: #fee500;
+}
+
+.btn_g {
+    display: block;
+    width: 100%;
+    height: 50px;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 51px;
+    color: #191919;
+    background-color: #f0f0f0;
+}
+
+</style>
 <body>
-    <a href="javascript:kakaoLogin();"><img src="${pageContext.request.contextPath}/resources/img/kakao_login_large_wide.png"/></a>
+
+	<button type="button" class="btn_g highlight submit" onclick="javascript:kakaoLogin();">카카오 로그인</button>
+	
+    <!--  <a href="javascript:kakaoLogin();"><img src="${pageContext.request.contextPath}/resources/img/kakao_login_large_wide.png"/></a> -->
 
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>

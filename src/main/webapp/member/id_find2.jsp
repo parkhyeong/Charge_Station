@@ -204,16 +204,17 @@ section {
 
 <script>
 /**
- *  이메일로 찾기 관련 처리
+ *  전화번호로 찾기 관련 처리
  */
  
  function fn_join(){
-		var email = $('#email').val();
- 		const inputCode = $("#email_auth_key").val();
- 		
+		var tel = $('#tel').val();
+ 		const inputCode = $("#tel_auth_key").val();
+ 		console.log(inputCode);
+ 		console.log(tel)
  			const form = document.createElement('form'); // form 태그 생성
 			form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
-			form.setAttribute('action', '${pageContext.request.contextPath}/member/id_find_form'); // 전송할 url 지정
+			form.setAttribute('action', '${pageContext.request.contextPath}/member/id_find_form2'); // 전송할 url 지정
 			let social = document.createElement('input'); //<input>
 			social.setAttribute('type', 'hidden');
 			social.setAttribute('name', 'inputCode');
@@ -221,8 +222,8 @@ section {
 			
 			let social2 = document.createElement('input'); //<input>
 			social2.setAttribute('type', 'hidden');
-			social2.setAttribute('name', 'email');
-			social2.setAttribute('value', email);
+			social2.setAttribute('name', 'tel');
+			social2.setAttribute('value', tel);
 
 			form.appendChild(social);
 			form.appendChild(social2);
@@ -238,8 +239,13 @@ section {
  
 	$('#join').click(function(){
 		
-		if($('#email').val() == ""){
-			alert("이메일을 입력해주세요.");
+		if($('#name').val() == ""){
+			alert("이름을 입력해주세요.");
+			return false;
+		}
+		
+		if($('#tel').val() == ""){
+			alert("전화번호를 입력해주세요.");
 			return false;
 		}
 	
@@ -252,9 +258,9 @@ section {
 	});
 	
 		//인증 코드 비교
-    $("#email_auth_check_btn").click(function() {
-    	var email = $('#email').val();
-    	const inputCode = $("#email_auth_key").val(); //인증번호 입력 칸에 작성한 내용 가져오기
+    $("#tel_auth_check_btn").click(function() {
+    	var tel = $('#tel').val();
+    	const inputCode = $("#tel_auth_key").val(); //인증번호 입력 칸에 작성한 내용 가져오기
     	
 	   	 if(check==0){
 		 		alert('인증번호 전송을 눌러주세요.')
@@ -268,20 +274,20 @@ section {
     	
     	$.ajax({
     	 	type : "POST",
-			url : "/tayotayo/member/authCodeAuth",
+			url : "/tayotayo/member/telauthCodeAuth",
 			data : {
-			email:email,
+			tel : tel,
 			inputCode : inputCode
 			},
 			success: function(data){
     	 if(data!="x"){
     		alert('인증번호가 일치합니다.');
     		ok=1;
-    		$("#email").attr("disabled",true);
-    		document.querySelector('#email_auth_btn').style.display = 'none';
-    		$("#email_auth_check_btn").disabled = true;
-    		document.querySelector('#email_auth_check_btn').disabled = true;
- 			document.getElementById('email_auth_check_btn').innerText = '인증 성공';
+    		$("#tel").attr("disabled",true);
+    		document.querySelector('#tel_auth_btn').style.display = 'none';
+    		$("#tel_auth_check_btn").disabled = true;
+    		document.querySelector('#tel_auth_check_btn').disabled = true;
+ 			document.getElementById('tel_auth_check_btn').innerText = '인증 성공';
     	}else{
         	alert('인증번호가 불일치 합니다. 다시 확인해주세요!');
 
@@ -292,24 +298,26 @@ section {
     	});
     });
     
-	$("#email_auth_btn").click(function(){	     	 
-    	 var email = $('#email').val();
+	$("#tel_auth_btn").click(function(){	     	 
+    	 var tel = $('#tel').val();
+    	 var name = $('#name').val();
 
     	 
-    	 if(email == ''){
-    	 	alert("이메일을 입력해주세요.");
+    	 if(tel == ''){
+    	 	alert("전화번호를 입력해주세요.");
     	 	return false;
     	 }
     	 
     	 $.ajax({
 			type : "POST",
-			url : "${pageContext.request.contextPath}/member/idemailAuth",
+			url : "${pageContext.request.contextPath}/member/send-one",
 			data : {
-				email : email,
+				tel : tel,
+				name : name
 			},
 			success: function(data){
 			if(data==0){
-				alert("등록되지 않은 이메일 입니다.");
+				alert("등록되지 않은 전화번호 입니다.");
 			}
 			else{
 				check=1;
@@ -335,40 +343,51 @@ section {
 		<label style="font-size: 30px"><b>아이디 찾기</b></label>
 	</div>
 	
-		<label><b>본인확인 이메일로 인증</b></label>
+		<label><b>본인확인 휴대전화로 인증</b></label>
 		<br>
-		<!-- EMAIL -->
+		
 		<div>
 			<h3 class="join_title">
-				<label for="email">이메일</label>
+				<label for="email">이름</label>
 			</h3>
-			<span class="box int_email"> <input type="email" id="email"
-				class="int" name="email" maxlength="100" placeholder="이메일 입력"
+			<span class="box int_email"> <input type="text" id="name"
+				class="int" name="name" maxlength="100" placeholder="이름 입력"
+				required>
+			</span>
+		</div>
+		
+		<!-- tel -->
+		<div>
+			<h3 class="join_title">
+				<label for="tel">전화번호</label>
+			</h3>
+			<span class="box int_email"> <input type="tel" id="tel"
+				class="int" name="tel" maxlength="100" placeholder="휴대전화 입력"
 				required>
 			</span>
 		</div>
 
 		<br> <input type="button" class="btn btn-outline-primary" value="인증번호 전송"
-			id="email_auth_btn" style="padding-top: 9px; padding-bottom: 8px;">
+			id="tel_auth_btn" style="padding-top: 9px; padding-bottom: 8px;">
 		<br>
 		<br>
 		
-		<!-- 이메일 인증번호 -->
+		<!-- 전화번호 인증번호 -->
 		<div>
 			<h3 class="join_title">
 				<label for="number">인증번호</label>
 			</h3>
-			<span class="box int_mobile"> <input type="number" id="email_auth_key"
-				class="int" name="email_auth_key" required>
+			<span class="box int_mobile"> <input type="number" id="tel_auth_key"
+				class="int" name="tel_auth_key" required>
 			</span>
 		</div>
 <br>
-<button type="button" class="btn btn-outline-primary" id="email_auth_check_btn" style="padding-top: 9px; padding-bottom: 8px;">인증번호 확인</button>
+<button type="button" class="btn btn-outline-primary" id="tel_auth_check_btn" style="padding-top: 9px; padding-bottom: 8px;">인증번호 확인</button>
 <br><br>
 		<!-- JOIN BTN-->
 		<div class="btn_area">
 			<button type="button" id="join">
-				<span><b>ID찾기</b></span>
+				<span>ID찾기</span>
 			</button>
 		</div>
 

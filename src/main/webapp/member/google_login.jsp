@@ -9,16 +9,14 @@
 
 </head>
 
-
 <body>
+	
 	<div id="g_id_onload"
 		data-client_id="821346046164-9me4cvkknk4qog5du6gnqk0i62hsnjj9.apps.googleusercontent.com"
 		data-callback="handleCredentialResponse"></div>
 	<div class="g_id_signin" data-type="standard" data-size="large"
 		 data-text="sign_in_with" data-shape="rectangular"
-		data-logo_alignment="left" 	data-width=370	data-theme="filled_blue"></div>
-		
-	
+		data-logo_alignment="left" 	data-width=320 data-height=50	data-theme="filled_blue"></div>
 
 		<script>
 			function handleCredentialResponse(response) {

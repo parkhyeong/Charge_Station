@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="${pageContext.request.contextPath}/resources/img/charge_station.png"/> 
+    <link rel="apple-touch-icon" href="${pageContext.request.contextPath}/resources/img/charge_station.png"/> 
+    
 <title>전기차 타요타요 약관동의</title>
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -11,11 +14,6 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 <style type="text/css">
-#d1 {
-	width: 770px;
-	margin: 0 auto;
-}
-
 header {
 	background-color: #333;
 	color: #fff;
@@ -29,7 +27,7 @@ section {
 	padding: 20px;
 	background-color: #fff;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	width: 590px;
+	width: 460px;
 }
 </style>
 <!-- accordion 접히는 Script 선언 -->
@@ -50,24 +48,14 @@ section {
 	<section>
 		<form action="create_account.jsp" method="get" id="form1">
 			<div id="d1">
-				<h2 align="center" style="margin-top: 40px; width: 546px;">
-				회원가입을 환영합니다.</h2>
-				<br />
-				<br />
-				<tr>
-					<td align="left"><font size="2">이용약관, 개인정보 수집 및 이용,
-							위치정보 이용약관(선택), 프로모션 안내 메일 수신(선택)에 모두 동의합니다.</font></td>
+				<h3 align="center" style="margin-top: 20px; margin-bottom: 26px;"><b>약관 동의</b></h3>
 
-					<td><input type="checkbox" name="all" id="all"></td>
-					<br />
-				</tr>
 				<div id="accordion">
-
 					<h3>
-						<a href="#"><font size="2">전기차 타요타요 이용약관 동의(필수)</font><input
+						<a href="#"><font size="2">전기차 타요타요 이용약관 동의(필수)</font><input 
 							type="checkbox" name="c1" id="c1" /></a>
 					</h3>
-					<textarea readonly="readonly" rows="5" cols="66">
+					<textarea readonly="readonly" rows="5" cols="52">
 제 1 조 (목적)
 
 이 약관은 전기차타요타요 ("회사" 또는 "타요타요")가 제공하는 전기차 타요타요 및 전기차 타요타요 관련 제반 서비스의 이용과 관련하여 회사와 회원과의 권리, 의무 및 책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
@@ -84,12 +72,14 @@ section {
 ⑥"포인트"라 함은 서비스의 효율적 이용을 위해 회사가 임의로 책정 또는 지급, 조정할 수 있는 재산적 가치가 없는 "서비스" 상의 가상 데이터를 의미합니다.
 ⑦"게시물"이라 함은 "회원"이 "서비스"를 이용함에 있어 "서비스상"에 게시한 부호ㆍ문자ㆍ음성ㆍ음향ㆍ화상ㆍ동영상 등의 정보 형태의 글, 사진, 동영상 및 각종 파일과 링크 등을 의미합니다. 
    </textarea>
+					<br>
+					<br>
 					<h3>
 						<a href="#"><font size="2">개인정보 수집 및 이용에 대한 안내(필수)</font><input
 							type="checkbox" name="c2" id="c2" /></a>
 					</h3>
 					<div>
-						<textarea readonly="readonly" rows="5" cols="66">
+						<textarea readonly="readonly" rows="5" cols="52">
 
 정보통신망법 규정에 따라 전기차 타요타요에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
 
@@ -100,12 +90,13 @@ section {
  
    </textarea>
 					</div>
+					<br>
 					<h3>
 						<a href="#"><font size="2">위치정보 이용약관 동의(선택)</font><input
 							type="checkbox" name="c3" id="c3" /></a>
 					</h3>
 					<div>
-						<textarea readonly="readonly" rows="5" cols="66">
+						<textarea readonly="readonly" rows="5" cols="52">
 
 위치정보 이용약관에 동의하시면, 위치를 활용한 광고 정보 수신 등을 포함하는 전기차 타요타요 위치기반 서비스를 이용할 수 있습니다.
 
@@ -127,14 +118,23 @@ section {
  </textarea>
 					</div>
 				</div>
+				<br>
 				<tr>
 					<td align="left"><font size="2">이벤트 등 프로모션 알림 메일 수신(선택)</font></td>
 					<td><input type="checkbox" name="c4" id="c4"></td>
 					<hr />
 				</tr>
 
+				<tr>
+					<td align="left"><font size="2">이용약관, 개인정보 수집 및 이용,
+							위치정보 이용약관(선택), 프로모션 안내 메일 수신(선택)에 모두 동의합니다.</font></td>
+
+					<td><input type="checkbox" name="all" id="all"></td>
+
+				</tr>
+
 				<div align="center">
-					<br /> <input type="submit" value="동의"> <br />
+					<br /> <input class="btn btn-outline-primary" type="submit" value="동의"> <br />
 				</div>
 			</div>
 		</form>
