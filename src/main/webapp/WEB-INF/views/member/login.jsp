@@ -266,7 +266,7 @@ $(function() {
 			success: function(data){
 				if (data == 1){
 					alert('로그인 성공')
-					location.href="${pageContext.request.contextPath}/mainpage/MainPage.jsp"
+					location.href="${pageContext.request.contextPath}/index.jsp"
 					
 				}
 				else {
