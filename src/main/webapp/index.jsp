@@ -96,7 +96,8 @@
 					멤버쉽 결제는 가상의 서비스입니다.<br> 멤버쉽 버튼을 클릭하면 멤버쉽 가입하기 페이지로 연결됩니다!
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary">멤버쉽</button>
+					<a href="<%=pageContext.getServletContext().getContextPath()%>/mycard/initMemberCardAction.jsp" class="btn btn-secondary">회원카드 관리</a>
+
 					<button type="button" class="btn btn-secondary"
 						data-bs-dismiss="modal">닫기</button>
 
@@ -271,7 +272,7 @@
 			<div class="service-flex">
 				<div class="service-box" id="chargerCnt">
 					<a
-						href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p">
+						href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p?page=1">
 						<div class="service-text1 blue">충전소 목록 조회</div>
 						<div class="service-text2">
 							서울시에 있는 충전소를<br> 조회해 보세요.
