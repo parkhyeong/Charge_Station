@@ -2,6 +2,7 @@ package com.multi.tayotayo.mainpage;
 
 import java.util.List;
 
+import com.multi.tayotayo.mainpage.DataVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,14 @@ public class DataController {
     public List<JoinVO> selectlistMainpage(String es_statNm) {
         return dataService.selectlist(es_statNm);
     }
+    
+    @GetMapping("/filter")
+    @ResponseBody
+    public List<JoinVO> filter(JoinVO joinVO) {
+    	return dataService.filter(joinVO);
+    }
 
+    
     @RequestMapping("/myLocationFindRecommand")
     @ResponseBody
     public List<JoinVO> myLocationFindRecommand(JoinVO joinVO) {
@@ -50,5 +58,7 @@ public class DataController {
         return list;
     }
 }
+
+
 
 

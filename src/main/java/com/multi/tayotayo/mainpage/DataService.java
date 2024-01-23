@@ -16,7 +16,7 @@ public class DataService {
     public void insert(DataVO dataVO) {
          dao.insert(dataVO);
     }
-    
+
     public List<JoinVO> select() {
         return dao.select();
     }
@@ -25,8 +25,29 @@ public class DataService {
         return dao.selectlist(es_statNm);
     }
     
- // 내 주변 검색
- 	public List<JoinVO> myLocationFindRecommand(JoinVO joinVO) {
- 		return dao.myLocationFindRecommand(joinVO);
- 	}
+    public List<JoinVO> filter(JoinVO joinVO) {
+        if (joinVO.getEs_gungoo() == null && joinVO.getEs_faciL() == null && joinVO.getEs_dvcS() == null) {
+            return null;
+        }
+
+        joinVO.setEs_gungoo(emptyToNull(joinVO.getEs_gungoo()));
+        joinVO.setEs_faciL(emptyToNull(joinVO.getEs_faciL()));
+        joinVO.setEs_dvcS(emptyToNull(joinVO.getEs_dvcS()));
+
+        List<JoinVO> list = dao.filter(joinVO);
+
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        return list;
+    }
+
+    public String emptyToNull(String value) {
+        return (value != null && value.equals("")) ? null : value;
+    }
+
+    public List<JoinVO> myLocationFindRecommand(JoinVO joinVO) {
+        return dao.myLocationFindRecommand(joinVO);
+    }
 }

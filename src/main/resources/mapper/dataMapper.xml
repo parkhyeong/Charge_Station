@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data">
 
-    <!-- API 데이터 저장 -->
-    <insert id="insert" parameterType="dataVO">
-        INSERT INTO status 
-        VALUES (#{chgerId}, #{statId}, #{stat})
-    </insert>
-    
+	  <!-- API 데이터 저장 - Insert -->
+	<insert id="insert" parameterType="dataVO">
+	    INSERT INTO status 
+	    VALUES (#{chgerId}, #{statId}, #{stat})
+	</insert>
+	    
     <select id="select" resultType="joinVO">
         SELECT *
         FROM 
@@ -29,7 +29,32 @@
         ) s
         JOIN e_station es ON es.es_statId = s.statId
         WHERE es_statNm LIKE CONCAT('%',#{keyword},'%')
+        
     </select>
+
+    <select id="search-filter" parameterType="joinVO" resultType="joinVO">
+	    SELECT *
+	    FROM 
+	    (
+	        SELECT statId, MAX(CASE WHEN stat = '2' THEN '2' ELSE '1' END) AS stat
+	        FROM status 
+	        GROUP BY statId 
+	    ) s
+	    JOIN e_station es ON es.es_statId = s.statId
+	    <where>
+	        <if test="es_gungoo != null">
+	            AND es_gungoo LIKE CONCAT('%',#{es_gungoo},'%')
+	        </if>
+	        <if test="es_faciL != null">
+	            AND es_faciL LIKE CONCAT('%',#{es_faciL},'%')
+	        </if>
+	        <if test="es_dvcS != null">
+	            AND es_dvcS LIKE CONCAT('%',#{es_dvcS},'%')
+	        </if>
+	    </where>
+	</select>
+
+
 
 	<select id="myLocationFindRecommand" parameterType="joinVO" resultType="joinVO">
 		SELECT 
