@@ -395,7 +395,7 @@ if (sessionPayment == null || sessionPayment.getAttribute("member_id") == null) 
 											        var reviewButton = $("<button>")
 										            .text("작성")
 										            .click(function() {
-										                handleReview(selectedCardNum, cardInfo.transaction_id, cardInfo.station_name, cardInfo.charge_time, cardInfo.charge_amount, cardInfo.payment_amount, cardInfo.payment_point);
+										                handleReview(selectedCardNum, cardInfo.transaction_id, cardInfo.es_statNm, cardInfo.charge_time, cardInfo.charge_amount, cardInfo.payment_amount, cardInfo.payment_point);
 										            });
 											            newRow.append($("<td>").append(reviewButton).addClass("reviewButton"));
 

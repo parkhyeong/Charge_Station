@@ -9,6 +9,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <title>전기차 타요타요 - 공지게시판</title>
 <style>
 .outer {
@@ -25,7 +26,9 @@ ul, li {
 	margin: 0;
 	padding: 0;
 }
-
+.outer .wrap .board_list table thead tr th {
+	color: white;
+}
 .board_title {
 	border-bottom: 1px solid #212529;
 }

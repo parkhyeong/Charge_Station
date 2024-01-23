@@ -37,9 +37,9 @@ public class CardUsehistoryService {
 		pointDAO.refundCard(card_num);
 	}
 
-	public void insertPaymentReview(String r_writer, String selectedCardNum, String transactionId, String r_statid,
+	public void insertPaymentReview(String r_writer, String selectedCardNum, String transactionId, String r_statNm,
 			String chargeTime, String chargeAmount, String paymentAmount, String paymentPoint) {
-		reviewDAO.insertPaymentReview(r_writer, selectedCardNum, transactionId, r_statid, chargeTime, chargeAmount, paymentAmount,
+		reviewDAO.insertPaymentReview(r_writer, selectedCardNum, transactionId, r_statNm, chargeTime, chargeAmount, paymentAmount,
 				paymentPoint);
 	}
 }

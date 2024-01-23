@@ -69,7 +69,7 @@ public class CardUsehistoryController {
 	@RequestMapping(value = "/PaymentReviewInsert", method = { RequestMethod.GET, RequestMethod.POST })
     public Map<String, Object> PaymentReviewInsert(@RequestParam("selectedCardNum") String selectedCardNum,
                                                    @RequestParam("transactionId") String transactionId,
-                                                   @RequestParam("stationName") String r_statid,
+                                                   @RequestParam("stationName") String r_statNm,
                                                    @RequestParam("chargeTime") String chargeTime,
                                                    @RequestParam("chargeAmount") String chargeAmount,
                                                    @RequestParam("paymentAmount") String paymentAmount,
@@ -79,7 +79,7 @@ public class CardUsehistoryController {
         try {
         	HttpSession session = request.getSession();
             String r_writer = (String) session.getAttribute("member_id");
-        	cardusehistoryService.insertPaymentReview(r_writer, selectedCardNum, transactionId, r_statid, chargeTime, chargeAmount, paymentAmount, paymentPoint);
+        	cardusehistoryService.insertPaymentReview(r_writer, selectedCardNum, transactionId, r_statNm, chargeTime, chargeAmount, paymentAmount, paymentPoint);
             response.put("status", "success");
             response.put("message", "Review successfully inserted.");
         } catch (Exception e) {

@@ -274,14 +274,9 @@
 										<option value="발급완료">발급완료</option>
 								</select>
 								</span>
-								<button onclick="fnSearch(1); return false;">조회</button>
+								<button onclick="applyFilter(); return false;">조회</button>
 							</div>
 						</div>
-						<p class="result js-scrollmotion_up scrolldelay2"
-							style="opacity: 1; transform: translateY(0px);">
-							<span id="listCnt" class="nece" style="font-weight: 500;">0</span>건
-							조회
-						</p>
 						<div class="tableBox"></div>
 						<div class="contentList js-scrollmotion_up scrolldelay2"
 							style="opacity: 1; transform: translateY(0px);">
@@ -300,7 +295,8 @@
 										<th>카드번호</th>
 										<th>차량<br>번호
 										</th>
-										<th>발급상태</th>
+										<th>발급<br>상태
+										</th>
 										<th>배송지</th>
 									</tr>
 								</thead>
@@ -330,7 +326,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title" id="cardDetailModalLabel">회원카드 상세페이지</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close" style="color: #000 !important;"></button>
+						aria-label="Close" style="color: #fff !important;"></button>
 				</div>
 				<div class="modal-body" id="cardDetailModalBody"></div>
 			</div>
@@ -341,23 +337,19 @@
 	<script type="text/javascript"
 		src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
 
+
 	<script>
-	var member_id = "<c:out value='${member_id}'/>";
-	console.log(member_id);
-	<%-- function checkLogin() {
-        var loggedIn = '<%=session.getAttribute("c_memberId") != null%>
-		';
-			if (!loggedIn) {
-				alert("로그인이 필요합니다.");
-			}
-		} --%>
+		var member_id = "<c:out value='${member_id}'/>";
+		console.log(member_id);
 		// 멤버쉽 카드 리스트 불러오기
 		function getMembershipList() {
 			var c_memberid = "<c:out value='${member_id}'/>";
 			$.ajax({
 				type : "GET",
 				url : "getMembershipList",
-				data: {c_memberid: c_memberid}, 
+				data : {
+					c_memberid : c_memberid
+				},
 				success : function(data) {
 					populateTable(data);
 
@@ -373,6 +365,27 @@
 			});
 		}
 
+		function getCurrentDate() {
+			var today = new Date();
+			var year = today.getFullYear();
+			var month = (today.getMonth() + 1).toString().padStart(2, '0');
+			var day = today.getDate().toString().padStart(2, '0');
+			return year + '-' + month + '-' + day;
+		}
+
+		function getCurrentDateTime() {
+			var today = new Date();
+			var year = today.getFullYear();
+			var month = (today.getMonth() + 1).toString().padStart(2, '0');
+			var day = today.getDate().toString().padStart(2, '0');
+			var hours = today.getHours().toString().padStart(2, '0');
+			var minutes = today.getMinutes().toString().padStart(2, '0');
+			var seconds = today.getSeconds().toString().padStart(2, '0');
+
+			return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
+					+ ':' + seconds;
+		}
+
 		function populateTable(data) {
 			var tbody = $('#membershipTable tbody');
 
@@ -385,24 +398,14 @@
 						.each(
 								data,
 								function(index, item) {
-									var signDate = new Date(item.card_signday);
-
-									if (isNaN(signDate.getTime())) {
-										signDate = new Date(item.card_signday
-												.replace(/-/g, '/'));
-									}
-									var formattedSignDate = signDate
-											.getFullYear()
-											+ '-'
-											+ ('0' + (signDate.getMonth() + 1))
-													.slice(-2)
-											+ '-'
-											+ ('0' + signDate.getDate())
-													.slice(-2);
+									var signDate = item.card_signday ? new Date(
+											item.card_signday)
+											.toLocaleDateString()
+											: getCurrentDate();
 
 									var row = '<tr>'
 											+ '<td>'
-											+ formattedSignDate
+											+ signDate
 											+ '</td>'
 											+ '<td class="card-num" onclick="getMembershipCardDetails(\''
 											+ item.card_num + '\')">'
@@ -416,8 +419,8 @@
 			}
 		}
 
-	/* 	// 페이지 로드 시 로그인 확인 및 멤버쉽 리스트 조회
-		checkLogin(); */
+		/* 	// 페이지 로드 시 로그인 확인 및 멤버쉽 리스트 조회
+			checkLogin(); */
 		getMembershipList();
 
 		// 멤버쉽 카드 상세 정보 모달
@@ -437,11 +440,13 @@
 		// 모달 본문에 카드 상세 정보를 채우는 함수
 		function populateCardDetails(data) {
 			var modalBody = $('#cardDetailModalBody');
+			var signDate = data.card_signday ? new Date(data.card_signday)
+					.toLocaleDateString() : getCurrentDateTime();
 			modalBody.empty();
 
 			if (data) {
 				modalBody.append('<p>카드 번호: ' + data.card_num + '</p>');
-				modalBody.append('<p>발급 날짜: ' + data.card_signday + '</p>');
+				modalBody.append('<p>발급 날짜: ' + signDate + '</p>');
 				modalBody.append('<p>차량 모델: ' + data.car_model + '</p>');
 				modalBody.append('<p>차량 번호: ' + data.car_number + '</p>');
 				modalBody.append('<p>발급 이유: ' + data.card_reason + '</p>');
@@ -451,9 +456,11 @@
 
 				modalBody
 						.append('<button type="button" id="paymentButton"><img src="${pageContext.request.contextPath}/resources/assets/payment_icon_yellow_small.png" alt="KakaoPay Icon"></button>');
-				$('#paymentButton').click(function() {
-					callPaymentScript(data.card_num, data.card_balance, data.card_point);
-				});
+				$('#paymentButton').click(
+						function() {
+							callPaymentScript(data.card_num, data.card_balance,
+									data.card_point);
+						});
 			} else {
 				modalBody.append('<p>선택한 카드에 대한 상세 정보가 없습니다.</p>');
 			}
@@ -476,36 +483,53 @@
 				m_redirect_url : 'www.yourdomain.com/payments/complete'
 			}, function(rsp) {
 				if (rsp.success) {
-					var pointMultiplier = 0.05; 
+					var pointMultiplier = 0.05;
 					var newBalance = cardBalance + rsp.paid_amount;
-					var newPoint = cardPoint + Math.floor(rsp.paid_amount * pointMultiplier);
+					var newPoint = cardPoint
+							+ Math.floor(rsp.paid_amount * pointMultiplier);
 					var msg = '결제가 완료되었습니다. ';
 					msg += '결제 금액 : ' + rsp.paid_amount;
-					
+
 					if (cardNum) {
-	                    updateCardBalance(cardNum, newBalance, newPoint);
-	                    alert(msg);
-	               		location.reload();
-	                }
+						updateCardBalance(cardNum, newBalance, newPoint);
+						alert(msg);
+						location.reload();
+					}
 				} else {
 					var msg = '결제에 실패하였습니다.';
 					msg += '에러내용 : ' + rsp.error_msg;
 				}
 			});
 		}
-		
+
 		function updateCardBalance(cardNum, newBalance, newPoint) {
-		    $.ajax({
-		        type: 'POST',
-		        url: 'updateCardNewBalance',
-		        data: { cardNum: cardNum, newBalance: newBalance, newPoint: newPoint },
-		        success: function(response) {
-		            console.log('멤버쉽 카드 충전이 완료되었습니다.:', response);
-		        },
-		        error: function(error) {
-		            console.error('멤버쉽 카드 충전이 실패했습니다:', error);
-		        }
-		    });
+			$.ajax({
+				type : 'POST',
+				url : 'updateCardNewBalance',
+				data : {
+					cardNum : cardNum,
+					newBalance : newBalance,
+					newPoint : newPoint
+				},
+				success : function(response) {
+					console.log('멤버쉽 카드 충전이 완료되었습니다.:', response);
+				},
+				error : function(error) {
+					console.error('멤버쉽 카드 충전이 실패했습니다:', error);
+				}
+			});
+		}
+
+		// 필터링 
+		function applyFilter() {
+			var reqReason = document.getElementById('s_req_reason').value;
+			var rows = document.querySelectorAll('#membershipTable tbody tr');
+			rows.forEach(function(row) {
+				var reasonCell = row.querySelector('td:nth-child(4)');
+				var reasonMatch = reqReason === ''
+						|| reasonCell.innerText.includes(reqReason);
+				row.style.display = reasonMatch ? '' : 'none';
+			});
 		}
 	</script>
 

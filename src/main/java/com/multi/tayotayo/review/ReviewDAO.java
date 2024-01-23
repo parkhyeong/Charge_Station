@@ -127,16 +127,16 @@ public class ReviewDAO {
 		}
 	}
 
-	public int insertPaymentReview(String r_writer, String selectedCardNum, String transactionId, String r_statid,
+	public int insertPaymentReview(String r_writer, String selectedCardNum, String transactionId, String r_statNm,
 			String chargeTime, String chargeAmount, String paymentAmount, String paymentPoint) {
 		try {
 			ReviewVO reviewVo = new ReviewVO();
 			String r_content = "충전 시간: " + chargeTime + ", 충전량: " + chargeAmount + ", 사용 금액: " + paymentAmount
 					+ ", 사용 포인트: " + paymentPoint;
-			String r_title = " " + r_statid + " 리뷰";
+			String r_title = "[정보] " + r_statNm;
 			reviewVo.setR_content(r_content);
 			reviewVo.setR_writer(r_writer);
-			reviewVo.setR_statid(r_statid);
+			reviewVo.setR_statNm(r_statNm);
 			reviewVo.setR_title(r_title);
 
 			return my.insert("review.insertPaymentReview", reviewVo);

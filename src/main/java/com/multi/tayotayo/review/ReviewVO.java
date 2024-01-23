@@ -16,6 +16,7 @@ public class ReviewVO {
 	private String keyword;
 	private String r_photo;
 	private String r_statNm;
+	private	int	r_check;
 
 	public int getR_no() {
 		return r_no;
@@ -96,12 +97,18 @@ public class ReviewVO {
 	public void setR_statNm(String r_statNm) {
 		this.r_statNm = r_statNm;
 	}
+	
+	public int getR_check() {
+		return r_check;
+	}
+	public void setR_check(int r_check) {
+		this.r_check = r_check;
+	}
 	@Override
 	public String toString() {
 		return "ReviewVO [r_no=" + r_no + ", r_num=" + r_num + ", r_title=" + r_title + ", r_content=" + r_content
 				+ ", r_writer=" + r_writer + ", r_like=" + r_like + ", r_time=" + r_time + ", r_statid=" + r_statid
 				+ ", r_rank=" + r_rank + ", type=" + type + ", keyword=" + keyword + ", r_photo=" + r_photo
-				+ ", r_statNm=" + r_statNm + "]";
+				+ ", r_statNm=" + r_statNm + ", r_check=" + r_check + "]";
 	}
-	
 }

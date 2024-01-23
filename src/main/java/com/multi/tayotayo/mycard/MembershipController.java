@@ -147,4 +147,18 @@ public class MembershipController {
 		}
 	}
 
+	@PostMapping("/checkMembershipCardExistence")
+	@ResponseBody
+	public Map<String, Boolean> checkMembershipCardExistence(@RequestParam("c_memberid") String c_memberid) {
+		Map<String, Boolean> response = new HashMap<>();
+		try {
+			boolean cardExists = membershipService.checkMembershipCardExistence(c_memberid);
+			response.put("exists", cardExists);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("error", true);
+		}
+		return response;
+	}
+
 }
