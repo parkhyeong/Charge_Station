@@ -54,15 +54,26 @@ public class MembershipDAO {
 	public MembershipVO getMembershipCardInfo(String cardNum) {
 		return my.selectOne("membership.getMembershipCardInfo", cardNum);
 	}
-	
+
 	// 환불
 	public void refundCard(String cardNum, int paymentAmount, int paymentPoint) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("card_num", cardNum);
-        paramMap.put("payment_amount", paymentAmount);
-        paramMap.put("payment_point", paymentPoint);
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("card_num", cardNum);
+		paramMap.put("payment_amount", paymentAmount);
+		paramMap.put("payment_point", paymentPoint);
 
-        my.update("membership.refundCard", paramMap);
-    }
+		my.update("membership.refundCard", paramMap);
+	}
+
+	// 멤버쉽 카드 존재 여부 확인
+	public boolean checkMembershipCardExistence(String c_memberid) {
+		try {
+			int count = my.selectOne("membership.checkMembershipCardExistence", c_memberid);
+			return count > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("멤버십 카드 존재 여부 확인 중 오류 발생: " + e.getMessage());
+		}
+	}
 
 }

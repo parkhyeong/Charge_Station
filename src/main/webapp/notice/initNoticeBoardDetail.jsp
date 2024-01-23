@@ -9,6 +9,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <title>전기차 타요타요 - 공지 상세보기</title>
 
 <style>

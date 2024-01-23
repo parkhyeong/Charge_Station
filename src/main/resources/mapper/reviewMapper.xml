@@ -89,7 +89,7 @@
 		ROW_NUMBER() OVER(ORDER BY r_num DESC)
 		as r_no,
 		r_num, r_statNm, r_title, r_content, r_writer, r_like, r_time,
-		r_rank, r_photo
+		r_rank, r_photo, r_check
 		FROM
 		review_board
 		) r
@@ -148,8 +148,8 @@
     
     <!-- 충전소 이용 내역에서 리뷰 작성 -->
      <insert id="insertPaymentReview" parameterType="reviewVO">
-        INSERT INTO review_board (r_title, r_writer, r_statid, r_content, r_time, r_rank, r_like)
-        VALUES (#{r_title}, #{r_writer}, #{r_statid}, #{r_content}, now(), '5', 0)
+        INSERT INTO review_board (r_title, r_writer, r_statNm, r_content, r_time, r_rank, r_like, r_check)
+        VALUES (#{r_title}, #{r_writer}, #{r_statNm}, #{r_content}, now(), '5', 0, 1)
     </insert>
     
     <!-- 리뷰 평균 계산 데모 -->

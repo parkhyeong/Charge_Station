@@ -6,7 +6,7 @@
 		resultType="cardusehistoryVO">
 		SELECT
 		cu.charge_day,
-		cu.station_name,
+		cu.es_statNm,
 		cu.charge_time,
 		cu.charge_amount,
 		cu.payment_amount,
