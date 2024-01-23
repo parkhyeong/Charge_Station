@@ -89,6 +89,15 @@
 	font-weight: bold;
 	text-decoration: underline;
 }
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover{
+	color:green;
+	font-weight: bold;
+	text-decoration: underline;
+}
 </style>
 </head>
 <body>
@@ -172,7 +181,6 @@
 	<hr color="blue">
 
 	<!-- 결과 화면  -->
-	<%-- <br> 전체 페이지 수 : ${pages}개 --%>
 	<div id="result">
 		<table id="result_table" border="1" width="1200px" align="center">
 			<thead>
@@ -189,17 +197,20 @@
 				<c:forEach items="${select_all}" var="vo">
 					<tr>
 						<td>${vo.row_no}</td>
-						<td>${vo.es_statNm}</td>
+						<td>
+							<a href="details?es_statId=${vo.es_statId}">
+							${vo.es_statNm}
+							</a>
+						</td>
 						<td>${vo.es_addr}</td>
-						<td>충전 가능 : ${vo.stat_count} 대</td>
+						<td style ="color:green; font-weight: bold;">충전 가능 : ${vo.stat_count} 대</td>
 				</c:forEach>
 
 			</tbody>
 		</table>
-	</div>
-
-	<br>
-	<br>
+		</div>
+		
+	<div id="pasing-div">
 	<br>
 	<%
 		int pages = (int) request.getAttribute("pages");
@@ -219,6 +230,8 @@
 	int nextPage = Math.min(endPage + 1, pages); //
 	%>
 	<center>
+	<% if(currentPage != 1){%>
+	
 		<div class="pasing">
 			<a href="select_all_p?page=1">
 				<button class="pages">처음</button>
@@ -226,6 +239,8 @@
 			<a href="select_all_p?page=<%=prevPage%>">
 				<button class="pages">이전</button>
 			</a>
+	<% } %>
+			
 			<c:forEach begin="<%=startPage%>" end="<%=endPage%>" var="p">
 			 <button class="pages" onclick="loadPage(${p})">${p}</button>
 			</c:forEach>
@@ -238,22 +253,9 @@
 
 		</div>
 	</center>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
-	<br>
+		
+	</div>
+
 	<br>
 	<br>
 
@@ -278,6 +280,7 @@
 				},
 				success : function(data) {
 					$('#result').html(data);
+					$('#pasing-div').html("");
 				},
 				error : function(xhr, status, error) {
 					console.error("검색 중 오류 발생: " + error);

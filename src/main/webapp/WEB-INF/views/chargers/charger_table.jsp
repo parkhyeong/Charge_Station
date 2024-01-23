@@ -16,10 +16,15 @@
 		<c:forEach items="${select_all}" var="vo">
 			<tr>
 				<td>${vo.row_no}</td>
-				<td>${vo.es_statNm}</td>
+				<td>
+					<a href="details?es_statId=${vo.es_statId}">
+					${vo.es_statNm}
+					</a>
+				</td>
 				<td>${vo.es_addr}</td>
-				<td>충전 가능 : ${vo.stat_count} 대</td>
+				<td style ="color:green; font-weight: bold;">충전 가능 : ${vo.stat_count} 대</td>
 		</c:forEach>
 
 	</tbody>
 </table>
+	
