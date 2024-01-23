@@ -147,7 +147,7 @@ public class SocialController {
 			try {
 				socialservice.delete(socialVO);
 				session.invalidate(); //세션끊기
-				return "redirect:/mainpage/MainPage.jsp";
+				return "redirect:/index.jsp";
 			} catch (Exception e) {
 				System.out.println("sql 실패");
 				return "redirect:/member/mypage";

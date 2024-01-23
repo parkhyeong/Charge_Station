@@ -35,7 +35,7 @@ public class MemberController {
 		if (member_id == null) { // 로그인안했을경우 로그인화면으로 이동
 			return "member/login";
 		} else {
-			return "redirect:/mainpage/MainPage.jsp";
+			return "redirect:/index.jsp";
 		}
 	}
 
@@ -98,7 +98,7 @@ public class MemberController {
 	@RequestMapping("member/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/mainpage/MainPage.jsp";
+		return "redirect:/index.jsp";
 	}
 
 	// 회원가입
@@ -179,7 +179,7 @@ public class MemberController {
 			System.out.println(memberVO);
 			memberservice.delete(memberVO);
 			session.invalidate(); // 세션끊기
-			return "redirect:/mainpage/MainPage.jsp";
+			return "redirect:/index.jsp";
 		} catch (Exception e) {
 			System.out.println("sql 실패");
 			return "redirect:/member/mypage";
@@ -293,11 +293,11 @@ public class MemberController {
 				model.addAttribute("member", memberVO);
 				return "member/pwupdate_form";
 			} catch (Exception e) {
-				return "redirect:/mainpage/MainPage.jsp";
+				return "redirect:/index.jsp";
 			}
 
 		} else {
-			return "redirect:/mainpage/MainPage.jsp";
+			return "redirect:/index.jsp";
 		}
 
 	}
@@ -313,12 +313,12 @@ public class MemberController {
 				MemberVO m = memberservice.id_find_to_email(memberVO);
 				model.addAttribute("member", m);
 			} else {
-				return "redirect:/mainpage/MainPage.jsp";
+				return "redirect:/index.jsp";
 			}
 
 			return "member/id_find_form";
 		} catch (Exception e) {
-			return "redirect:/mainpage/MainPage.jsp";
+			return "redirect:/index.jsp";
 		}
 
 	}
@@ -334,12 +334,12 @@ public class MemberController {
 				MemberVO m = memberservice.id_find_to_tel(memberVO);
 				model.addAttribute("member", m);
 			} else {
-				return "redirect:/mainpage/MainPage.jsp";
+				return "redirect:/index.jsp";
 			}
 
 			return "member/id_find_form";
 		} catch (Exception e) {
-			return "redirect:/mainpage/MainPage.jsp";
+			return "redirect:/index.jsp";
 		}
 
 	}

@@ -248,7 +248,7 @@ $(function() {
 						success : function(data) {
 							if (data==1){
 							alert('계정이 연동되었습니다.\n로그인 성공')
-							location.href = "/tayotayo/mainpage/MainPage.jsp"
+							location.href = "${pageContext.request.contextPath}/index.jsp"
 							}
 							else {
 								alert('로그인 실패')
