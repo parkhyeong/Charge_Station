@@ -304,6 +304,13 @@ h2, h3 {
 							$("#updateBtn").hide();
 							$("#deleteBtn").hide();
 						}
+						
+						var rCheckValue = result.r_check;
+			            if (rCheckValue === 1) {
+			                $("#updateBtn").hide();
+			                $("#deleteBtn").hide();
+			            }
+			            console.log("rCheckValue:", rCheckValue);
 					},
 					error : function(xhr, status, error) {
 						console.error("Ajax 요청 중 에러 발생:", status, error);

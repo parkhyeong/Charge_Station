@@ -29,6 +29,7 @@ session.setAttribute("es_statNm", es_statNm);
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+
 <title>전기차 타요타요</title>
 
 <style>
@@ -95,7 +96,8 @@ session.setAttribute("es_statNm", es_statNm);
 }
 
 .stat-id-container {
-	background-color: #f2f2f2;
+	border: 1px solid #ddd;	
+	background-color: #f8f8f8;
 	padding: 10px;
 	border-radius: 5px;
 }
@@ -104,6 +106,41 @@ session.setAttribute("es_statNm", es_statNm);
 	font-weight: bold;
 	margin-right: 10px;
 }
+
+#chargeAmountInput, #pointInput {
+	width: 70px;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+	margin-right: 10px;
+}
+
+#pointInput {
+	width: 70px;
+	margin-right: 0;
+}
+
+#useAllPointsBtn {
+	background-color: #adb5bd;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+#useAllPointsBtn:hover {
+	background-color: #212529;
+}
+.gray-box {
+	border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 960px;
+  }
 </style>
 </head>
 <body>
@@ -146,11 +183,11 @@ session.setAttribute("es_statNm", es_statNm);
 		</div>
 		<div id="cardInfo" class="text-center"></div>
 		<br>
-		<table align="center">
+		<table align="center" class="gray-box">
 			<tr>
 				<td colspan="6" style="text-align: center;"><img
 					src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/계산하기.png"
-					style="max-width: 10%; height: auto;">
+					style="max-width: 5%; height: auto;">
 					<h4 style="display: inline-block; margin-right: 10px;">충전량
 						계산하기</h4></td>
 			</tr>
@@ -184,11 +221,13 @@ session.setAttribute("es_statNm", es_statNm);
 			<tr>
 				<td>사용할 금액 <input type="text" id="chargeAmountInput"
 					style="width: 70px; border-radius: 5px;">원
-					<div
-						style="border-left: 1px solid #000; height: 20px; display: inline-block; margin: 0 10px;"></div>
+					<div style="height: 20px; display: inline-block; margin: 0 10px;"></div>
 				</td>
 				<td>포인트 <input type="text" id="pointInput"
-					style="width: 70px; border-radius: 5px;">Point
+					style="width: 70px; border-radius: 5px;"> <span
+					id="currentPointsInfo"><span id="currentPoints"></span></span>
+					<button id="useAllPointsBtn" onclick="useAllPoints()">전액
+						사용</button>
 				</td>
 			</tr>
 		</table>
@@ -202,6 +241,7 @@ session.setAttribute("es_statNm", es_statNm);
 		</div>
 	</div>
 	<script>
+	  
 		var c_memberid = "<c:out value='${c_memberid}'/>";
 		console.log(c_memberid);
 		var statId = "<%=session.getAttribute("statId")%>";
@@ -302,6 +342,7 @@ session.setAttribute("es_statNm", es_statNm);
 
 					console.log("카드 잔액:", cardInfo.card_balance);
 					console.log("포인트:", cardInfo.card_point);
+					$("#currentPoints").text(cardInfo.card_point);
 				},
 				error : function() {
 					console.error("카드 정보를 불러오는 데 실패했습니다.");
@@ -309,38 +350,44 @@ session.setAttribute("es_statNm", es_statNm);
 			});
 		}
 
-		/// 결제 전에 카드 잔액과 포인트를 확인하는 함수
+		// 결제 전에 카드 잔액과 포인트를 확인하는 함수
 		function checkBalance(cardNum, chargeAmount, pointInput) {
 			var isBalanceOk = false;
 			var isPointsOk = false;
 
-			$.ajax({
-				type : "GET",
-				async : false,
-				url : "getMembershipCardInfo",
-				data : {
-					cardNum : cardNum
-				},
-				success : function(cardInfo) {
-					var cardBalance = cardInfo.card_balance;
-					var cardPoint = cardInfo.card_point;
+			$
+					.ajax({
+						type : "GET",
+						async : false,
+						url : "getMembershipCardInfo",
+						data : {
+							cardNum : cardNum
+						},
+						success : function(cardInfo) {
+							var cardBalance = cardInfo.card_balance;
+							var cardPoint = cardInfo.card_point;
 
-					if (cardBalance >= chargeAmount) {
-						isBalanceOk = true;
-					} else {
-						alert("카드 잔액이 부족합니다.");
-					}
+							if (cardBalance >= chargeAmount) {
+								isBalanceOk = true;
+							} else {
+								var confirmPayment = confirm("카드 잔액이 부족합니다. 충전 하시겠습니까?");
+								if (confirmPayment) {
+									window.location.href = "${pageContext.request.contextPath}/mycard/initMemberCardSearch.jsp";
+								} else {
+									alert("결제를 취소하셨습니다.");
+								}
+							}
 
-					if (cardPoint >= pointInput) {
-						isPointsOk = true;
-					} else {
-						alert("포인트 잔액이 부족합니다.");
-					}
-				},
-				error : function() {
-					console.error("카드 정보를 불러오는 데 실패했습니다.");
-				}
-			});
+							if (cardPoint >= pointInput) {
+								isPointsOk = true;
+							} else {
+								alert("포인트 잔액이 부족합니다.");
+							}
+						},
+						error : function() {
+							console.error("카드 정보를 불러오는 데 실패했습니다.");
+						}
+					});
 
 			return isBalanceOk && isPointsOk;
 		}
@@ -360,13 +407,33 @@ session.setAttribute("es_statNm", es_statNm);
 		function resetFields() {
 			document.getElementById("chargingTime").innerHTML = "0";
 			document.getElementById("chargingAmount").innerHTML = "0";
-			document.getElementById("TotalPriceInput").value = "";
+			document.getElementById("TotlePriceInput").value = "";
+			$("#chargeAmountInput").val('');
+			$("#pointInput").val('');
+			$("#TotlePriceInput").val('');
+			var selectedCardNum = $("#card_num").val();
+			getUsePointCardInformation(selectedCardNum);
+			$("#useAllPointsBtn").prop("disabled", false);
 		}
 		// 뒤로가기
 		function goBack() {
 			window.history.back();
 		}
 
+		// 포인트 전액 사용
+		function useAllPoints() {
+			var currentPoints = parseFloat(document
+					.getElementById("currentPoints").innerText);
+			var totalPriceInput = parseFloat($("#TotlePriceInput").val()) || 0;
+
+			if (totalPriceInput <= currentPoints) {
+				$("#pointInput").val(totalPriceInput);
+				$("#chargeAmountInput").val(0);
+			} else {
+				$("#pointInput").val(currentPoints);
+				$("#chargeAmountInput").val(totalPriceInput - currentPoints);
+			}
+		}
 		$(document)
 				.ready(
 						function() {

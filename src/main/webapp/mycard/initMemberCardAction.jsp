@@ -450,26 +450,46 @@ if (sessionMembership == null || sessionMembership.getAttribute("member_id") == 
 			}
 			$.ajax({
 				type : "POST",
-				url : "saveMembershipData",
+				url : "checkMembershipCardExistence",
 				data : {
-					c_memberid : member_id,
-					car_kind : car_kind,
-					car_model : car_model,
-					car_number : car_number,
-					card_reason : card_reason,
-					ship_zip_code : shipZipCode,
-					ship_addr_1 : shipAddr1,
-					ship_addr_2 : shipAddr2,
-					card_num : randomCardNumber
+					c_memberid : member_id
 				},
 				success : function(response) {
-					alert('신청이 완료되었습니다.');
-					location.reload(true);
+					if (response.exists && card_reason === "신규") {
+						alert('이미 멤버쉽 카드가 존재합니다.');
+						return;
+					}
+
+					saveMembership();
 				},
 				error : function(error) {
 					alert('오류가 발생했습니다.');
 				}
 			});
+			function saveMembership() {
+				$.ajax({
+					type : "POST",
+					url : "saveMembershipData",
+					data : {
+						c_memberid : member_id,
+						car_kind : car_kind,
+						car_model : car_model,
+						car_number : car_number,
+						card_reason : card_reason,
+						ship_zip_code : shipZipCode,
+						ship_addr_1 : shipAddr1,
+						ship_addr_2 : shipAddr2,
+						card_num : randomCardNumber
+					},
+					success : function(response) {
+						alert('신청이 완료되었습니다.');
+						location.reload(true);
+					},
+					error : function(error) {
+						alert('오류가 발생했습니다.');
+					}
+				});
+			}
 		}
 		//랜덤 멤버쉽 카드 번호 생성 
 		function generateRandomCardNumber() {

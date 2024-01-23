@@ -295,7 +295,6 @@ body {
 
 														$.each(cardInfoList, function (index, cardInfo) {
 									                        if (cardInfo.used_point === 0) {
-									                            // 사용 포인트가 0인 경우 해당 행을 숨김
 									                            return;
 									                        }
 

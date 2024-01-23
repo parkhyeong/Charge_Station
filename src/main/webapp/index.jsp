@@ -9,13 +9,98 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>전기차 타요타요</title>
-<!-- Core theme CSS (includes Bootstrap)-->
-<link href="/tayotayo/resources/css/map.css" rel="stylesheet" />
+<link
+	href="<%=pageContext.getServletContext().getContextPath()%>/resources/css/map.css"
+	rel="stylesheet" />
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+.service-box a {
+	text-decoration: none;
+	color: inherit;
+}
+</style>
 </head>
 <body>
-	<!-- Responsive navbar-->
-	<div>
-		<jsp:include page="/header.jsp"></jsp:include>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand"
+				href="<%=pageContext.getServletContext().getContextPath()%>/mainpage/MainPage.jsp">전기차
+				타요타요</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page"
+						href="<%=pageContext.getServletContext().getContextPath()%>/mainpage/MainPage.jsp">Home</a></li>
+
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/mycard/initMemberCardAction.jsp">관리
+							및 조회</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/review/initReviewBoard.jsp">커뮤니티</a></li>
+
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p">충전소목록</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/member/mypage">마이페이지</a></li>
+
+					<%
+						if (session.getAttribute("member_id") == null) {
+					%>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/member/login_form">로그인</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/member/Agree_to_Terms_and_Conditions.jsp">회원가입</a></li>
+
+
+
+					<%
+						} else {
+					%>
+					<!-- 로그인 했을때 네비게이션 바 -->
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/member/logout">로그아웃</a></li>
+					<%
+						}
+					%>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="csFeeModal" tabindex="-1" role="dialog"
+		aria-labelledby="csFeeModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h7 class="modal-title fs-3" id="csFeeModalLabel">멤버쉽 안내</h7>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					멤버쉽 결제는 가상의 서비스입니다.<br> 멤버쉽 버튼을 클릭하면 멤버쉽 가입하기 페이지로 연결됩니다!
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary">멤버쉽</button>
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+
+				</div>
+			</div>
+		</div>
 	</div>
 
 
@@ -49,7 +134,8 @@
 								style="transition-duration: 0ms; transform: translate3d(-1040px, 0px, 0px);">
 								<div
 									class="swiper-slide swiper-slide-duplicate swiper-slide-duplicate-active"
-									data-swiper-slide-index="1" style="width: 520px; margin-left: 200%;">
+									data-swiper-slide-index="1"
+									style="width: 520px; margin-left: 200%;">
 									<ul>
 										<li class="flex"><div class="fee-box">
 
@@ -90,53 +176,6 @@
 											</div></li>
 									</ul>
 								</div>
-								<div class="swiper-slide swiper-slide-active"
-									data-swiper-slide-index="1" style="width: 520px;">
-									<ul>
-										<li class="flex"><div class="fee-box">
-											
-												<div>
-													<div class="fee-box-name">차지비</div>
-													<div class="fee-box-fee feeColor blue">280.5원/kWh</div>
-												</div>
-											</div>
-											<div class="fee-box">
-											
-												<div>
-													<div class="fee-box-name">타디스테크놀로지</div>
-													<div class="fee-box-fee feeColor blue">334원/kWh</div>
-												</div>
-											</div></li>
-										<li class="flex"><div class="fee-box">
-												
-												<div>
-													<div class="fee-box-name">한국전기차충전서비스</div>
-													<div class="fee-box-fee feeColor blue">307.2원/kWh</div>
-												</div>
-											</div>
-											<div class="fee-box">
-											
-												<div>
-													<div class="fee-box-name">한국전력</div>
-													<div class="fee-box-fee feeColor blue">274.55원/kWh</div>
-												</div>
-											</div></li>
-										<li class="flex"><div class="fee-box">
-												
-												<div>
-													<div class="fee-box-name">한국환경공단</div>
-													<div class="fee-box-fee feeColor blue">335.8원/kWh</div>
-												</div>
-											</div>
-											<div class="fee-box">
-											
-												<div>
-													<div class="fee-box-name">환경부</div>
-													<div class="fee-box-fee feeColor blue">335.8원/kWh</div>
-												</div>
-											</div></li>
-									</ul>
-								</div>
 							</div>
 							<div
 								class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"
@@ -160,7 +199,9 @@
 						: 대</span>
 					<div>
 						<div class="blur-box" id="cs1">
-							<img class="main-map" src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/seoul_map.png" style="max-width: 100%; max-height: 100%; margin-left: -30%;">
+							<img class="main-map"
+								src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/seoul_map.png"
+								style="max-width: 100%; max-height: 100%; margin-left: -30%;">
 							<div class="charger-cnt cnt-total-box">
 								<div class="rd-box bg-green cnt-total" style="left: 74px;">완속</div>
 								<div class="rd-box bg-gray cnt-total" style="left: 128px;">전체</div>
@@ -181,8 +222,8 @@
 									<div class="ar"></div>
 								</div>
 							</div>
-							<div class="charger-cnt mvSearch"
-								style="top: 260px; left: 80px;" id="area8">
+							<div class="charger-cnt mvSearch" style="top: 260px; left: 80px;"
+								id="area8">
 								<div class="rd-box">강서</div>
 								<div class="rd-box bg-blue" id="fast8">2,000</div>
 								<div class="rd-box bg-green" id="slow8" style="left: 55px;">
@@ -227,42 +268,60 @@
 		<div class="wrap">
 			<div class="service-flex">
 				<div class="service-box" id="chargerCnt">
-					<div class="service-text1 blue">충전소 목록 조회</div>
-					<div class="service-text2">
-						서울시에 있는 충전소를<br> 조회해 보세요.
-					</div>
-					<div class="service-img">
-						<img src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/main_list.png">
-					</div>
+					<a
+						href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p">
+						<div class="service-text1 blue">충전소 목록 조회</div>
+						<div class="service-text2">
+							서울시에 있는 충전소를<br> 조회해 보세요.
+						</div>
+						<div class="service-img">
+							<img
+								src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/main_list.png">
+						</div>
+					</a>
 				</div>
+
 				<div class="service-box" id="csFee">
 					<div class="service-text1 blue">충전요금 비교하기</div>
 					<div class="service-text2">
 						충전사 별 충전요금을 비교후 <br> 타요타요 멤버십 카드에 충전 해 보세요! <br>
 					</div>
 					<div class="service-img">
-						<img src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/main_compare.png">
+						<img
+							src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/main_compare.png">
 					</div>
+					</a>
 				</div>
+
 				<div class="service-box" id="bidList">
-					<div class="service-text1 blue">리뷰 게시판</div>
-					<div class="service-text2">
-						충전소에 대해 사용자들이 하는<br> 이야기를 들어보세요!
-					</div>
-					<div class="service-img">
-						<img src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/main_review.png">
-					</div>
+					<a
+						href="<%=pageContext.getServletContext().getContextPath()%>/review/initReviewBoard.jsp">
+						<div class="service-text1 blue">리뷰 게시판</div>
+						<div class="service-text2">
+							충전소에 대해 사용자들이 하는<br> 이야기를 들어보세요!
+						</div>
+						<div class="service-img">
+							<img
+								src="<%=pageContext.getServletContext().getContextPath()%>/resources/img/main_review.png">
+						</div>
+					</a>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript"
-		src="<%=pageContext.getServletContext().getContextPath()%>/resources/js/index.js"></script>
 
-	<!-- Bootstrap core JS-->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	<!-- Core theme JS-->
-	<script src="/tayotayo/resources/js/scripts.js"></script>
+
+	<!--충전요금 비교하기 모달   -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var csFeeButton = document.getElementById('csFee');
+			csFeeButton.addEventListener('click', function() {
+				var csFeeModal = new bootstrap.Modal(document
+						.getElementById('csFeeModal'));
+				csFeeModal.show();
+			});
+		});
+	</script>
+
 </body>
 </html>

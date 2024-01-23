@@ -366,13 +366,16 @@ ul, li {
 			$.each(filteredPosts, function(index, post) {
 				var row = $("<tr>").appendTo(tbody);
 				$("<td>").text(post.r_no).appendTo(row);
-				$("<td>").text(post.r_statNm).appendTo(row);
-				$("<td>").html(
-						"<a href='initReviewBoardDetail.jsp?r_no=" + post.r_no
-								+ "&r_num=" + post.r_num
-								+ "' class='post-link' data-post-id='"
-								+ post.r_no + "'>" + post.r_title + "</a>")
-						.appendTo(row);
+				var postStationShortened = (post.r_statNm && post.r_statNm.length > 6) ? post.r_statNm.substring(0, 6) + "..."  : post.r_statNm;
+		        $("<td>").text(postStationShortened).appendTo(row);
+		        var shortenedTitle = (post.r_title && post.r_title.length > 10) ? post.r_title.substring(0, 10) + "..." : post.r_title;
+
+	            $("<td>").html(
+	                "<a href='initReviewBoardDetail.jsp?r_no=" + post.r_no +
+	                "&r_num=" + post.r_num +
+	                "' class='post-link' data-post-id='" +
+	                post.r_no + "'>" + shortenedTitle + "</a>"
+	            ).appendTo(row);
 				$("<td>").text(post.r_writer).appendTo(row);
 				$("<td>").text(post.r_like).appendTo(row);
 				var formattedDate = new Date(post.r_time).toISOString().split(

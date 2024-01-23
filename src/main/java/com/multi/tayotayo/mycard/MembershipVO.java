@@ -1,5 +1,6 @@
 package com.multi.tayotayo.mycard;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MembershipVO {
@@ -11,7 +12,7 @@ public class MembershipVO {
     private String card_num;
     private int card_point;
     private String c_memberid;
-    private Date card_signday;
+    private LocalDateTime card_signday;
     private int card_balance;
 	public String getCar_kind() {
 		return car_kind;
@@ -62,10 +63,11 @@ public class MembershipVO {
 		this.c_memberid = c_memberid;
 	}
 	
-	public Date getCard_signday() {
+	
+	public LocalDateTime getCard_signday() {
 		return card_signday;
 	}
-	public void setCard_signday(Date card_signday) {
+	public void setCard_signday(LocalDateTime card_signday) {
 		this.card_signday = card_signday;
 	}
 	public int getCard_balance() {
@@ -81,5 +83,4 @@ public class MembershipVO {
 				+ ", card_point=" + card_point + ", c_memberid=" + c_memberid + ", card_signday=" + card_signday
 				+ ", card_balance=" + card_balance + "]";
 	}
-    
 }
