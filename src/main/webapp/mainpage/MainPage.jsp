@@ -159,7 +159,7 @@ body {
             <h4>충전소 검색</h4>
             <div id="search-options">
                 <!-- 검색 옵션 추가 -->
-                <input type="text" id="keyword" placeholder="검색하기" value="현대">
+                <input type="text" id="keyword" placeholder="검색어를 입력하세요">
                 <button id="search-btn"class="btn">검색하기</button><hr>
                  <select class="search-input" name="station-category">		            		          
 		            <option selected value="">군/구 선택</option>

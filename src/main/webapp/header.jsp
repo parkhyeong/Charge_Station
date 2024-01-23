@@ -19,7 +19,6 @@
 <link
 	href="<%=pageContext.getServletContext().getContextPath()%>/resources/css/styles.css"
 	rel="stylesheet" />
-	
 
 <meta charset="utf-8" />
 <meta name="viewport"
@@ -82,7 +81,8 @@
 								href="<%=pageContext.getServletContext().getContextPath()%>/review/initReviewBoard.jsp">리뷰
 									게시판</a></li>
 						</ul></li>
-					href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p?page=1">충전소목록</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p?page=1">충전소목록</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="<%=pageContext.getServletContext().getContextPath()%>/member/mypage">마이페이지</a></li>
 

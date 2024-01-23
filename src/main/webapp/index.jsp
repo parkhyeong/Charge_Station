@@ -30,7 +30,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
 			<a class="navbar-brand"
-				href="<%=pageContext.getServletContext().getContextPath()%>/mainpage/MainPage.jsp">전기차
+				href="<%=pageContext.getServletContext().getContextPath()%>/index.jsp">전기차
 				타요타요</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -42,8 +42,10 @@
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page"
-						href="<%=pageContext.getServletContext().getContextPath()%>/mainpage/MainPage.jsp">Home</a></li>
-
+						href="<%=pageContext.getServletContext().getContextPath()%>/index.jsp">Home</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=pageContext.getServletContext().getContextPath()%>/mainpage/MainPage.jsp">충전소 찾기</a></li>
+						
 					<li class="nav-item"><a class="nav-link"
 						href="<%=pageContext.getServletContext().getContextPath()%>/mycard/initMemberCardAction.jsp">관리
 							및 조회</a></li>
@@ -51,7 +53,7 @@
 						href="<%=pageContext.getServletContext().getContextPath()%>/review/initReviewBoard.jsp">커뮤니티</a></li>
 
 					<li class="nav-item"><a class="nav-link"
-						href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p">충전소목록</a></li>
+						href="<%=pageContext.getServletContext().getContextPath()%>/chargers/select_all_p?page=1">충전소목록</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="<%=pageContext.getServletContext().getContextPath()%>/member/mypage">마이페이지</a></li>
 
