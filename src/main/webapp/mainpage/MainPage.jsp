@@ -74,6 +74,15 @@
     border-radius: 3px;
     cursor: pointer;
 }
+.search-btn2 {
+    background-color: #28a745;
+    color: #fff;
+    padding: 5px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
 
 .reset-btn {
     background-color: #dc3545;
@@ -150,36 +159,63 @@ body {
             <h4>충전소 검색</h4>
             <div id="search-options">
                 <!-- 검색 옵션 추가 -->
-               	키워드 검색
-                <input type="text" id="keyword" placeholder="검색하기" value="현대"><hr> 
-		        지역선택
-                 <select class="search-input" id="charging-station-province">
-		            <option value="">시/도 선택</option>
-		            <!-- 시/도 목록 추가 -->
-		            <option value="seoul">서울</option>
-		            <option value="busan">부산</option>
-		            <!-- 필요한 만큼 시/도 추가 -->
-		        </select>
-		        <select class="search-input" id="charging-station-city">
-		          	<option value="seoul">서울</option>
-		            <option value="busan">부산</option>
-		        </select><hr>
-		        충전소 분류
-                <select class="search-input" id="charging-station-category"><hr>
-                    <option value="">충전소 분류</option>
-                    <option value="public">공공 충전소</option>
-                    <option value="private">사설 충전소</option>
+                <input type="text" id="keyword" placeholder="검색하기" value="현대">
+                <button id="search-btn"class="btn">검색하기</button><hr>
+                 <select class="search-input" name="station-category">		            		          
+		            <option selected value="">군/구 선택</option>
+					<option value="강남구">강남구</option>
+	 				<option value="강동구">강동구</option>
+	 				<option value="강북구">강북구</option>
+	 				<option value="강서구">강서구</option>
+	 				<option value="관악구">관악구</option>
+	 				<option value="광진구">광진구</option>
+	 				<option value="구로구">구로구</option>
+	 				<option value="금천구">금천구</option>
+	 				<option value="노원구">노원구</option>
+	 				<option value="도봉구">도봉구</option>
+	 				<option value="동대문구">동대문구</option>
+	 				<option value="동작구">동작구</option>
+	 				<option value="마포구">마포구</option>
+	 				<option value="서대문구">서대문구</option>
+	 				<option value="서초구">서초구</option>
+	 				<option value="성동구">성동구</option>
+	 				<option value="성북구">성북구</option>
+	 				<option value="송파구">송파구</option>
+	 				<option value="양천구">양천구</option>
+	 				<option value="영등포구">영등포구</option>
+	 				<option value="용산구">용산구</option>
+	 				<option value="은평구">은평구</option>
+	 				<option value="종로구">종로구</option>
+	 				<option value="중구">중구</option>
+	 				<option value="중랑구">중랑구</option>
+		        </select>		   
+                <select class="search-input" name="charging-station-category"><hr>
+                    <option selected value="">충전소 분류</option>
+                   <option value="공공시설">공공시설</option>
+	 				<option value="주차시설">주차시설</option>
+	 				<option value="휴게시설">휴게시설</option>
+	 				<option value="관광시설">관광시설</option>
+	 				<option value="상업시설">상업시설</option>
+	 				<option value="차량정비시설">차량정비시설</option>
+	 				<option value="공동주택시설">공동주택시설</option>
+	 				<option value="근린생활시설">근린생활시설</option>
+	 				<option value="교육문화시설">교육문화시설</option>
+	 				<option value="기타">기타</option>	
                 </select> 
-                충전기 타입
-                <select class="search-input" id="charging-type"><hr>
-                    <option value="">충전기 타입</option>
-                    <option value="fast">급속 충전</option>
-                    <option value="normal">완속 충전</option>
+                <select class="search-input" name="charging-type"><hr>
+                    <option selected value="">충전기 타입</option>
+                  	<option value="DC차데모">DC차데모</option>
+	 				<option value="AC완속">AC완속</option>
+	 				<option value="DC차데모+AC3상">DC차데모+AC3상</option>
+	 				<option value="DC콤보">DC콤보</option>
+	 				<option value="DC차데모+DC콤보">DC차데모+DC콤보</option>
+	 				<option value="DC차데모+AC3상+DC콤보">DC차데모+AC3상+DC콤보</option>
+	 				<option value="AC3상">AC3상</option>	 	
                 </select>
                 <!-- 검색, 초기화 버튼 -->
                 <hr>
-                <button id="search-btn"class="btn">검색하기</button>
-               <button id="submit-my-btn-distance" class="btn">충전소 추천</button>
+                <button id="search-btn2"class="btn">검색하기</button>
+                <button id="submit-my-btn-distance" class="btn">충전소 추천</button>
                 <button id="reset-btn" class="btn" >초기화하기</button><hr>
             </div>
             <!-- 토글 버튼 테스트-->
@@ -404,7 +440,7 @@ body {
             });
             
             
-        	// 검색 시 DataController에서 매핑 시켜서 조인한 테이블 검색
+        	// 키워드 검색 시 DataController에서 매핑 시켜서 조인한 테이블 검색
             $('#search-btn').click(function() {
                 var keyword = $('#keyword').val();
                 console.log(keyword)
@@ -466,6 +502,89 @@ body {
                     }	
                 });
             });
+        	
+         // 필터링 검색 시 DataController에서 매핑 시켜서 조인한 테이블 검색
+            $('#search-btn2').click(function () {
+                var es_gungoo = $('select[name="station-category"]').val(); // 군/구 선택
+                var es_faciL = $('select[name="charging-station-category"]').val(); // 충전소 분류
+                var es_dvcL = $('select[name="charging-type"]').val(); // 충전기 타입
+
+                $.ajax({
+                    url: "filter", // URL 변경
+                    data: {
+                        es_gungoo: es_gungoo,
+                        es_faciL: es_faciL,
+                        es_dvcS: es_dvcL // 변경: es_dvcL 대신 es_dvcS 사용
+                    },
+                    success: function (response) {
+                        // 기존의 검색 결과 처리 함수 대신에 새로운 함수 호출
+                        renderSearchResults(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("검색 중 오류 발생: " + error);
+                    }
+                });
+            });
+
+            // 공통 함수: 검색 결과 처리 및 마커 추가
+            function renderSearchResults(response) {
+                var resultDiv = $('#result-list');
+
+                // 이전 검색 결과 초기화
+                resultlist.empty();
+
+                // 검색 결과를 하나씩 추가
+                for (let i = 0; i < response.length; i++) {
+                    // 결과를 추가하는 부분
+                    resultDiv.append(
+                        '<div class="result-item"><input type="hidden" class="location-info" data-lat="' + response[i].es_lat + '" data-lon="' + response[i].es_lon + '" data-name="' + response[i].es_statNm + '" data-statid="' + response[i].es_statId + '" data-stat="' + response[i].stat + '">' +
+                        '<a href="#" class="result-link text-decoration-none">' + response[i].es_statNm + '</a>' +
+                        '</div>'
+                    );
+                }
+
+                // 마커 지우기
+                for (let i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+                positions = [];
+                markers = [];
+
+                // 사용가능(2), 사용불가능(1) 분류
+                $(response).each(function (i, json) {
+                    if (json.stat === '2') {
+                        positions.push({
+                            latlng: new kakao.maps.LatLng(json.es_lat, json.es_lon),
+                            image: markerImageSucc
+                        });
+                    } else {
+                        positions.push({
+                            latlng: new kakao.maps.LatLng(json.es_lat, json.es_lon),
+                            image: markerImageFail
+                        });
+                    }
+                });
+
+                // 마커 찍기
+                for (var i = 0; i < positions.length; i++) {
+                    marker = new kakao.maps.Marker({
+                        map: map,
+                        position: positions[i].latlng,
+                        image: positions[i].image
+                    });
+                    markers.push(marker);
+                    (function (title) {
+                        kakao.maps.event.addListener(marker, 'click', function () {
+                            getMapDetailSearch(title);
+                        });
+                    })(positions[i].title);
+                }
+
+                // 클러스터 재등록
+                clusterer.addMarkers(markers);
+            }
+
+
 
             //마커지우기 및 클러스지우기
             function delmark() {
@@ -582,7 +701,7 @@ body {
 		                }
 		            });
             
-          /*   // 지도레벨 확대 LOCK
+       	    // 지도레벨 확대 LOCK
             kakao.maps.event.addListener(map, 'zoom_changed', function () {
                 var currentLevel = map.getLevel();
                 if (currentLevel > 5) {
@@ -595,7 +714,7 @@ body {
                 if (currentLevel > 5) {
                     map.setLevel(5);
                 }
-            });  */
+            });
             
          
 		        
@@ -673,7 +792,7 @@ body {
             		success: function(avg) {
 						console.log(avg);
 						if (avg != '-1') {
-							chargeAvg = avg+"점";							
+							chargeAvg = avg;							
 						} else {
 							chargeAvg = '아직 리뷰가 없습니다.';
 						}
@@ -695,11 +814,7 @@ body {
         			},
         			dataType: 'json',
         			success: function(json) {
-        				
-        				console.log(json);
-        				console.log(json.items);
-        				console.log(json.items.item);
-        				
+        		    				
         				statList = json.items.item;
         				statFirstData = statList[0];
         				
@@ -749,18 +864,6 @@ body {
         				statMap.set('5', 0);		// 점검중
         				statMap.set('9', 0);		// 상태미확인
         				
-        				console.log(statNm);
-        				console.log(typeof location);
-        				console.log(addr);
-        				console.log(bnm);
-        				console.log(busiCall);
-        				console.log(location);
-        				console.log(useTime);
-        				console.log(busiNm);
-        				console.log(parkingFree);
-        				console.log(trafficYn);
-        				console.log(note);
-        				console.log(output);
 
         				for (let i = 0; i < statList.length; i++) {
         					statMap.set(statList[i].stat, statMap.get(statList[i].stat) + 1);
@@ -771,31 +874,32 @@ body {
         				modalTitle.empty();
         				modalBody.empty();
         				
-        				modalTitle.append('<h3 style="margin-bottom: 0;"><img src="../resources/img/station.png" width="45" height="30"> ' + statNm + '</h3>');
+        				modalTitle.append('<h3 style="margin-bottom: 10;"><img src="../resources/img/station.png" width="45" height="30"> ' + statNm + '</h3>');
         	               
-        				modalBody.append('<h3 class="text-center" style="margin-bottom: 0;"><img src="../resources/img/star.png" width="30" height="30">충전소평점 : ' + chargeAvg + '</h3>');
-        				modalBody.append('<p style="margin-bottom: 0;"><img src="../resources/img/chargetime.png" width="20" height="15"> 이용가능시간 : ' + useTime + '</p>');
+        				modalBody.append('<h3 class="text-center" style="margin-bottom: 10px;"><img src="../resources/img/star.png" width="30" height="30">' + chargeAvg + '</h3>');
 
         				// 실시간 충전기 상태
-        				modalBody.append('<h3 style="margin-bottom: 0;"><img src="../resources/img/evcar.png" width="45" height="30"> 실시간 충전기 상황</h3>');
-        				modalBody.append('<table class="table table-bordered" style="border-collapse: collapse; width: 95%; margin: 0 auto; background-color: #f2f2f2;">');
-        				modalBody.append('<thead class="thead-dark"><tr><th style="border: 1px solid #ddd;">충전기상태</th><th style="border: 1px solid #ddd;">충전가능</th><th style="border: 1px solid #ddd;">충전중</th></tr></thead>');
-        				modalBody.append('<tbody><tr><td style="border: 1px solid #ddd;">' + chgerType + '</td><td style="border: 1px solid #ddd;">' + statMap.get('2') + '</td><td style="border: 1px solid #ddd;">' + statMap.get('1') + '</td></tr></tbody>');
-        				modalBody.append('</table>');
+        				modalBody.append('<h3 style="margin-bottom: 10;"><img src="../resources/img/evcar.png" width="45" height="30"> 실시간 충전기 상황</h3>');
+        				modalBody.append('<table class="table table-bordered" style="border-collapse: collapse; width: 95%; margin-bottom : 10px; background-color: #f2f2f2;">'
+        				+ '<thead class="thead-dark"><tr><th style="border: 1px solid #ddd;">충전기상태</th><th style="border: 1px solid #ddd;">충전가능</th><th style="border: 1px solid #ddd;">충전중</th></tr></thead>'
+        				+ '<tbody><tr><td style="border: 1px solid #ddd;">' + chgerType + '</td><td style="border: 1px solid #ddd;">' + statMap.get('2') + '</td><td style="border: 1px solid #ddd;">' + statMap.get('1') + '</td></tr></tbody>'
+        				+ '</table>'
+        				+ '<p style="margin-bottom: 10;"><img src="../resources/img/chargetime.png" width="20" height="15"> 이용가능시간 : ' + useTime + '</p>');
+
         				modalBody.append('<hr>');
 
         				// 요약 정보
-        				modalBody.append('<h3 style="margin-bottom: 0;"><img src="../resources/img/evcar.png" width="45" height="30"> 요약정보 </h3>');
-        				modalBody.append('<table class="table table-bordered" style="border-collapse: collapse; width: 95%; margin: 0 auto; background-color: #f2f2f2; !important">');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">도로명주소</td><td style="border: 1px solid #ddd;">' + addr + '</td></tr>');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">기관명</td><td style="border: 1px solid #ddd;">' + bnm + '</td></tr>');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">전화번호</td><td style="border: 1px solid #ddd;">' + busiCall + '</td></tr>');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">상세위치</td><td style="border: 1px solid #ddd;">' + location + '</td></tr>');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">운영기관명</td><td style="border: 1px solid #ddd;">' + busiNm + '</td></tr>');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">주차료 무료</td><td style="border: 1px solid #ddd;">' + parkingFree + '</td></tr>');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">편의제공 여부</td><td style="border: 1px solid #ddd;">' + trafficYn + '</td></tr>');
-        				modalBody.append('<tr><td style="border: 1px solid #ddd;">상세</td><td style="border: 1px solid #ddd;">' + note + '</td></tr>');
-        				modalBody.append('</table>');
+        				modalBody.append('<h3 style="margin-bottom: 10px;"><img src="../resources/img/evcar.png" width="45" height="30"> 요약정보 </h3>');
+        				modalBody.append('<table class="table table-bordered" style="border-collapse: collapse; width: 95%; margin: 0 auto; background-color: #f2f2f2; !important">'
+        				+ '<tr><td style="border: 1px solid #ddd;">도로명주소</td><td style="border: 1px solid #ddd;">' + addr + '</td></tr>'
+        				+ '<tr><td style="border: 1px solid #ddd;">기관명</td><td style="border: 1px solid #ddd;">' + bnm + '</td></tr>'
+        				+ '<tr><td style="border: 1px solid #ddd;">전화번호</td><td style="border: 1px solid #ddd;">' + busiCall + '</td></tr>'
+        				+ '<tr><td style="border: 1px solid #ddd;">상세위치</td><td style="border: 1px solid #ddd;">' + location + '</td></tr>'
+        				+ '<tr><td style="border: 1px solid #ddd;">운영기관명</td><td style="border: 1px solid #ddd;">' + busiNm + '</td></tr>'
+        				+ '<tr><td style="border: 1px solid #ddd;">주차료 무료</td><td style="border: 1px solid #ddd;">' + parkingFree + '</td></tr>'
+        				+ '<tr><td style="border: 1px solid #ddd;">편의제공 여부</td><td style="border: 1px solid #ddd;">' + trafficYn + '</td></tr>'
+        				+ '<tr><td style="border: 1px solid #ddd;">상세</td><td style="border: 1px solid #ddd;">' + note + '</td></tr>'
+        				+ '</table>');
         				modalBody.append('<br>');
         				modalBody.append('<a href="${pageContext.request.contextPath}/chargers/details?es_statId=' + es_statId + '" class="btn btn-primary">상세정보 바로가기</a>');
 
@@ -806,6 +910,7 @@ body {
         		});
             }
         	});
+        
         
         
     </script>
