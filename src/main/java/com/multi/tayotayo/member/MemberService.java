@@ -1,11 +1,9 @@
 package com.multi.tayotayo.member;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -135,6 +133,10 @@ public class MemberService {
 	
 	public MemberVO id_find_to_email(MemberVO memberVO) {
 		return dao.id_find_to_email(memberVO);
+	}
+	
+	public MemberVO id_find_to_tel(MemberVO memberVO) {
+		return dao.id_find_to_tel(memberVO);
 	}
 	
 	//댓글 개수 조회

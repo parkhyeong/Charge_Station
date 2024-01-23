@@ -61,7 +61,7 @@ body {
   font-weight: normal;
   line-height: 1.5;
   color: var(--color-black);
-  background: var(--color-light);
+  <!-- background: var(--color-light); -->
 }
 
 a,
@@ -76,13 +76,6 @@ button {
   text-decoration: none;
 }
 
-img {
-  display: block;
-  width: 370px;
-  height: 60px;
-
-}
-
 .container2 {
   display: flex;
   justify-content: center;
@@ -93,26 +86,7 @@ img {
   padding: 0 2rem;
   margin: 0 auto;
 }
-<!--
-.ion-logo-apple {
-  font-size: 1.65rem;
-  line-height: inherit;
-  margin-right: 0.5rem;
-  color: var(--color-black);
-}
-.ion-logo-google {
-  font-size: 1.65rem;
-  line-height: inherit;
-  margin-right: 0.5rem;
-  color: var(--color-red);
-}
-.ion-logo-facebook {
-  font-size: 1.65rem;
-  line-height: inherit;
-  margin-right: 0.5rem;
-  color: var(--color-blue);
-}
--->
+
 .text {
   font-family: inherit;
   line-height: inherit;
@@ -139,7 +113,7 @@ img {
 }
 
 .main .wrapper {
-  max-width: 28rem;
+  max-width: 25rem;
   width: 100%;
   margin: 2rem auto;
   padding: 2rem 2.5rem;
@@ -245,6 +219,33 @@ img {
   background: var(--color-light);
 }
 
+
+</style>
+
+<style>
+.btn_g2 {
+    overflow: hidden;
+    height: auto;
+    min-height: 45px;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.btn_g.highlight2 {
+    background-color: #fee500;
+}
+
+.btn_g2 {
+    display: block;
+    width: 100%;
+    height: 50px;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 51px;
+    color: #fff;
+    background-color: #1a73e8;
+}
 </style>
 
 <script type="text/javascript">
@@ -347,7 +348,8 @@ function getCookie(cookieName) {
   <div class="container2">
     <section class="wrapper">
       <div class="heading">
-        <h1 class="text text-large">Login</h1>
+      <img src="${pageContext.request.contextPath}/resources/img/전기차 타요타요 글자.png"/>
+        
       </div>
       
       <div class="form">
@@ -365,7 +367,7 @@ function getCookie(cookieName) {
         
         
         <div class="input-control">
-          <a href="${pageContext.request.contextPath}/member/pw_find.jsp" class="text text-links">ID/PW 찾기</a>
+          <a href="${pageContext.request.contextPath}/member/id_pw_find_movement_form.jsp" class="text text-links">ID/PW 찾기</a>
           <a href="${pageContext.request.contextPath}/member/Agree_to_Terms_and_Conditions.jsp" class="text text-links">회원가입</a>
           <Button type="button" id ="login" class="input-submit">로그인</Button>
         </div>
@@ -382,7 +384,8 @@ function getCookie(cookieName) {
 
 		<%@ include file="/member/kakao_login.jsp" %><br>
 
-		<%@ include file="/member/google_login.jsp" %><br>
+		<a href="${pageContext.request.contextPath}/member/google_login.jsp"><button type="button" class="btn_g2 highlight2 submit">구글 로그인</button></a>
+		
 
 
       </div>

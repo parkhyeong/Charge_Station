@@ -53,7 +53,6 @@ body {
   font-weight: normal;
   line-height: 1.5;
   color: var(--color-black);
-  background: var(--color-light);
 }
 
 a,
@@ -88,25 +87,6 @@ img {
   margin: 0 auto;
 }
 
-.ion-logo-apple {
-  font-size: 1.65rem;
-  line-height: inherit;
-  margin-right: 0.5rem;
-  color: var(--color-black);
-}
-.ion-logo-google {
-  font-size: 1.65rem;
-  line-height: inherit;
-  margin-right: 0.5rem;
-  color: var(--color-red);
-}
-.ion-logo-facebook {
-  font-size: 1.65rem;
-  line-height: inherit;
-  margin-right: 0.5rem;
-  color: var(--color-blue);
-}
-
 .text {
   font-family: inherit;
   line-height: inherit;
@@ -133,7 +113,7 @@ img {
 }
 
 .main .wrapper {
-  max-width: 28rem;
+  max-width: 25rem;
   width: 100%;
   margin: 2rem auto;
   padding: 2rem 2.5rem;
@@ -290,6 +270,16 @@ $(function() {
 		})
 	  
 	})
+	var element = document.getElementById("typevalue");
+	if ('${social.type}'=='naver'){
+		element.innerText ='네이버'
+	}
+	else if ('${social.type}'=='kakao'){
+		element.innerText ='카카오'
+	}
+	else if ('${social.type}'=='google'){
+		element.innerText ='구글'
+	}
 })//$
 
 
@@ -326,7 +316,7 @@ function goPost(){
   <div class="container2">
     <section class="wrapper">
       <div class="heading">
-        <h1 class="text text-large">${social.type} 타요타요 계정연동<br> 로그인</h1>
+        <h3><span id="typevalue"></span> 계정연동<br><b>타요타요 로그인</b></h3>
       </div>
       
       <div class="form">
@@ -339,7 +329,7 @@ function goPost(){
           <input type="password"id="password" class="input-field" name="pw" placeholder="Password" required>
         </div>
         <div class="input-control">
-          <a href="#" class="text text-links">ID/PW 찾기</a>
+          <a href="${pageContext.request.contextPath}/member/pw_find.jsp" class="text text-links">ID/PW 찾기</a>
           <a href="javascript:void(0)" class="text text-links" onClick="javascript:goPost()">회원가입</a>
           
            <input type="hidden"  id="social_id" name="id" value="${social.id}">
