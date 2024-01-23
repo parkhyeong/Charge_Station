@@ -1,9 +1,9 @@
 package com.multi.tayotayo.mainpage;
 
 public class DataVO {
-	String chgerId;
-	String statId;
-	String stat;
+	private String chgerId;
+	private String statId;
+	private int stat;
 	public String getChgerId() {
 		return chgerId;
 	}
@@ -16,10 +16,11 @@ public class DataVO {
 	public void setStatId(String statId) {
 		this.statId = statId;
 	}
-	public String getStat() {
+	
+	public int getStat() {
 		return stat;
 	}
-	public void setStat(String stat) {
+	public void setStat(int stat) {
 		this.stat = stat;
 	}
 	@Override
