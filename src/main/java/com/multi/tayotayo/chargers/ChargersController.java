@@ -30,21 +30,6 @@ public class ChargersController {
 	@Autowired
 	ChargersDAO chargersdao;
 	
-	/*
-	 * //이거 맞나요?
-	 * 
-	 * @Autowired PageVO pageVO;
-	 */
-
-
-	// 전체 충전소 list get
-//	@RequestMapping("chargers/select_all")
-//	public void select_all(Model model) {// 전체 리스트
-//		List<ChargersVO> list = chargersdao.select_all();
-//		System.out.println(list.size());
-//
-//		model.addAttribute("select_all", list);
-//	}
 
 	// 전체 충전소 list paging
 	@RequestMapping("/select_all_p")
@@ -85,7 +70,7 @@ public class ChargersController {
 		
 		List<ChargersVO> list = chargersService.selectWithFilters(chargersVO);
 		System.out.println(list.size());
-		model.addAttribute("list",list);
+		model.addAttribute("select_all",list);
 	
 	}
 
