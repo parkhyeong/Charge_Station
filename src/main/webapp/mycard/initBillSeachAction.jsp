@@ -305,7 +305,6 @@ if (sessionPayment == null || sessionPayment.getAttribute("member_id") == null) 
 
 	<script type="text/javascript">
 		var member_id = "<c:out value='${member_id}'/>";
-		console.log(member_id);
 
 		$(document)
 				.ready(
@@ -360,10 +359,6 @@ if (sessionPayment == null || sessionPayment.getAttribute("member_id") == null) 
 												card_num : selectedCardNum
 											},
 											success : function(cardInfoList) {
-												console.log("카드정보:",
-														cardInfoList);
-												console.log("카드번호:",
-														selectedCardNum);
 
 												var tableBody = $("#cardInfoTableBody");
 												tableBody.empty();
@@ -441,13 +436,7 @@ if (sessionPayment == null || sessionPayment.getAttribute("member_id") == null) 
 							    var confirmReview = confirm("충전소 이용 내역에 대한 리뷰를 작성하시겠습니까?");
 							    
 							    if (confirmReview) {
-							    	 console.log("Selected Card Num: ", selectedCardNum);
-							         console.log("Transaction ID: ", transactionId);
-							         console.log("Station Name: ", stationName);
-							         console.log("Charge Time: ", chargeTime);
-							         console.log("Charge Amount: ", chargeAmount);
-							         console.log("Payment Amount: ", paymentAmount);
-							         console.log("Payment Point: ", paymentPoint);
+							    
 							        $.ajax({
 							            type: "POST",
 							            url: "PaymentReviewInsert",

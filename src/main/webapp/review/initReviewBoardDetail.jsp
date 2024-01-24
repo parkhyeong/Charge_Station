@@ -262,7 +262,6 @@ h2, h3 {
 					},
 					dataType : "json",
 					success : function(result) {
-						console.log("게시물 상세 정보 수신:", result);
 
 						var postTime = new Date(result.r_time);
 						var formattedPostTime = postTime.getFullYear() + "-"
@@ -296,9 +295,6 @@ h2, h3 {
 						getComments(rNum);
 						var loggedInUser = '<%=(session.getAttribute("member_id") != null) ? session.getAttribute("member_id") : ""%>';
 						var postWriter = $("#postWriter").text().trim();
-						
-						console.log("loggedInUser:", loggedInUser);
-						console.log("postWriter:", postWriter);
 				
 						if (loggedInUser !== postWriter) {
 							$("#updateBtn").hide();
@@ -310,7 +306,6 @@ h2, h3 {
 			                $("#updateBtn").hide();
 			                $("#deleteBtn").hide();
 			            }
-			            console.log("rCheckValue:", rCheckValue);
 					},
 					error : function(xhr, status, error) {
 						console.error("Ajax 요청 중 에러 발생:", status, error);
@@ -413,19 +408,7 @@ h2, h3 {
 	</div>
 </div>
 <script>
-<%-- $(function () {
-    var loggedInUser = '<%=(session.getAttribute("member_id") != null) ? session.getAttribute("member_id") : ""%>';
-    var postWriter = $("#postWriter").text().trim();
-    
-    console.log("loggedInUser:", loggedInUser);
-    console.log("postWriter:", postWriter);
 
-		if (loggedInUser !== postWriter) {
-			$("#updateBtn").hide();
-			$("#deleteBtn").hide();
-		}
-
-	}); --%>
 	// 게시글 수정하기
 	function updatePost() {
 		var postId = $("#postNo").text();
@@ -549,13 +532,11 @@ h2, h3 {
 					},
 					dataType : "json",
 					success : function(comments) {
-						console.log("댓글 정보 수신:", comments);
 
 						if (comments && Array.isArray(comments)) {
 							comments.reverse();
 							comments
 									.forEach(function(comment) {
-										console.log(comment);
 										var commentTime = new Date(
 												comment.rr_time);
 										var formattedCommentTime = commentTime ? commentTime
@@ -615,7 +596,6 @@ h2, h3 {
 	// 댓글 삭제
 	function deleteComment(rrNum) {
 		var rNum = getParameterByName('r_num');
-		console.log("Deleting comment with rr_num:", rrNum, "and r_num:", rNum);
 
 		$.ajax({
 			url : "deleteComment",
@@ -626,7 +606,6 @@ h2, h3 {
 			},
 			success : function(result) {
 				if (result === "success") {
-					console.log("댓글이 성공적으로 삭제되었습니다.");
 					alert("댓글이 성공적으로 삭제되었습니다.");
 					getComments(rNum);
 					location.reload();
@@ -713,7 +692,6 @@ h2, h3 {
 				stars[i].style.color = 'transparent';
 			}
 			document.getElementById('postRank').value = starValue;
-			console.log('별점 값:', starValue);
 		}
 	}
 

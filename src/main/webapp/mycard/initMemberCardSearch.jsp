@@ -340,7 +340,6 @@
 
 	<script>
 		var member_id = "<c:out value='${member_id}'/>";
-		console.log(member_id);
 		// 멤버쉽 카드 리스트 불러오기
 		function getMembershipList() {
 			var c_memberid = "<c:out value='${member_id}'/>";
