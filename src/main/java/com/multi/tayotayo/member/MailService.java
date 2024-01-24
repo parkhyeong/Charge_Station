@@ -67,11 +67,8 @@ public class MailService {
   
     // 이메일 코드 검증  
     public Boolean verifyEmailCode(MemberVO memberVO, String inputCode) {  
-    	System.out.println("여기되고");
         String authCode = redisUtil.getData(memberVO.getEmail()); 
-        System.out.println(authCode);
         if (authCode == null) {  
-        	System.out.println("여기도되고");
             return false;  
         } 
         else if (authCode.equals("")) {
@@ -83,7 +80,7 @@ public class MailService {
     // 전화번호 코드 검증  
     public Boolean telverifyEmailCode(MemberVO memberVO, String inputCode) {  
         String authCode = redisUtil.getData(memberVO.getTel()); 
-        System.out.println(authCode);
+        //System.out.println(authCode);
         if (authCode == null) {  
             return false;  
         }  

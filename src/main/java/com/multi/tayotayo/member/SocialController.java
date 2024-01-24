@@ -25,7 +25,6 @@ public class SocialController {
 	@RequestMapping(value = "member/socialinsert", method = RequestMethod.POST)
 	public String insert(SocialVO socialVO, Model model, HttpSession session) {
 		model.addAttribute("social", socialVO);
-		//System.out.println(socialVO);
 		
 		// 아이디 중복검사 true면 insert
 		if (socialservice.socialidConfirm(socialVO)) {
@@ -49,11 +48,7 @@ public class SocialController {
 	@ResponseBody
 	public int social_memberid_update(SocialVO socialVO, String member_id, String pw, Model model, HttpSession session) {
 		try {
-			System.out.println(socialVO);
-			System.out.println(member_id);
-			System.out.println(pw);
 
-			
 			// 계정연동진행
 			// member_id 확인
 			MemberVO memberVO = new MemberVO();
@@ -61,13 +56,12 @@ public class SocialController {
 			memberVO.setPw(pw);
 
 			if (login(memberVO)) {
-				System.out.println("<<연동>> 타요타요 아이디가 맞습니다.");
+				//System.out.println("<<연동>> 타요타요 아이디가 맞습니다.");
 				socialVO.setMember_id(memberVO.getMember_id());
-				System.out.println(socialVO);
 				socialservice.insert(socialVO);
 
 			} else {
-				System.out.println("연동아이디가 틀렸습니다.");
+				//System.out.println("연동아이디가 틀렸습니다.");
 				model.addAttribute("msg" ,"연동아이디가 틀렸습니다.");
 				return 0;
 			}
@@ -92,11 +86,10 @@ public class SocialController {
 	// 계정연동id 확인
 	@RequestMapping(value = "member/memberidconfirm", method = RequestMethod.POST)
 	public boolean login(MemberVO memberVO) {
-		System.out.println(memberVO);
+		//System.out.println(memberVO);
 
 		int result = memberservice.slogin(memberVO);
 
-		System.out.println(result);
 		if (result == 0) { // 연동실패
 			return false;
 		} else { // 연동id 성공
@@ -110,7 +103,6 @@ public class SocialController {
 	@ResponseBody
 	public int login_peristalsis(MemberVO memberVO) {
 		int result = memberservice.slogin(memberVO);
-		System.out.println(result);
 		
 		return result; //숫자0 이면 연동실패, 1 연동성공
 		
@@ -119,7 +111,6 @@ public class SocialController {
 	// 계정연동회원가입
 	@RequestMapping(value = "member/creat_account_peristalsis", method = RequestMethod.POST)
 	public String creat_account_peristalsis(SocialVO socialVO, Model model) {
-		System.out.println(socialVO);
 
 		model.addAttribute("social", socialVO);
 		return "member/create_account_peristalsis";
@@ -131,9 +122,6 @@ public class SocialController {
 		SocialVO socialVO= new SocialVO();
 		socialVO.setId(id);
 		socialVO.setType(type);
-		
-		System.out.println(socialVO);
-		System.out.println(memberVO);
 		
 		memberController.insert(memberVO);
 		model.addAttribute("social", socialVO);

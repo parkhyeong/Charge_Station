@@ -210,8 +210,8 @@ section {
  function fn_join(){
 		var tel = $('#tel').val();
  		const inputCode = $("#tel_auth_key").val();
- 		console.log(inputCode);
- 		console.log(tel)
+ 		//console.log(inputCode);
+ 		//console.log(tel)
  			const form = document.createElement('form'); // form 태그 생성
 			form.setAttribute('method', 'post'); // 전송 방식 결정 (get or post)
 			form.setAttribute('action', '${pageContext.request.contextPath}/member/id_find_form2'); // 전송할 url 지정

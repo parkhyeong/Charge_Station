@@ -26,9 +26,8 @@ html {
 
 body {
 	margin: 0;
-	height: 100%; <!--
-	background: #f5f6f7;
-	-->
+	height: 100%; 
+	<!-- background: #f5f6f7; -->
 }
 
 #logo {
