@@ -44,7 +44,6 @@ public class ChargersController {
 		}
 
 		List<ChargersVO> list = chargersdao.select_all_p(pageVO);
-		System.out.println(list.size());
 
 		model.addAttribute("count", count);
 		model.addAttribute("pages", pages); 
@@ -66,12 +65,8 @@ public class ChargersController {
 	//필터링 검색 + 키워드 검색
 	@RequestMapping("/selectWithFilters")
 	public void selectWithFilters(ChargersVO chargersVO, Model model) {
-		System.out.println(chargersVO);
-		
 		List<ChargersVO> list = chargersService.selectWithFilters(chargersVO);
-		System.out.println(list.size());
 		model.addAttribute("select_all",list);
-	
 	}
 
 	
@@ -95,11 +90,7 @@ public class ChargersController {
 		reviewVO.setType(type);
 		reviewVO.setR_statid(r_statId);
 		
-		
-		System.out.println("리뷰 에러 체크 : 컨트롤러 단계 실행");
 		List<ReviewVO> list = reviewService.getSearchListForChargers(reviewVO);
-		System.out.println("리뷰 에러 체크 : 컨트롤러 단계 실행2");
-		System.out.println(list);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("reviewList", list);
@@ -115,7 +106,6 @@ public class ChargersController {
 		
 		reviewVo.setR_statid(r_statId);
 		
-		System.out.println(reviewVo);
 		return reviewService.getRankAverages(reviewVo);
 	}
 }
