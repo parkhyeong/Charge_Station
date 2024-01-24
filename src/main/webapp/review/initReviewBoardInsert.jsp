@@ -216,11 +216,8 @@ session.setAttribute("es_statNm", es_statNm);
 
 <script>
 	var member_id = "<c:out value='${member_id}'/>";
-	console.log(member_id);
 	var es_statId ="<c:out value='${es_statId}'/>";
-	console.log(es_statId);
 	var es_statNm ="<c:out value='${es_statNm}'/>";
-	console.log(es_statNm);
 	function validateForm() {
 		var title = document.getElementsByName("r_title")[0].value.trim();
 		var content = document.getElementsByName("r_content")[0].value.trim();
@@ -258,9 +255,7 @@ session.setAttribute("es_statNm", es_statNm);
 	
 	// 별점
 	const starRating = document.querySelector('.star-rating');
-	console.log(starRating);
 	starRating.addEventListener('click', handleClick);
-	console.log("Event listener added");
 	
     function handleClick(event) {
 

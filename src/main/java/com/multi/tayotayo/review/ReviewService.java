@@ -50,10 +50,6 @@ public class ReviewService {
 		int totalCount = reviewDAO.getSearchTotalCount(reviewVO);
 		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
-		System.out.println("Search Parameters: " + page + ", " + pageSize + ", " + reviewVO.getType() + ", "
-				+ reviewVO.getKeyword());
-		System.out.println("Search Result: " + searchList);
-
 		Map<String, Object> result = new HashMap<>();
 		result.put("numPages", totalPages);
 		result.put("posts", searchList);

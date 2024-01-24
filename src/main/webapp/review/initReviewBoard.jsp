@@ -212,11 +212,7 @@ ul, li {
 						},
 						dataType : "json",
 						success : function(result) {
-							console.log("Received data:", result);
 							numPages = result.numPages;
-							console.log("Number of pages:", numPages);
-							console.log("Data for page " + page + ":",
-									result.posts);
 							var allPosts = result.posts;
 							var selectedRating = $("#ratingFilter").val();
 							var filteredPosts = filterByRating(allPosts,
@@ -260,9 +256,7 @@ ul, li {
 				},
 				dataType : "json",
 				success : function(result) {
-					console.log("Received search data:", result);
 					numPages = result.numPages;
-					console.log("Number of pages:", numPages);
 
 					var selectedRating = $("#ratingFilter").val();
 					if (selectedRating !== "") {
@@ -350,8 +344,6 @@ ul, li {
 				return true;
 			});
 
-			console.log("Filtered Posts Length:", filteredPosts.length);
-
 			if (filteredPosts.length === 0) {
 				$(".board_list").html("<p>일치하는 결과가 없습니다</p>");
 				$(".pagination").empty();
@@ -417,7 +409,6 @@ ul, li {
 	            return;
 	        }
 	        currentPage = requestedPage;
-	        console.log("Requested page:", currentPage);
 	        if ($("form[name=search-form]").length > 0) {
 	            getSearchList(currentPage);
 	        } else {

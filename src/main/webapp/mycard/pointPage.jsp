@@ -211,7 +211,6 @@ body {
 		
 		<script type="text/javascript">
 			var c_memberid = "<c:out value='${c_memberid}'/>";
-			console.log(c_memberid);
 
 			$(document)
 					.ready(
@@ -279,8 +278,6 @@ body {
 													card_num : selectedCardNum
 												},
 												success : function(cardInfoList) {
-													console.log("포인트카드 정보:",
-															cardInfoList);
 
 													var tableBody = $("#cardInfoTableBody");
 													var currentPointElement = $("#currentPoint");
