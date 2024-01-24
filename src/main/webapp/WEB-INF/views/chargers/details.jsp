@@ -40,11 +40,6 @@
 				statList = json.items.item
 				statInfo = statList[0]
 				
-				console.log(json)
-				console.log(statList)
-				
-				/* 충전요금 어디서 가져오지 */
-				
 				
 				// 충전소 정보 입력 시작
 				$('#statNm').append(statInfo.statNm)
