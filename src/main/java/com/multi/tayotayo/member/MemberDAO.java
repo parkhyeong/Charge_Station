@@ -25,8 +25,6 @@ public class MemberDAO{
 	//사용자 정보 조회, 로그인용으로도 사용
 	public MemberVO one(String member_id) {
 		MemberVO result = my.selectOne("member.one", member_id);
-		//System.out.println("result 결과 전");
-		//System.out.println(result);
 		return result;
 	}
 	

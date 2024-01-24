@@ -198,9 +198,7 @@ ul, li {
 						},
 						dataType : "json",
 						success : function(result) {
-							console.log("Received search data:", result);
 							numPages = result.numPages;
-							console.log("Number of pages:", numPages);
 
 							var filteredPosts = result.posts.filter(function(post) {
 				                return post.r_writer === searchKeyword2;
@@ -248,7 +246,6 @@ ul, li {
 				return true;
 			});
 
-			console.log("Filtered Posts Length:", filteredPosts.length);
 
 
 			var startIndex = (currentPage2 - 1) * pageSize2;
@@ -305,7 +302,6 @@ ul, li {
 	            return;
 	        }
 	        currentPage2 = requestedPage;
-	        console.log("Requested page:", currentPage2);
 	        if ($("form[name=search-form]").length > 0) {
 	            getSearchList2(currentPage2);
 	        } else {

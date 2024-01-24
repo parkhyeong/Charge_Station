@@ -31,11 +31,12 @@
 </head>
 <body>
 	<!-- Responsive navbar-->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height: 56px">
 		<div class="container">
 			<a class="navbar-brand"
-				href="<%=pageContext.getServletContext().getContextPath()%>/index.jsp">전기차
-				타요타요</a>
+				href="<%=pageContext.getServletContext().getContextPath()%>/index.jsp">
+			<img style="height:50px;padding-top: 5px;padding-bottom: 5px;margin-right: 16px;" src="/tayotayo/resources/img/전기차 타요타요 글자.png">
+			</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
 				aria-controls="navbarSupportedContent" aria-expanded="false"

@@ -197,9 +197,7 @@ ul, li {
 						},
 						dataType : "json",
 						success : function(result) {
-							console.log("Received search data:", result);
 							numPages = result.numPages;
-							console.log("Number of pages:", numPages);
 
 							var filteredPosts = result.posts.filter(function(post) {
 				                return post.rr_writer === searchKeyword;
@@ -244,7 +242,6 @@ ul, li {
 				return true;
 			});
 
-			console.log("Filtered Posts Length:", filteredPosts.length);
 
 
 			var startIndex = (currentPage - 1) * pageSize;
@@ -296,7 +293,6 @@ ul, li {
 		    var requestedPage = $(this).data("page");
 		    if (requestedPage !== currentPage && requestedPage >= 1 && requestedPage <= numPages) {
 		        currentPage = requestedPage;
-		        console.log("Requested page:", currentPage);
 		        getSearchList(currentPage);
 		        renderPaginationButtons();
 		        $(".pagination a.prev, .pagination a.next").remove();
