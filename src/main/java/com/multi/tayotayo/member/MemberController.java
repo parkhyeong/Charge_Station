@@ -43,7 +43,6 @@ public class MemberController {
 	@RequestMapping(value = "member/login", method = RequestMethod.POST)
 	@ResponseBody
 	public int login(MemberVO memberVO, HttpSession session) {
-		System.out.println(memberVO);
 
 		int result = memberservice.slogin(memberVO);
 
@@ -106,7 +105,6 @@ public class MemberController {
 	public String insert(MemberVO memberVO) {
 
 		try {
-			System.out.println(memberVO);
 			memberservice.insert(memberVO);
 			return "member/create_account_success";
 		} catch (Exception e) {
@@ -121,7 +119,6 @@ public class MemberController {
 	public String nameupdate(MemberVO memberVO) {
 
 		try {
-			System.out.println(memberVO);
 			memberservice.nameupdate(memberVO);
 		} catch (Exception e) {
 			System.out.println("sql 실패");
@@ -135,7 +132,6 @@ public class MemberController {
 	public String nicknameupdate(MemberVO memberVO) {
 
 		try {
-			System.out.println(memberVO);
 			memberservice.nicknameupdate(memberVO);
 		} catch (Exception e) {
 			System.out.println("sql 실패");
@@ -149,7 +145,6 @@ public class MemberController {
 	public String emailupdate(MemberVO memberVO) {
 
 		try {
-			System.out.println(memberVO);
 			memberservice.emailupdate(memberVO);
 		} catch (Exception e) {
 			System.out.println("sql 실패");
@@ -162,7 +157,6 @@ public class MemberController {
 	public String telupdate(MemberVO memberVO) {
 
 		try {
-			System.out.println(memberVO);
 			memberservice.telupdate(memberVO);
 		} catch (Exception e) {
 			System.out.println("sql 실패");
@@ -176,7 +170,6 @@ public class MemberController {
 	public String delete(MemberVO memberVO, HttpSession session) {
 
 		try {
-			System.out.println(memberVO);
 			memberservice.delete(memberVO);
 			session.invalidate(); // 세션끊기
 			return "redirect:/index.jsp";
@@ -192,26 +185,21 @@ public class MemberController {
 	public String pwupdate(String pw_1, String pw_2, MemberVO memberVO, Model model) {
 
 		try {
-			System.out.println(memberVO.getPw());
 
 			if (memberservice.pwConfirm(memberVO) == 1) {
-				System.out.println("현재 비밀번호 일치");
+				//System.out.println("현재 비밀번호 일치");
 			} else {
-				System.out.println("현재 비밀번호 불일치");
+				//System.out.println("현재 비밀번호 불일치");
 				model.addAttribute("fail", "현재 비밀번호가 일치하지않습니다.");
 				return "member/pwupdatefail";
 			}
 
 			if (pw_1.equals(pw_2)) {
-				System.out.println("새비밀번호 일치");
-				System.out.println(pw_1);
 				memberVO.setPw(pw_1);
 				memberservice.pwupdate(memberVO);
-				System.out.println("비밀번호 변경 성공");
 
 				return "member/pwupdatesuccess";
 			} else {
-				System.out.println("새비밀번호 불일치");
 				model.addAttribute("fail", "새 비밀번호가 일치하지않습니다.");
 				return "member/pwupdatefail";
 			}
@@ -231,15 +219,11 @@ public class MemberController {
 		try {
 
 			if (pw_1.equals(pw_2)) {
-				System.out.println("새비밀번호 일치");
-				System.out.println(pw_1);
 				memberVO.setPw(pw_1);
 				memberservice.pwupdate(memberVO);
-				System.out.println("비밀번호 변경 성공");
 
 				return 1;
 			} else {
-				System.out.println("새비밀번호 불일치");
 				return 0;
 			}
 
@@ -289,7 +273,6 @@ public class MemberController {
 		if (mailService.verifyEmailCode(memberVO, inputCode)) { // 만료되거나 인증번호가 맞지않으면 비밀번호 폼으로 이동안되게 해둠
 			try {
 				memberVO.setMember_id(memberservice.id_find_to_email(memberVO).getMember_id());
-				System.out.println(memberVO);
 				model.addAttribute("member", memberVO);
 				return "member/pwupdate_form";
 			} catch (Exception e) {
@@ -305,7 +288,6 @@ public class MemberController {
 	// 이메일로 아이디 찾기 아이디조회 폼으로 이동
 	@RequestMapping(value = "member/id_find_form", method = RequestMethod.POST)
 	public String id_find_form(MemberVO memberVO, String inputCode, Model model) {
-		System.out.println(memberVO.getEmail());
 
 		try {
 			// 이메일로 인증에서 이동
@@ -326,7 +308,6 @@ public class MemberController {
 	// 전화번호로 아이디 찾기 아이디조회 폼으로 이동
 	@RequestMapping(value = "member/id_find_form2", method = RequestMethod.POST)
 	public String id_find_form2(MemberVO memberVO, String inputCode, Model model) {
-		System.out.println(memberVO.getTel());
 
 		try {
 			// 아이디로 인증에서 이동
@@ -351,7 +332,6 @@ public class MemberController {
 		ReplyVO replyVO = new ReplyVO();
 		replyVO.setRr_writer(keyword);
 
-		System.out.println(replyVO);
 		int totalCount = memberservice.getSearchTotalCount(replyVO);
 		int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 

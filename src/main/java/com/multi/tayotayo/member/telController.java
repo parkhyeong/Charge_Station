@@ -108,7 +108,7 @@ public class telController {
     @ResponseBody
     @PostMapping("member/send-one")
     public int sendOne(MemberVO memberVO) {
-    	System.out.println(memberVO);
+
     	try {
 			MemberVO memberVOconfirm = memberservice.id_find_to_tel(memberVO);
 			String authCode = mailservice.createdCode();  
@@ -120,7 +120,7 @@ public class telController {
 		        message.setFrom("01040364479");
 		        message.setTo(memberVO.getTel());
 		        message.setText("전기차 타요타요를 방문해주셔서 감사합니다. 인증 번호는 " + authCode + "입니다. 해당 인증번호를 인증번호 확인란에 기입하여 주세요.");
-		        System.out.println(authCode);
+		        //System.out.println(authCode);
 		        //SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 		        //System.out.println(response);
 		        
