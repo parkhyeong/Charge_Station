@@ -107,8 +107,6 @@ a:hover{
 		<!-- 키워드 검색  -->
 		<div class="search-container">
 			<input type="text" class="search-box" id="keyword" placeholder="검색어를 입력하세요" width="1500px">
-			<!-- 검색 버튼 -->
-			<!-- <button id="search-btn">검색하기</button> -->
 		</div>
 
 		<!-- 필터링   검색-->
@@ -169,7 +167,7 @@ a:hover{
 					<option value="급속">급속 충전</option>
 					<option value="완속">완속 충전</option>
 				</select>
-			</div>
+			</div> <!-- 검색 버튼 -->
 			<button id="search-btn"> 검색하기</button>
 		</div> <!--search-container 끝  -->
 
