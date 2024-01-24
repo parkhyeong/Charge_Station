@@ -243,11 +243,8 @@ session.setAttribute("es_statNm", es_statNm);
 	<script>
 	  
 		var c_memberid = "<c:out value='${c_memberid}'/>";
-		console.log(c_memberid);
 		var statId = "<%=session.getAttribute("statId")%>";
-		console.log("statId:", statId);
 		var es_statNm = "<%=session.getAttribute("es_statNm")%>";
-		console.log("es_statNm:", es_statNm);
 		function charge() {
 			var cardNum = $("#card_num").val();
 			var chargeAmountInput = parseFloat($("#chargeAmountInput").val()) || 0;
@@ -267,14 +264,6 @@ session.setAttribute("es_statNm", es_statNm);
 			var chargingTime = parseFloat($("#chargingTime").text());
 	        var chargingAmount = parseFloat($("#chargingAmount").text());
 	        var statId = "<%=session.getAttribute("statId")%>";
-
-			console.log("Card Number:", cardNum);
-			console.log("Charge Amount:", chargeAmountInput);
-			console.log("Point Input:", pointInput);
-			console.log("Charging Time:", chargingTime);
-			console.log("Charging Amount:", chargingAmount);
-			console.log("Stat ID:", statId);
-			console.log("es_statNm :", es_statNm);
 
 			$.ajax({
 				type : "POST",
@@ -299,8 +288,6 @@ session.setAttribute("es_statNm", es_statNm);
 				error : function(xhr, textStatus, errorThrown) {
 					console.error("AJAX 오류:", textStatus, errorThrown);
 					alert("서버와의 통신에 실패했습니다.");
-					console.log("카드 번호:", cardNum);
-					console.log("충전 금액:", chargeAmountInput);
 				}
 			});
 		}
@@ -340,8 +327,6 @@ session.setAttribute("es_statNm", es_statNm);
 									+ "원, 현재 포인트: " + cardInfo.card_point
 									+ "Point</p>");
 
-					console.log("카드 잔액:", cardInfo.card_balance);
-					console.log("포인트:", cardInfo.card_point);
 					$("#currentPoints").text(cardInfo.card_point);
 				},
 				error : function() {

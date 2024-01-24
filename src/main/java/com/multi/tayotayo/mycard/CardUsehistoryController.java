@@ -25,7 +25,6 @@ public class CardUsehistoryController {
 	@ResponseBody
 	@RequestMapping("/getUseCardInformation")
 	public List<CardUsehistoryVO> getUseCardInformation(@RequestParam(name = "card_num") String card_num, Model model) {
-		System.out.println("Received request for card_num: " + card_num);
 
 		List<CardUsehistoryVO> cardusehistoryList = cardusehistoryService.getCardInformationList(card_num);
 
@@ -35,7 +34,6 @@ public class CardUsehistoryController {
 	@ResponseBody
 	@RequestMapping("/getUsePointCardInformation")
 	public List<PointVO> getUsePointCardInformation(@RequestParam(name = "card_num") String card_num, Model model) {
-		System.out.println("Received request for card_num: " + card_num);
 
 		List<PointVO> pointList = cardusehistoryService.getUsePointCardInformation(card_num);
 
@@ -48,7 +46,6 @@ public class CardUsehistoryController {
 			@RequestParam(name = "transactionId") Long transactionId,
 			@RequestParam(name = "payment_amount") int payment_amount,
 			@RequestParam(name = "payment_point") int payment_point) {
-		System.out.println("환불 카드 번호 : " + card_num);
 
 		Map<String, String> response = new HashMap<>();
 

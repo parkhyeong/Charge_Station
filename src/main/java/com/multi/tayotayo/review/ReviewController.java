@@ -65,7 +65,6 @@ public class ReviewController {
 	// 게시글 작성하기
 	@RequestMapping("review_board_insert")
 	public String insert(HttpServletRequest request, MultipartFile file, ReviewVO reviewVO, Model model) {
-		System.out.println("insert 호출!");
 		try {
 			String sessionUserId = (String) request.getSession().getAttribute("member_id");
 			String sessionStatId = (String) request.getSession().getAttribute("es_statId");

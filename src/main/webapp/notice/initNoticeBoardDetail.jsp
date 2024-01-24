@@ -163,7 +163,6 @@ h2, h3 {
 			},
 			dataType : "json",
 			success : function(result) {
-				console.log("게시물 상세 정보 수신:", result);
 
 				var postTime = new Date(result.n_time);
 				var formattedPostTime = postTime.getFullYear() + "-"
@@ -174,7 +173,6 @@ h2, h3 {
 				$("#title").val(result.n_title);
 				$("#contents").val(result.n_content);
 
-				getComments(nNum);
 			},
 			error : function(xhr, status, error) {
 				console.error("Ajax 요청 중 에러 발생:", status, error);

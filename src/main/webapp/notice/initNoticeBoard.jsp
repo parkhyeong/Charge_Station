@@ -207,10 +207,7 @@ ul, li {
 				},
 				dataType : "json",
 				success : function(result) {
-					console.log("Received data:", result);
 					numPages = result.numPages;
-					console.log("Number of pages:", numPages);
-					console.log("Data for page " + page + ":", result.posts);
 					displayData(result.posts);
 					renderPaginationButtons();
 				},
@@ -237,9 +234,7 @@ ul, li {
 				},
 				dataType : "json",
 				success : function(result) {
-					console.log("Received search data:", result);
 					numPages = result.numPages;
-					console.log("Number of pages:", numPages);
 
 					displayData(result.posts);
 
@@ -277,8 +272,6 @@ ul, li {
 				} 
 				return true;
 			});
-
-			console.log("Filtered Posts Length:", filteredPosts.length);
 
 			if (filteredPosts.length === 0) {
 				$(".board_list").html("<p>일치하는 결과가 없습니다</p>");

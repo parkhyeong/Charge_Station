@@ -415,7 +415,6 @@ if (sessionMembership == null || sessionMembership.getAttribute("member_id") == 
 
 	<script>
 		var member_id = "<c:out value='${member_id}'/>";
-		console.log(member_id);
 		// 우편 정보 찾기
 		function DaumPostcode() {
 			new daum.Postcode(
