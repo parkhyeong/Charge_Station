@@ -44,18 +44,8 @@ public class DataController {
     @RequestMapping("/myLocationFindRecommand")
     @ResponseBody
     public List<JoinVO> myLocationFindRecommand(JoinVO joinVO) {
-        List<JoinVO> list = dataService.myLocationFindRecommand(joinVO);
-
-        // 리스트가 비어있는 경우에 대한 처리 추가
-        if (!list.isEmpty()) {
-            System.out.println(list.get(0));
-        } else {
-            System.out.println("List is empty");
-        }
-
-        System.out.println(list.size());
-        return list;
-    }
+       return dataService.myLocationFindRecommand(joinVO);
+  }
 }
 
 

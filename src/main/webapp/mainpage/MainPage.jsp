@@ -629,7 +629,8 @@ h4 {
                 }
             }
         }
-
+        
+        // 리셋버튼
         $('#reset-btn').click(function () {
             var resultlist = $('#result-list');
             resultlist.empty();
@@ -694,7 +695,7 @@ h4 {
             }
         });
         
-     // 토글 테스트
+        // 토글 테스트
         $('#bt-test').click(function() {
             var panel = document.getElementById('panel');
 
