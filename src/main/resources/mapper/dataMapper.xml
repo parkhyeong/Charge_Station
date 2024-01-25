@@ -30,6 +30,7 @@
         JOIN e_station es ON es.es_statId = s.statId
         WHERE es_statNm LIKE CONCAT('%',#{keyword},'%')
     </select>
+    
     <select id="search-filter" parameterType="joinVO" resultType="joinVO">
 	    SELECT *
 	    FROM 
@@ -77,7 +78,7 @@
 		    ST_Distance_Sphere(
 		        POINT(#{es_lon}, #{es_lat}), 
 		        POINT(es.es_lon, es.es_lat)
-		    ) &lt; 500
+		    ) &lt; 1000
 		ORDER BY distance
 	</select>
 	
