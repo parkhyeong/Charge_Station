@@ -67,15 +67,6 @@ button {
   text-decoration: none;
 }
 
-
-img {
-  display: block;
-  width: 370px;
-  height: 60px;
-
-}
-
-
 .container2 {
   display: flex;
   justify-content: center;
