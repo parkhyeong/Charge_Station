@@ -83,6 +83,20 @@ MySQL, Redis
 ![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/b5facf50-aca8-4a7b-9f77-e5fb6271115b)
 
 <h3>. 구현한 기능</h3>
+<h4>로그인 UI 구성</h4>
+
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/db0c67cb-73de-4f76-bb64-03788c6384ad)
+
+<h4>회원가입 UI & 기능 구현</h4>
+
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/47db7178-4ef1-4bf3-b093-c0b7969bbeea)
+
+<h4> 마이페이지 </h4>
+
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/a25d3fef-58bf-463c-aa65-31728e771fa6)
+
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/8d5c37cc-b335-4b91-9c3d-75c2492389fe)
+
 
 <h4>소셜 로그인 기능</h4> 
 <p>(연동되어 있지 않다면 NO)</p>
