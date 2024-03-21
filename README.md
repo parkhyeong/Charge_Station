@@ -1,6 +1,19 @@
 # Charge_Station
 
+
+
 ![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/94339f2a-722b-48a1-ba68-e4a7c1e0b4c5)
+
+<h2>Open Api를 사용한 전기차충전소 위치 제공 웹 서비스</h2>
+<h3>프로젝트 기간</h3>
+2023.01.01 ~ 2023.01.30
+<h3>참여 인원</h3>
+7명
+<h3>프로젝트 소개</h3>
+<P>
+Open Api를 사용한 전기차충전소 위치 제공 웹 서비스<br>
+전기차충전소 위치제공 및 해당 충전소 결제시스템, 리뷰게시판 제공
+</P>
 
 <h3>∙ 대상</h3>
 <P>전기차 사용자</p>
