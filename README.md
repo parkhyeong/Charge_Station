@@ -94,13 +94,15 @@ MySQL, Redis
 
 소셜 로그인 동작원리
 
-![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/30c8d61d-9dcc-482a-a830-2f6699857beb)
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/c9c7b877-9bef-45bd-854a-bc75f98a1881)
+
 
 
 <h3>. 구현한 기능</h3>
 <h4>로그인 UI 구성</h4>
 
-![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/db0c67cb-73de-4f76-bb64-03788c6384ad)
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/c5a39426-8e77-4ecf-a572-b47bd2d5d6c7)
+
 
 <h4>회원가입 UI & 기능 구현</h4>
 
