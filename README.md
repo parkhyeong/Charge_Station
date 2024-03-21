@@ -81,3 +81,28 @@ MySQL, Redis
 소셜 로그인 동작원리
 
 ![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/b5facf50-aca8-4a7b-9f77-e5fb6271115b)
+
+<h3>. 구현한 기능</h3>
+
+<h4>소셜 로그인 기능</h4> 
+<p>(연동되어 있지 않다면 NO)</p>
+
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/6fcd64a3-fd47-414f-ad5a-55fe35c564c6)
+
+<p>
+- 네이버 로그인 시 소셜 테이블에 해당 정보가 저장되어 있지 않다면 계정 연동 로그인 페이지 이동<br>
+- 계정 연동 로그인 이후 소셜 테이블에 연동 아이디를 외래키로 받아서INSERT (연동 성공)<br>
+- 연동된 소셜 아이디는 다음번에 로그인 시 연동 과정을 거치지 않고 바로 로그인<br>
+</p>
+
+
+<h4>휴대전화로 아이디 찾기</h4>
+
+![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/86f10e33-6887-4fb1-bc08-1b92b3bf9d87)
+
+<p>
+- 사용자가 이름과 전화번호를 입력하고, 이 두 정보가 일치할 때만 '인증번호 전송' 버튼을 클릭하면 문자 메시지를 통한 인증번호가 전송<br>
+- ‘인증번호 확인’을 클릭하고 ‘ID찾기’를 진행하면 입력한 이름과 전화번호가 일치하는 ID를 사용자에게 보여줌<br>
+- 인증번호 Redis DB를 이용하여 서버 메모리에 잠시 저
+</p>
+
