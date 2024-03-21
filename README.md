@@ -51,6 +51,8 @@ MySQL, Redis
 아이디 찾기/비밀번호 찾기 설계 및 구현
 </p>
 
+<br><br>
+
 <h3>. 구현기능</h3>
 <p>
 로그인: 소셜 로그인 및 기존 사이트 로그인 기능<br>
@@ -90,15 +92,13 @@ MySQL, Redis
 ![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/df61b3ff-2742-497d-a93f-11b5281a5346)
 
 
-<h4><소셜 로그인 기능></h4>
-
-소셜 로그인 동작원리
+<h4>소셜 로그인 동작원리</h4>
 
 ![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/c9c7b877-9bef-45bd-854a-bc75f98a1881)
 
-
-
+<br><br>
 <h3>. 구현한 기능</h3>
+
 <h4>로그인 UI 구성</h4>
 
 ![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/c5a39426-8e77-4ecf-a572-b47bd2d5d6c7)
