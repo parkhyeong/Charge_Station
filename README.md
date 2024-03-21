@@ -75,7 +75,7 @@ MySQL, Redis
 
 ![image](https://github.com/parkhyeong/Charge_Station/assets/106435638/df61b3ff-2742-497d-a93f-11b5281a5346)
 
-<h3>. My 핵심코드</h3>
+
 <h4><소셜 로그인 기능></h4>
 
 소셜 로그인 동작원리
